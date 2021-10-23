@@ -12,56 +12,84 @@ void tokenize(std::string const &str, const char delim, vector<std::string> &out
     } 
 }
 
-void lecture_instance_alea( const string instanceName, vector< pair<float,float> > &res, int &grid_size){
-    string filename = "instances/" + instanceName + ".dat";
+/**
+ * @brief Read instance generated randomly
+ * 
+ * @param instanceName file name
+ * @param res a vector of targets' positions
+ * @return int the length of grid
+ */
+int lecture_instance_alea( const string instanceName, vector< pair<float,float> > &res){
+    string filename = "./instances/" + instanceName + ".dat";
     ifstream file(filename, ios::in);
-    if(file){
+
+    if(file.is_open()){
         string line;
         while( getline(file, line) ) //Tant qu'on n'est pas à la fin, on lit
         {
             vector<string> tab;
             tokenize(line, ' ', tab);
+            cout<< "( " << tab[1] <<", " << tab[2] << ")"<<endl;
             res.push_back( make_pair(stof(tab[1]), stof(tab[2])) );
         }
-        grid_size = res.size();
+
+    file.close();
+    }else{
+        cerr <<("Couldn't open file : " + filename).c_str() << endl;
+        exit(-1);
     }
+    
+    vector<string> tab;
+    tokenize(instanceName, '_', tab);
+    return stoi(tab[1]);
 }
 
-void lecture_instance_tronc( const string instanceName, vector< pair<float,float> > &res, int &grid_size){
-    string filename = "instances/" + instanceName + ".dat";
+
+/**
+ * @brief Read instance of grid tronc
+ * 
+ * @param instanceName file name
+ * @param res a vector of targets' positions
+ * @return int the length of grid
+ */
+
+int lecture_instance_tronc( const string instanceName, vector< pair<float,float> > &res){
+    string filename = "./instances/" + instanceName + ".dat";
     ifstream file(filename, ios::in);
-    if(file){
+    int N = 0;
+
+    if(file.is_open()){
         string line;
-        vector< pair<int,int> > to_be_deleted;
         file >> line >> line >> line >> line >> line >> line;
         line = string (1,line[2]) + string(1,line[3]) + string(1,line[4]);
-        grid_size = stoi(line);
-        getline(file, line);
-        getline(file, line);
-        getline(file, line);
-        int i=1;
+        N = sqrt(stoi(line));
+
+        getline(file, line); getline(file, line); getline(file, line);
+
+        res.push_back(make_pair(0, 0)); // the sink
+        
         while( getline(file, line) ){
-            if( i < 10 ){
-                int x = (int)line[6] - 48;
-                int y = (int)line[9] - 48;
-                to_be_deleted.push_back( make_pair(x,y) );
-            }else{
-                int x = (int)line[7] - 48;
-                int y = (int)line[10] - 48;
-                to_be_deleted.push_back( make_pair(x,y) );
-            }
-            i++;
-            pair<int,int> jl;
-            for( int j=0; j<10; j++ ){
-                for(int l=0; l<10; l++){
-                    jl = make_pair( j,l );
-                    for( auto elmt : to_be_deleted ){
-                        if( elmt != jl ){
-                            res.push_back( jl );        
-                        }
-                    }
-                }
-            }
+            int x, y;
+            vector<string> tab;
+            tokenize(line, ':', tab);
+
+            vector<string> tab2;
+            string position = tab[1].substr(2); // 9, 2)
+            tokenize(position, ',', tab2);
+            x = stoi(tab2[0]);
+
+            string pos2 = tab2[1].substr(1);
+            y = stoi(pos2.substr(0, pos2.size()-1));
+            cout<< "( " << x <<", " << y<< ")"<<endl;
+
+            res.push_back(make_pair(x, y));
         }
+    file.close();
+    
+    }else{
+        cerr <<("Couldn't open file : " + filename).c_str() << endl;
+        exit(-1);
     }
+    return N;
+
 }
