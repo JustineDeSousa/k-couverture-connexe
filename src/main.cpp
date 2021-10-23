@@ -7,6 +7,8 @@ using namespace std;
 
 int main(){   
 
+    /** test lecture **/
+
     string instanceName = "captANOR150_7_4";
     instanceName = "grille2525_2"; // grille1010_1
 
@@ -19,5 +21,12 @@ int main(){
     int targets_number = targets.size();
     cout << "targets_number = " << targets_number << endl;
     cout << "grid size = " << N << " * " << N<< endl;
+
+
+    /** test Instance **/ 
+    Instance inst(targets, N);
+    cout << inst;
+
+
     
 }
