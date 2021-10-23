@@ -1,5 +1,5 @@
-#include "Instance.hpp"
-#include "FileManager.hpp"
+#include "../include/Instance.hpp"
+#include "../include/FileManager.hpp"
 
 using namespace std;
 

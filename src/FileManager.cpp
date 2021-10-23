@@ -1,4 +1,4 @@
-#include "FileManager.hpp"
+#include "../include/FileManager.hpp"
 
 void tokenize(std::string const &str, const char delim, vector<std::string> &out) 
 { 
