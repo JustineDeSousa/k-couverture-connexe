@@ -5,7 +5,7 @@
 #include <vector>
 #include <math.h>
 
-#define eof "EOF"
+//#define eof "EOF"
 
 using namespace std;
 

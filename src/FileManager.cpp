@@ -24,15 +24,13 @@ int lecture_instance_alea( const string instanceName, vector< pair<float,float> 
     ifstream file(filename, ios::in);
 
     if(file.is_open()){
-        string token;
-        while( getline(file, token) ) //Tant qu'on n'est pas à la fin, on lit
-        {
-            vector<string> tab;
-            tokenize(token, ' ', tab);
-            cout<< "( " << tab[1] <<", " << tab[2] << ")"<<endl;
-            res.push_back( make_pair(stof(tab[1]), stof(tab[2])) );
+        float x, y;
+        string line;
+        while( file >> x){
+            file >> x >> y;
+            cout << "(" << x << ", " << y << ")" << endl;
+            res.push_back( make_pair(x,y) );
         }
-
     file.close();
     }else{
         cerr <<("Couldn't open file : " + filename).c_str() << endl;
@@ -100,7 +98,6 @@ void lecture_instance_tronc( const string instanceName, vector< pair<float,float
     ifstream file(filename, ios::in);
     if(file){
         string token;
-        vector< pair<int,int> > to_be_deleted;
 
         file >> token >> token >> token >> token >> token >> token;
         token = token.substr(2,token.size()-3);
@@ -122,7 +119,7 @@ void lecture_instance_tronc( const string instanceName, vector< pair<float,float
             file >> token;
             y = stoi(token.substr(0,token.size()-3));
 
-            to_be_deleted.push_back( make_pair(x,y) );
+            res.push_back( make_pair(x,y) );
         
         }
 
