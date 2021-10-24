@@ -4,8 +4,7 @@ function cibles = lecture_instance( instanceName, mode )
     if ( mode == 0 ) #alea
         cibles = importdata(filename," ");
     else if( mode == 1) #truncatedGrid
-        A = importdata(filename," ",2)
-        A.data(1)
+         cibles= importdata(filename," ",2);
     endif
     
 end

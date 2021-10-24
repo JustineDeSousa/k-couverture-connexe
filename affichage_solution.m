@@ -1,4 +1,9 @@
 function affichage_solution( instanceName, cibles )
+    
+    %ajouter le rayon de capt et comm
+    %ajouter le parcours
+    
+    
     folder = 'solutions';
     filename = [folder, '/', instanceName, '.sol']
     capteurs = find( importdata(filename," ") );
