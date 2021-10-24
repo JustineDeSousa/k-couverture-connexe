@@ -50,7 +50,7 @@ int lecture_instance_alea( const string instanceName, vector< pair<float,float> 
  * @return int the length of grid
  */
 
-int lecture_instance_tronc( const string instanceName, vector< pair<float,float> > &res){
+int lecture_instance_tronc( const string instanceName, vector< pair<int,int> > &res){
     string filename = "./instances/" + instanceName + ".dat";
     ifstream file(filename, ios::in);
     int grid_size = 0;

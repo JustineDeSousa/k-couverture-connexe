@@ -12,7 +12,8 @@ int main(){
     string instanceName = "captANOR150_7_4"; //alea
     instanceName = "grille2525_2"; // grille1010_1
 
-    vector< pair<float,float> > targets;
+    //vector< pair<float,float> > targets;
+    vector< pair<int,int> > targets;
     int N;
 
     //N = lecture_instance_alea( instanceName, targets);
@@ -24,7 +25,8 @@ int main(){
 
 
     /** test Instance **/ 
-    Instance inst(targets, N);
+    //Instance<float> inst(targets, N);
+    Instance<int> inst(targets, N);
     cout << inst;
 
 
