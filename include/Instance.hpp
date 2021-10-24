@@ -13,24 +13,44 @@ using namespace std;
 
 class Instance
 {
-public:
-    Instance(): gridSize(0), targets(gridSize), R_capt(1), R_comm(1), k(1) {};
-    Instance( int size, vector< pair<float,float> > grille, int capt, int comm, int connex):
-                gridSize(size), targets(grille), R_capt(capt), R_comm(comm), k(connex){};
-    int grid_size();
-    vector< pair<float,float> > get_targets(){return targets;};
-    int get_R_capt(){return R_capt;};
-    int get_R_comm(){return R_comm;}
-    int get_k(){return k;};
+
 private:
-    int gridSize;
-    vector< pair<float,float> > targets;
-    int R_capt;
-    int R_comm;
-    int k;
-    float borne_PL;
-    Solution best_solution;
+    int N; // grid size N * N
+    vector< pair<float,float> > targets; // vector of targets' positions
+    int R_capt; // radius captation
+    int R_com; // radius communication
+    int k; // k connectivity
+    //float borne_PL; 
+    Solution best_solution; // best solution found by genetic algorithm
+
+
+
+public:
+/**
+ * @brief Construct a new Instance object
+ * 
+ * @param res vector of targets' positions
+ * @param n grid length
+ * @param capt radius captation, =1 by defaut
+ * @param com radius communication, =1 by defaut
+ * @param K connectivity, =1 by defaut
+ */
+    Instance(vector< pair<float,float> > & res, int n, int capt = 1, int com = 1, 
+    int K = 1) : N(n), targets(res), R_capt(capt), R_com(com), k(K) {}
+
+    // getters 
+    vector< pair<float,float> > get_targets() const {return targets;}
+    int get_R_capt() const {return R_capt;}
+    int get_R_com() const {return R_com;}
+    int get_k() const {return k;}
+    int get_N() const {return N;}
+
+
 };
+
+// fonctions externes
+ostream& operator <<(ostream& stream, const Instance& inst);
+
 
 
 

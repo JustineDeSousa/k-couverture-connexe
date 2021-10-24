@@ -1,5 +1,5 @@
-#include "Instance.hpp"
-#include "FileManager.hpp"
+#include "../include/Instance.hpp"
+#include "../include/FileManager.hpp"
 
 using namespace std;
 
@@ -7,13 +7,26 @@ using namespace std;
 
 int main(){   
 
+    /** test lecture **/
+
     string instanceName = "captANOR150_7_4";
-    instanceName = "grille1010_1";
-    Instance instance_1 = Instance();
-    vector< pair<float,float> > grille;
-    int grid_size;
-    //lecture_instance_alea( instanceName, grille, grid_size);
-    lecture_instance_tronc( instanceName, grille, grid_size);
-    cout << "grid size = " << grid_size << endl;
+    instanceName = "grille2525_2"; // grille1010_1
+
+    vector< pair<float,float> > targets;
+    int N;
+
+    //N = lecture_instance_alea( instanceName, targets);
+    N = lecture_instance_tronc( instanceName, targets);
+
+    int targets_number = targets.size();
+    cout << "targets_number = " << targets_number << endl;
+    cout << "grid size = " << N << " * " << N<< endl;
+
+
+    /** test Instance **/ 
+    Instance inst(targets, N);
+    cout << inst;
+
+
     
 }
