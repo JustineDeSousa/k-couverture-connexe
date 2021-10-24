@@ -25,7 +25,6 @@ int lecture_instance_alea( const string instanceName, vector< pair<float,float> 
 
     if(file.is_open()){
         float x, y;
-        string line;
         while( file >> x){
             file >> x >> y;
             cout << "(" << x << ", " << y << ")" << endl;
@@ -33,7 +32,7 @@ int lecture_instance_alea( const string instanceName, vector< pair<float,float> 
         }
     file.close();
     }else{
-        cerr <<("Couldn't open file : " + filename).c_str() << endl;
+        cerr << "Couldn't open file : " << filename << endl;
         exit(-1);
     }
     
@@ -59,32 +58,27 @@ int lecture_instance_tronc( const string instanceName, vector< pair<float,float>
     if(file.is_open()){
         string token;
         file >> token >> token >> token >> token >> token >> token;
-        token = token.substr(2,token.size()-3);
-        grid_size = sqrt( stoi(token) );
+        grid_size = sqrt( stoi(token.substr(2,token.size()-3)) );
 
         file >> token >> token >> token >> token >> token;
-        token = token.substr(2,token.size()-3);
-        int nb_suppr = stoi(token);
-        
+        int nb_lines = stoi( token.substr(2,token.size()-3) );
+
         getline(file, token);
         getline(file, token);
 
-        res.push_back(make_pair(0, 0)); // the sink
+        res.push_back( make_pair(0,0) ); // the sink
         
-        int x, y;
-        for(int i=0; i<nb_suppr; i++ ){
-            int id = 0;
-            file >> id;
-            file >> token >> token;
-            x = stoi(token.substr(1,token.size()-2));
+        int x, y, id = 0;
+        for(int i=0; i<nb_lines; i++ ){
+            file >> id >> token >> token;
+            x = stoi( token.substr(1,token.size()-2) );
             file >> token;
-            y = stoi(token.substr(0,token.size()-3));
+            y = stoi( token.substr(0,token.size()-1) );
 
             res.push_back( make_pair(x,y) );
         
         }
     file.close();
-    
     }else{
         cerr <<("Couldn't open file : " + filename).c_str() << endl;
         exit(-1);
@@ -92,38 +86,3 @@ int lecture_instance_tronc( const string instanceName, vector< pair<float,float>
     return grid_size;
 }
 
-
-void lecture_instance_tronc( const string instanceName, vector< pair<float,float> > &res, int &grid_size){
-    string filename = "instances/" + instanceName + ".dat";
-    ifstream file(filename, ios::in);
-    if(file){
-        string token;
-
-        file >> token >> token >> token >> token >> token >> token;
-        token = token.substr(2,token.size()-3);
-        grid_size = sqrt( stoi(token) );
-
-        file >> token >> token >> token >> token >> token;
-        token = token.substr(2,token.size()-3);
-        int nb_suppr = stoi(token);
-        
-        getline(file, token);
-        getline(file, token);
-
-        int x, y;
-        for(int i=0; i<nb_suppr; i++ ){
-            int id = 0;
-            file >> id;
-            file >> token >> token;
-            x = stoi(token.substr(1,token.size()-2));
-            file >> token;
-            y = stoi(token.substr(0,token.size()-3));
-
-            res.push_back( make_pair(x,y) );
-        
-        }
-
-        
-    }
-    
-}
