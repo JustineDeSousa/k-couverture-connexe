@@ -39,10 +39,10 @@ Graph<number>::Graph(Instance<number> & inst, Solution & sol, Network network) :
         {
             graph[i] = vector<int>();
 
-            for(int capt : sol.get_captors()){
-                if(capt == 0) continue;
+            for(int j = 1; j< n; j++){
+                if(sol.get_captors()[j] == 0) continue;
                 
-                if(inst.is_capted(i, capt)) graph[i].push_back(capt);
+                if(inst.is_capted(i, j)) graph[i].push_back(j);
             }
         }
         break;
@@ -52,11 +52,12 @@ Graph<number>::Graph(Instance<number> & inst, Solution & sol, Network network) :
         for (int i = 0; i < n; i++) 
         {
             graph[i] = vector<int>();
+            if(sol.get_captors()[i] == 0) continue;
 
-            for(int capt : sol.get_captors()){
-                if(capt == 0) continue;
+             for(int j = 0; j< n; j++){
+                if(sol.get_captors()[j] == 0) continue;
                 
-                if(inst.is_communicatable(i, capt)) graph[i].push_back(capt);
+                if(inst.is_communicatable(i, j)) graph[i].push_back(j);
             }
         }
 

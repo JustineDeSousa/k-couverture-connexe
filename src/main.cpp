@@ -33,16 +33,16 @@ int main(){
 
     /** test Instance **/ 
     //Instance<float> inst(targets, N);
-    //Instance<int> inst(targets, N);
-    //cout << inst;
-    //cout << "target 1 and target 2 can be capted ? " << inst.is_capted(1, 2) << endl;
+    Instance<int> inst(targets, N);
+    cout << inst;
+    cout << "target 1 and target 2 can be capted ? " << inst.is_capted(1, 2) << endl;
 
 
     /** test Solution **/
-    //Solution sol(targets_number);
-    //cout << "Initialize solution : " << sol;
+    Solution sol(targets_number);
+    cout << "Initialize solution : " << sol;
 
     /* test Graph */
-    //Graph<int> graph_capt(inst, sol, captation);
-    //cout << graph_capt<<endl;
+    Graph<int> graph_capt(inst, sol, captation);
+    cout << graph_capt<<endl;
 }

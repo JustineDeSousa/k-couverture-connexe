@@ -39,8 +39,8 @@ public:
  * @param com radius communication, =1 by defaut
  * @param K connectivity, =1 by defaut
  */
-    Instance(vector< pair<number,number> > & res, int n, int capt = 1, int com = 1, int K = 1) 
-                : N(n), targets(res), R_capt(capt), R_com(com), k(K) {}
+    Instance(vector< pair<number,number> > & res, int n, int capt = 1, int com = 1, int K = 1) : N(n), 
+    targets(res), R_capt(capt), R_com(com), k(K) {}
 
     // getters 
     const vector< pair<number,number> > & get_targets() const {return targets;}
@@ -61,6 +61,7 @@ public:
 
 
 };
+
 
 // fonctions externes
 
