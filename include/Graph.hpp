@@ -18,6 +18,8 @@ public:
 
     const map<int, set<int>> & get_graph() const {return graph;}
     Network type() const {return graph_type;}
+    const set<int> & get_neighbours(int i) const;
+    int degree(int i) const {return get_neighbours().size() ;}
 };
 
 /**
@@ -107,6 +109,18 @@ ostream& operator <<(ostream& stream, const Graph<number>& graph){
     }
     return stream;
     
+}
+
+
+template <typename number>
+const set<int>& Graph<number>::get_neighbours(int i) const{
+    auto search = graph.find(i);
+    if (search != graph.end()) {
+        return search->second;
+    } else {
+        cerr << "Invalid argument  get_neighbours(int i)" << endl;
+        exit(-1);
+    }
 }
 
 #endif

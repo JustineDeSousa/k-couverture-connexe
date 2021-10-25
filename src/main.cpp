@@ -45,4 +45,7 @@ int main(){
     /* test Graph */
     Graph<int> graph_capt(inst, sol, captation);
     cout << graph_capt<<endl;
+
+    Graph<int> graph_com(inst, sol, communication);
+    cout << graph_com<<endl;
 }
