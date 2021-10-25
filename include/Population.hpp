@@ -42,7 +42,17 @@ class Population{
         //getters
         int size() const{ return solutions.size(); };
         vector<Solution> get_solutions() const { return solutions;};
+<<<<<<< Updated upstream
 */
+=======
+
+        //genetic algo
+        void selection_roulette( Population& pop );
+        //void selection( Population& pop, Selection s );
+        
+        // void selection_elite( Population& pop );
+        
+>>>>>>> Stashed changes
 };
 
 // fonction externe
