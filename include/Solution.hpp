@@ -17,7 +17,6 @@ private:
     Graph<number> graph_com;
     Instance<number> inst;
 
-
 public:
 /**
  * @brief Construct a new Solution object
@@ -47,15 +46,39 @@ public:
     //print
     ostream& short_print(ostream& stream);
 
-    int fitness();
-    //bool k_coverage(Instance instance);
+    int fitness() {return nb_captors() + constraint_k_capt() ; };
+    int constraint_k_capt(); // accumulate for each target |k - degree|
+    int nb_connected_component(); // return the number of connected component in the communication network 
+    bool is_k_coverage() {return constraint_k_capt() == 0 ;};
     //bool communication(Instance instance);
     //Solution neighboor(int d);
 };
-// template <class number>
-// int Solution<number>::nb_cover(){
-//     for( )
-// }
+
+
+template <class number>
+int Solution<number>::constraint_k_capt(){
+    int acc = 0;
+    int S = size();
+
+    for (int i = 1; i < S; i++)// we don't consider the k-coverage for the sink
+    {   
+        int d = get_graph_capt().degree(i);
+        if ( d < inst.get_k()) {acc += inst.get_k() - d; }
+    }
+    return acc;
+}
+
+template <class number>
+
+int Solution<number>::nb_connected_component(){
+    int cc = 0;
+
+    return cc;
+}
+
+
+
+
 template <class number>
 ostream& Solution<number>::short_print(ostream& stream){
     stream << "Solution : [ " ;
@@ -67,6 +90,7 @@ ostream& Solution<number>::short_print(ostream& stream){
     stream << " ]" << endl;
     return stream;
 }
+
 
 // fonction externe
 template <class number>

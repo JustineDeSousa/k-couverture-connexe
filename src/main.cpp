@@ -54,7 +54,6 @@ int main(){
     cout<< sol.get_graph_capt()<< endl;
 
 
-
     /* tets fonctions de Solution */
     vector<int> captors2 = sol.get_captors();
     captors2[3] = 0;
@@ -66,5 +65,10 @@ int main(){
     cout << "new graph com : " << sol.get_graph_com();
     sol.update_graph_capt();
     cout << "new graph capt : " << sol.get_graph_capt();
+
+    cout << "sol is_k_coverage ? " << sol.is_k_coverage() << endl;
+    cout << "sol nb_captors = " << sol.nb_captors() << endl <<
+    "sol constraint_k_capt violated = " << sol.constraint_k_capt() << endl <<
+    "sol fonction fitness value = " << sol.fitness() << endl;
 
 }

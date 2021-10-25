@@ -17,7 +17,7 @@ public:
     Graph(){};
     Graph(Instance<number> & inst, vector<int> & capt, Network n);
 
-
+    // getters
     const map<int, set<int>> & get_graph() const {return graph;}; // return the dictionnary
     Network type() const {return graph_type;};
     const set<int> & get_neighbours(int i) const; // return the set of neighbours of terget i
