@@ -46,10 +46,7 @@ int main(){
 
     sol.short_print(cout);
     cout << "Number of captors = " << sol.nb_captors() << endl;
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 
     /* test Graph */
     sol.update_graph_capt(inst);

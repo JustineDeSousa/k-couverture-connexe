@@ -2,11 +2,11 @@
 
 //genetic algo
 
-void Population::selection_roulette( Population& pop ){
-    for( Solution sol : pop){
+// void Population::selection_roulette( Population& pop ){
+//     for( Solution sol : pop){
         
-    }
-}
+//     }
+// }
         
 // void Population::selecton_elite( Population& pop ){
 
