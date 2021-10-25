@@ -22,7 +22,7 @@ int main(){
     */
 
 
-    string instanceName = "grille2525_2"; // grille1010_1
+    string instanceName = "grille1010_1"; // grille1010_1, grille2525_2
     vector< pair<int,int> > targets;
     int N;
     N = lecture_instance_tronc( instanceName, targets);
@@ -34,22 +34,16 @@ int main(){
 
     /** test Instance **/ 
     //Instance<float> inst(targets, N);
-    //Instance<int> inst(targets, N);
-    //cout << inst;
-    //cout << "target 1 and target 2 can be capted ? " << inst.is_capted(1, 2) << endl;
+    Instance<int> inst(targets, N);
+    cout << inst;
+    cout << "target 1 and target 2 can be capted ? " << inst.is_capted(1, 2) << endl;
 
 
     /** test Solution **/
     Solution sol(targets_number);
-    //cout << "Initialize solution : " << sol;
+    cout << "Initialize solution : " << sol;
 
     /* test Graph */
-    //Graph<int> graph_capt(inst, sol, captation);
-    //cout << graph_capt<<endl;
-
-    /** test Population **/
-    vector<Solution> sols;
-    sols.push_back(sol);
-    Population pop(sols);
-    cout << pop << endl;
+    Graph<int> graph_capt(inst, sol, captation);
+    cout << graph_capt<<endl;
 }

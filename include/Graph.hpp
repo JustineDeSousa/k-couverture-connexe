@@ -4,18 +4,19 @@
 #include "Instance.hpp"
 #include "Solution.hpp"
 #include <map>
+#include <set>
 
 template <class number>
 class Graph
 {
 private:
-    map<int, vector<int>> graph; // dictionary
+    map<int, set<int>> graph; // dictionary
     Network graph_type;
 
 public:
     Graph(Instance<number> & inst, Solution & sol, Network n);
 
-    const map<int, vector<int>> & get_graph() const {return graph;}
+    const map<int, set<int>> & get_graph() const {return graph;}
     Network type() const {return graph_type;}
 };
 
@@ -33,16 +34,15 @@ Graph<number>::Graph(Instance<number> & inst, Solution & sol, Network network) :
     switch (graph_type)
     {
     case captation:
-        graph[0] = vector<int>(); // we don't consider the captation for the sink
-
+        // we don't consider the captation for the sink
         for (int i = 1; i < n; i++) 
         {
-            graph[i] = vector<int>();
+            graph[i] = set<int>();
 
-            for(int capt : sol.get_captors()){
-                if(capt == 0) continue;
+            for(int j = 1; j< n && j!=i; j++){
+                if(sol.get_captors()[j] == 0) continue;
                 
-                if(inst.is_capted(i, capt)) graph[i].push_back(capt);
+                if(inst.is_capted(i, j)) graph[i].insert(j);
             }
         }
         break;
@@ -51,12 +51,13 @@ Graph<number>::Graph(Instance<number> & inst, Solution & sol, Network network) :
     case communication:
         for (int i = 0; i < n; i++) 
         {
-            graph[i] = vector<int>();
+            graph[i] = set<int>();
+            if(sol.get_captors()[i] == 0 && i!=0) continue;
 
-            for(int capt : sol.get_captors()){
-                if(capt == 0) continue;
+            for(int j = 0; j< n && j!= i; j++){
+                if(sol.get_captors()[j] == 0) continue;
                 
-                if(inst.is_communicatable(i, capt)) graph[i].push_back(capt);
+                if(inst.is_communicatable(i, j)) graph[i].insert(j);
             }
         }
 
