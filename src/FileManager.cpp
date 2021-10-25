@@ -65,20 +65,28 @@ int lecture_instance_tronc( const string instanceName, vector< pair<int,int> > &
 
         getline(file, token);
         getline(file, token);
-
-        res.push_back( make_pair(0,0) ); // the sink
         
-        int x, y, id = 0;
+        vector<int> x;
+        vector<int> y;
         for(int i=0; i<nb_lines; i++ ){
-            file >> id >> token >> token;
-            x = stoi( token.substr(1,token.size()-2) );
+            file >> token >> token >> token;
+            x.push_back( stoi( token.substr(1,token.size()-2) ) );
             file >> token;
-            y = stoi( token.substr(0,token.size()-1) );
-
-            res.push_back( make_pair(x,y) );
-        
+            y.push_back( stoi( token.substr(0,token.size()-1) ) );
         }
-    file.close();
+        file.close();
+
+        // Initialisation de la grille
+        for( int j=0; j<grid_size; j++ ){
+            for(int l=0; l<grid_size; l++){
+                for( int i=0; i<x.size(); i++ ){
+                    if( ! (x[i]==j && y[i]==l) ){
+                        res.push_back( make_pair( j,l ) );        
+                    }
+                }
+            }
+        }
+
     }else{
         cerr <<("Couldn't open file : " + filename).c_str() << endl;
         exit(-1);

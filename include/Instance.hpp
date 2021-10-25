@@ -49,8 +49,8 @@ public:
     int get_N() const {return N;}
 
     // return the distance euclidean of two targets i and j
-    float dist_euclidean(int i, int j) const {return sqrt(pow(targets[i].first - targets[j].first, 2) +
-     pow(targets[i].second - targets[j].second, 2) );}
+    float dist_euclidean(int i, int j) const {
+        return sqrt(pow(targets[i].first - targets[j].first, 2) + pow(targets[i].second - targets[j].second, 2) );}
     
     // return true, if targets i and j can be capted by each other
     bool is_capted(int i, int j) const { return dist_euclidean(i, j) <= R_capt;}
