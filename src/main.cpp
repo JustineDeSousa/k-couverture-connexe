@@ -46,9 +46,9 @@ int main(){
     sol.short_print(cout);
 
     /* test Graph */
-    Graph<int> graph_capt(inst, sol, captation);
+    Graph<int> graph_capt(inst, sol.get_captors(), captation);
     cout << graph_capt<<endl;
 
-    Graph<int> graph_com(inst, sol, communication);
+    Graph<int> graph_com(inst, sol.get_captors(), communication);
     cout << graph_com<<endl;
 }

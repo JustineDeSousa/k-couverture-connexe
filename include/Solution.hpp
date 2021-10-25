@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "Instance.hpp"
+#include "Graph.hpp"
 
 using namespace std;
 
@@ -11,6 +12,7 @@ class Solution
 {
 private:
     vector<int> captors; // captors[i] = 1 => i is a captor, captors[i] = 0 otherwise 
+
 
 
 public:

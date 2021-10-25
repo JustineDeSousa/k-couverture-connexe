@@ -2,7 +2,6 @@
 #define GRAPH_HPP
 
 #include "Instance.hpp"
-#include "Solution.hpp"
 #include <map>
 #include <set>
 
@@ -14,7 +13,7 @@ private:
     Network graph_type; //communication or captation
 
 public:
-    Graph(Instance<number> & inst, Solution & sol, Network n);
+    Graph(Instance<number> & inst, const vector<int> & capt, Network n);
 
     const map<int, set<int>> & get_graph() const {return graph;};
     Network type() const {return graph_type;};
@@ -30,8 +29,8 @@ public:
  * @param sol solution
  */
 template<typename number>
-Graph<number>::Graph(Instance<number> & inst, Solution & sol, Network network) : graph_type(network) {
-    int n = sol.size();
+Graph<number>::Graph(Instance<number> & inst, const vector<int> & capt, Network network) : graph_type(network) {
+    int n = capt.size();
 
     switch (graph_type)
     {
@@ -43,7 +42,7 @@ Graph<number>::Graph(Instance<number> & inst, Solution & sol, Network network) :
 
             for(int j = 1; j< n; j++){
                 if(j==i) continue;
-                if(sol.get_captors()[j] == 0) continue;
+                if(capt[j] == 0) continue;
                 
                 if(inst.is_capted(i, j)) graph[i].insert(j);
             }
@@ -55,11 +54,11 @@ Graph<number>::Graph(Instance<number> & inst, Solution & sol, Network network) :
         for (int i = 0; i < n; i++) 
         {
             graph[i] = set<int>();
-            if(sol.get_captors()[i] == 0 && i!=0) continue;
+            if(capt[i] == 0 && i!=0) continue;
 
             for(int j = 0; j< n; j++){
                 if( j == i) continue;
-                if(sol.get_captors()[j] == 0) continue;
+                if(capt[j] == 0) continue;
                 
                 if(inst.is_communicatable(i, j)) graph[i].insert(j);
             }
