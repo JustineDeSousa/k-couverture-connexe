@@ -67,17 +67,15 @@ public:
 
 template <typename number>
 ostream& operator <<(ostream& stream, const Instance<number>& inst){
-    stream << "Instance {"<<endl << "grid size : " << inst.get_N() << "*" << inst.get_N()<<
+    stream << "Instance {" << endl << "grid size : " << inst.get_N() << "*" << inst.get_N()<<
     "; R_capt=" << inst.get_R_capt() << "; R_com=" << inst.get_R_com() << "; k=" << inst.get_k()<<"; "<<endl;
     
     stream << "list of targets : ["<<endl;
     int i = 0;
     for(pair<number, number> t : inst.get_targets()){
-        stream << i << " : " << "(" <<t.first<<", "<<t.second<<")"<<endl;
+        stream << i << " : " << "(" <<t.first<<", "<<t.second<<")\t";
         i +=1;
     }
-
-      
     return stream <<"]" <<endl;
 
 }

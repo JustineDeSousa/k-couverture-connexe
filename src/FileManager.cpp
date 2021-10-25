@@ -52,6 +52,7 @@ int lecture_instance_alea( const string instanceName, vector< pair<float,float> 
 
 int lecture_instance_tronc( const string instanceName, vector< pair<int,int> > &res){
     string filename = "./instances/" + instanceName + ".dat";
+    cout << "Lecture du fichier " << filename << endl;
     ifstream file(filename, ios::in);
     int grid_size = 0;
 
@@ -89,7 +90,7 @@ int lecture_instance_tronc( const string instanceName, vector< pair<int,int> > &
                 }
                 if(!to_del){
                     res.push_back( make_pair( j,l ) );
-                    cout << "(" << j << ", " << l << ")" << endl;
+                    //cout << "(" << j << ", " << l << ")" << endl;
                 }
                 
             }

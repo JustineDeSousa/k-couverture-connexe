@@ -42,6 +42,8 @@ int main(){
     /** test Solution **/
     Solution sol(targets_number);
     cout << "Initialize solution : " << sol;
+    cout << "Shorter way :" << endl;
+    sol.short_print(cout);
 
     /* test Graph */
     Graph<int> graph_capt(inst, sol, captation);
