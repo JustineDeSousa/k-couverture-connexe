@@ -1,7 +1,7 @@
-#include "../include/Instance.hpp"
-#include "../include/Solution.hpp"
-#include "../include/Graph.hpp"
-#include "../include/FileManager.hpp"
+#include "Instance.hpp"
+#include "Solution.hpp"
+#include "Graph.hpp"
+#include "FileManager.hpp"
 #include "Population.hpp"
 
 using namespace std;
@@ -36,7 +36,7 @@ int main(){
     //Instance<float> inst(targets, N);
     Instance<int> inst(targets, N);
     cout << inst;
-    cout << "target 1 and target 2 can be capted ? " << inst.is_capted(1, 2) << endl;
+    cout << "target 1 and target 2 can be capted ? " << inst.do_capt(1, 2) << endl;
 
 
     /** test Solution **/
@@ -44,6 +44,7 @@ int main(){
     cout << "Initialize solution : " << sol;
     cout << "Shorter way :" << endl;
     sol.short_print(cout);
+    cout << "Number of captors = " << sol.nb_captors() << endl;
 
     /* test Graph */
     Graph<int> graph_capt(inst, sol.get_captors(), captation);

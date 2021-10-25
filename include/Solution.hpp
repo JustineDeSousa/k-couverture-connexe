@@ -2,6 +2,7 @@
 #define SOLUTION_HPP
 
 #include <vector>
+#include <numeric>
 #include "Instance.hpp"
 #include "Graph.hpp"
 
@@ -25,12 +26,14 @@ public:
     Solution(int size = 0){ captors = vector<int>(size, 1); captors[0] = 0;}; 
 
     int size() const {return captors.size();};
+    int nb_captors(){ return accumulate(captors.begin(), captors.end(), 0);};
+    
     const vector<int> & get_captors() const {return captors;}
 
     //print
     ostream& short_print(ostream& stream);
 
-    //int fitness();
+    int fitness();
     //bool k_coverage(Instance instance);
     //bool communication(Instance instance);
     //Solution neighboor(int d);

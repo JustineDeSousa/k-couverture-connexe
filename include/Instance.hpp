@@ -53,10 +53,10 @@ public:
         return sqrt(pow(targets[i].first - targets[j].first, 2) + pow(targets[i].second - targets[j].second, 2) );}
     
     // return true, if targets i and j can be capted by each other
-    bool is_capted(int i, int j) const { return dist_euclidean(i, j) <= R_capt;}
+    bool do_capt(int i, int j) const { return dist_euclidean(i, j) <= R_capt;}
 
     // return true, if two targets/captors can communicate
-    bool is_communicatable(int i, int j) const { return dist_euclidean(i, j) <= R_com;}
+    bool do_communicate(int i, int j) const { return dist_euclidean(i, j) <= R_com;}
 
 
 };

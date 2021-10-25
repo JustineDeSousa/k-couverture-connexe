@@ -44,7 +44,7 @@ Graph<number>::Graph(Instance<number> & inst, const vector<int> & capt, Network 
                 if(j==i) continue;
                 if(capt[j] == 0) continue;
                 
-                if(inst.is_capted(i, j)) graph[i].insert(j);
+                if(inst.do_capt(i, j)) graph[i].insert(j);
             }
         }
         break;
@@ -60,7 +60,7 @@ Graph<number>::Graph(Instance<number> & inst, const vector<int> & capt, Network 
                 if( j == i) continue;
                 if(capt[j] == 0) continue;
                 
-                if(inst.is_communicatable(i, j)) graph[i].insert(j);
+                if(inst.do_communicate(i, j)) graph[i].insert(j);
             }
         }
 

@@ -47,11 +47,11 @@ class Population{
         vector<Solution> get_solutions() const { return solutions;};
 
         //genetic algo
-        /*
-        void selection( Population& pop, Selection s );
         void selection_roulette( Population& pop );
-        void selection_elite( Population& pop );
-        */
+        //void selection( Population& pop, Selection s );
+        
+        // void selection_elite( Population& pop );
+        
 };
 
 // fonction externe
