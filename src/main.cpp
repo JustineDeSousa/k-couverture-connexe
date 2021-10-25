@@ -34,13 +34,13 @@ int main(){
 
     /** test Instance **/ 
     //Instance<float> inst(targets, N);
-    Instance<int> inst(targets, N);
-    cout << inst;
-    cout << "target 1 and target 2 can be capted ? " << inst.do_capt(1, 2) << endl;
+    Instance<int> Inst(targets, N);
+    cout << Inst;
+    cout << "target 1 and target 2 can be capted ? " << Inst.do_capt(1, 2) << endl;
 
 
     /** test Solution **/
-    Solution<int> sol(inst, targets_number);
+    Solution<int> sol(Inst, targets_number);
     cout << "Initialize solution : " << sol;
     cout << "Shorter way :" << endl;
 

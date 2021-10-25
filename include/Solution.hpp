@@ -13,9 +13,9 @@ class Solution
 {
 private:
     vector<int> captors; // captors[i] = 1 => i is a captor, captors[i] = 0 otherwise 
-    Graph<number> graph_capt;
-    Graph<number> graph_com;
-    Instance<number> inst;
+    Graph<number> Graph_capt;
+    Graph<number> Graph_com;
+    Instance<number> Inst;
 
 public:
 /**
@@ -24,14 +24,14 @@ public:
  * 
  * @param size the total number of targets
  */
-    Solution(Instance<number> & inst_, int size = 0) : inst(inst_) { captors = vector<int>(size, 1); captors[0] = 0;}; 
+    Solution(Instance<number> & inst_, int size = 0) : Inst(inst_) { captors = vector<int>(size, 1); captors[0] = 0;}; 
 
     // getters
     int size() const {return captors.size();};
     int nb_captors(){ return accumulate(captors.begin(), captors.end(), 0);};
     const vector<int> & get_captors() const {return captors;}
-    const Graph<number>& get_graph_capt() const {return graph_capt;}
-    const Graph<number>& get_graph_com() const {return graph_com;}
+    const Graph<number>& get_graph_capt() const {return Graph_capt;}
+    const Graph<number>& get_graph_com() const {return Graph_com;}
 
 
     // setters
@@ -39,13 +39,14 @@ public:
     void reverse_target(int t) {captors[t] = !captors[t];} // change one target's value
 
     // metter à jour
-    void update_graph_capt() {graph_capt = Graph<number>(inst, captors, captation);};
-    void update_graph_com() {graph_com = Graph<number>(inst, captors, communication);};
+    void update_graph_capt() {Graph_capt = Graph<number>(Inst, captors, captation);};
+    void update_graph_com() {Graph_com = Graph<number>(Inst, captors, communication);};
 
 
     //print
     ostream& short_print(ostream& stream);
 
+    // fonctions evluation
     int fitness() {return nb_captors() + constraint_k_capt() ; };
     int constraint_k_capt(); // accumulate for each target |k - degree|
     int nb_connected_component(); // return the number of connected component in the communication network 
@@ -63,13 +64,12 @@ int Solution<number>::constraint_k_capt(){
     for (int i = 1; i < S; i++)// we don't consider the k-coverage for the sink
     {   
         int d = get_graph_capt().degree(i);
-        if ( d < inst.get_k()) {acc += inst.get_k() - d; }
+        if ( d < Inst.get_k()) {acc += Inst.get_k() - d; }
     }
     return acc;
 }
 
 template <class number>
-
 int Solution<number>::nb_connected_component(){
     int cc = 0;
 

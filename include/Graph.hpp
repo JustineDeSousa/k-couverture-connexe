@@ -2,15 +2,14 @@
 #define GRAPH_HPP
 
 #include "Instance.hpp"
-#include <map>
+#include <vector>
 #include <set>
 
 template <class number>
 class Graph
 {
 private:
-    
-    map<int, set<int>> graph; // dictionary: {sommet, {sommets adjacents} }
+    vector<set<int>> list_adjacence;
     Network graph_type; //communication or captation network
 
 public:
@@ -18,10 +17,14 @@ public:
     Graph(Instance<number> & inst, vector<int> & capt, Network n);
 
     // getters
-    const map<int, set<int>> & get_graph() const {return graph;}; // return the dictionnary
+    const vector<set<int>> & list_adjacence() const {return list_adjacence;}; // return the list adjacence
     Network type() const {return graph_type;};
-    const set<int> & get_neighbours(int i) const; // return the set of neighbours of terget i
-    int degree(int i) const {return get_neighbours(i).size() ;};
+    const set<int> & neighbours(int i) const { return list_adjacence()[i];}; // return the set of neighbours of terget i
+    int degree(int i) const {return neighbours(i).size() ;};
+
+    // network communication
+    //int nb_connected components();
+    //vector<int>& BFS(int depart, vector<int> visited); // the set of vertices visited by BFS starting from vertex departure
 };
 
 /**
@@ -39,14 +42,16 @@ Graph<number>::Graph(Instance<number> & inst, vector<int> & capt, Network networ
     {
     case captation:
         // we don't consider the captation for the sink
+        list_adjacence[0] = set<int>();
+
         for (int i = 1; i < n; i++) 
         {
-            graph[i] = set<int>();
+            list_adjacence[i] = set<int>();
 
             for(int j = 1; j< n; j++){
                 if(capt[j] == 0) continue;
                 
-                if(inst.do_capt(i, j)) graph[i].insert(j);
+                if(inst.do_capt(i, j)) list_adjacence[i].insert(j);
             }
         }
         break;
@@ -55,14 +60,14 @@ Graph<number>::Graph(Instance<number> & inst, vector<int> & capt, Network networ
     case communication:
         for (int i = 0; i < n; i++) 
         {
-            graph[i] = set<int>();
+            list_adjacence[i] = set<int>();
             if(capt[i] == 0 && i!=0) continue; // we only consider captors and the sink
 
             for(int j = 0; j< n; j++){
                 if( j == i) continue;
                 if(capt[j] == 0) continue;
                 
-                if(inst.do_communicate(i, j)) graph[i].insert(j);
+                if(inst.do_communicate(i, j)) list_adjacence[i].insert(j);
             }
         }
 
@@ -75,6 +80,13 @@ Graph<number>::Graph(Instance<number> & inst, vector<int> & capt, Network networ
     }
 
 }
+
+/*
+template <typename number>
+vector<int>& DFS(int depart, ){
+
+}
+*/
 
 
 /**
@@ -102,10 +114,11 @@ ostream& operator <<(ostream& stream, const Graph<number>& graph){
         exit(-1);
         break;
     }
-
-    for(auto item: graph.get_graph()){
-        stream << item.first << " : [ ";
-        for(auto v : item.second){
+    vector<set<int>> list_adjacence = graph.list_adjacence();
+    int n = list_adjacence.size();
+    for(int i = 0; i < n; i++){
+        stream << i << " : [ ";
+        for(int v : list_adjacence[i]){
             stream << v << ", ";
         }
         stream << " ]; ";
@@ -114,16 +127,5 @@ ostream& operator <<(ostream& stream, const Graph<number>& graph){
     
 }
 
-
-template <typename number>
-const set<int>& Graph<number>::get_neighbours(int i) const{
-    auto search = graph.find(i);
-    if (search != graph.end()) {
-        return search->second;
-    } else {
-        cerr << "Invalid argument  get_neighbours(int i)" << endl;
-        exit(-1);
-    }
-}
 
 #endif
