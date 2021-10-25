@@ -5,23 +5,21 @@
 #include "Solution.hpp"
 #include <map>
 
-
+template <class number>
 class Graph
 {
 private:
     map<int, vector<int>> graph; // dictionary
-    
+
 public:
-    Graph(/* args */);
+    Graph(Instance<number> & inst, Solution & sol);
     ~Graph();
 };
 
-Graph::Graph(/* args */)
+template<typename number>
+Graph<number>::Graph(Instance<number> & inst, Solution & sol)
 {
-}
-
-Graph::~Graph()
-{
+    int n = sol.size();
 }
 
 #endif

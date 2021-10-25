@@ -6,6 +6,7 @@
 
 using namespace std;
 
+
 class Solution
 {
 private:
@@ -21,7 +22,7 @@ public:
  */
     Solution(int size = 0){ captors = vector<int>(size, 1);}; 
 
-    int nb_captors() const {return captors.size();};
+    int size() const {return captors.size();};
     const vector<int> & get_captors() const {return captors;}
 
     //int fitness();

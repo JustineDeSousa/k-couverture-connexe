@@ -13,7 +13,7 @@
 
 using namespace std;
 
-template <typename number>
+template <class number>
 class Instance
 {
 
