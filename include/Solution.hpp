@@ -29,9 +29,6 @@ public:
     // getters
     int size() const {return captors.size();};
     int nb_captors(){ return accumulate(captors.begin(), captors.end(), 0);};
-
-    int nb_cover();
-
     const vector<int> & get_captors() const {return captors;}
     const Graph<number>& get_graph_capt() const {return graph_capt;}
     const Graph<number>& get_graph_com() const {return graph_com;}

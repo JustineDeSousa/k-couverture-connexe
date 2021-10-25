@@ -9,41 +9,13 @@ template <class number>
 class Graph
 {
 private:
+    
     map<int, set<int>> graph; // dictionary: {sommet, {sommets adjacents} }
     Network graph_type; //communication or captation
 
 public:
     Graph(){};
     Graph(Instance<number> & inst, vector<int> & capt, Network n);
-
-    struct Iterator { 
-            using iterator_category = std::input_iterator_tag;
-            using difference_type   = std::ptrdiff_t;
-            using value_type        = int;
-            using pointer           = int*;  // or also value_type*
-            using reference         = int&;  // or also value_type&
-
-        public:    
-            Iterator(pointer ptr) : m_ptr(ptr) {};
-
-            reference operator*() const { return *m_ptr; }
-            pointer operator->() { return m_ptr; }
-            
-            // Prefix increment
-            Iterator& operator++() { m_ptr++; return *this; }  
-
-            // Postfix increment
-            Iterator operator++(int) { Iterator tmp = *this; ++(*this); return tmp; }
-
-            friend bool operator== (const Iterator& a, const Iterator& b) { return a.m_ptr == b.m_ptr; };
-            friend bool operator!= (const Iterator& a, const Iterator& b) { return a.m_ptr != b.m_ptr; };
-        private:
-            pointer m_ptr;
-        };
-
-        //Iterator begin(){ return Iterator(&graph[0].first()); };
-        //Iterator end() { return Iterator(&graph[graph.size()].first()); };
-
     const map<int, set<int>> & get_graph() const {return graph;};
     Network type() const {return graph_type;};
     const set<int> & get_neighbours(int i) const;
