@@ -16,11 +16,11 @@ private:
 public:
 /**
  * @brief Construct a new Solution object
- * Initially, we consider all targets are placed by captors
+ * Initially, we consider all targets are placed by captors except the sink
  * 
  * @param size the total number of targets
  */
-    Solution(int size = 0){ captors = vector<int>(size, 1);}; 
+    Solution(int size = 0){ captors = vector<int>(size, 1); captors[0] = 0;}; 
 
     int size() const {return captors.size();};
     const vector<int> & get_captors() const {return captors;}

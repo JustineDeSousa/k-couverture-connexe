@@ -7,7 +7,7 @@
 ostream& operator <<(ostream& stream, const Solution & sol){
     stream << "Solution : [ " ;
 
-    for (int i = 0; i < sol.nb_captors(); i++)
+    for (int i = 0; i < sol.size(); i++)
     {
         stream << i << "=" << sol.get_captors()[i] << ", ";
     }

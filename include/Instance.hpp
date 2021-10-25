@@ -10,6 +10,7 @@
 #include <cmath>
 
 #include "Solution.hpp"
+enum Network { captation, communication };
 
 using namespace std;
 
