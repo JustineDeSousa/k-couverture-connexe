@@ -26,6 +26,7 @@ void Population::selection( Population& pop, Selection s ){
 /******* fonctions externes *******/
 /**********************************/
 
+/*
 ostream& operator <<(ostream& stream, Population& pop){
     stream << "Population : (" << pop.size() << "individus) [ " ;
 
@@ -36,3 +37,4 @@ ostream& operator <<(ostream& stream, Population& pop){
     stream << " ]" << endl;
     return stream;
 }
+*/

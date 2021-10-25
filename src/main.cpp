@@ -40,15 +40,14 @@ int main(){
 
 
     /** test Solution **/
-    Solution sol(targets_number);
+    Solution<int> sol(targets_number);
     cout << "Initialize solution : " << sol;
     cout << "Shorter way :" << endl;
-    sol.short_print(cout);
 
     /* test Graph */
-    Graph<int> graph_capt(inst, sol.get_captors(), captation);
-    cout << graph_capt<<endl;
+    sol.update_graph_capt(inst);
+    sol.update_graph_com(inst);
 
-    Graph<int> graph_com(inst, sol.get_captors(), communication);
-    cout << graph_com<<endl;
+    cout<< sol.get_graph_capt()<< endl;
+
 }
