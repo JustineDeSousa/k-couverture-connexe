@@ -15,6 +15,7 @@ private:
     vector<int> captors; // captors[i] = 1 => i is a captor, captors[i] = 0 otherwise 
     Graph<number> graph_capt;
     Graph<number> graph_com;
+    Instance<number> inst;
 
 
 public:
@@ -24,7 +25,7 @@ public:
  * 
  * @param size the total number of targets
  */
-    Solution(int size = 0){ captors = vector<int>(size, 1); captors[0] = 0;}; 
+    Solution(Instance<number> & inst_, int size = 0) : inst(inst_) { captors = vector<int>(size, 1); captors[0] = 0;}; 
 
     // getters
     int size() const {return captors.size();};
@@ -35,12 +36,12 @@ public:
 
 
     // setters
-    void set_captors(vector<int>& captors_) {captors = captors_;}
-    void reverse_target(int t) {captors[t] = !captors[t];}
+    void set_captors(vector<int>& captors_) {captors = captors_;} // replace by another vector
+    void reverse_target(int t) {captors[t] = !captors[t];} // change one target's value
 
     // metter à jour
-    void update_graph_capt(Instance<number> & inst) {graph_capt = Graph<number>(inst, captors, captation);};
-    void update_graph_com(Instance<number> & inst) {graph_com = Graph<number>(inst, captors, communication);};
+    void update_graph_capt() {graph_capt = Graph<number>(inst, captors, captation);};
+    void update_graph_com() {graph_com = Graph<number>(inst, captors, communication);};
 
 
     //print

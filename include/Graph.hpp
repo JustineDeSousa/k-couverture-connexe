@@ -11,14 +11,16 @@ class Graph
 private:
     
     map<int, set<int>> graph; // dictionary: {sommet, {sommets adjacents} }
-    Network graph_type; //communication or captation
+    Network graph_type; //communication or captation network
 
 public:
     Graph(){};
     Graph(Instance<number> & inst, vector<int> & capt, Network n);
-    const map<int, set<int>> & get_graph() const {return graph;};
+
+
+    const map<int, set<int>> & get_graph() const {return graph;}; // return the dictionnary
     Network type() const {return graph_type;};
-    const set<int> & get_neighbours(int i) const;
+    const set<int> & get_neighbours(int i) const; // return the set of neighbours of terget i
     int degree(int i) const {return get_neighbours(i).size() ;};
 };
 
@@ -42,7 +44,6 @@ Graph<number>::Graph(Instance<number> & inst, vector<int> & capt, Network networ
             graph[i] = set<int>();
 
             for(int j = 1; j< n; j++){
-                if(j==i) continue;
                 if(capt[j] == 0) continue;
                 
                 if(inst.do_capt(i, j)) graph[i].insert(j);
@@ -55,7 +56,7 @@ Graph<number>::Graph(Instance<number> & inst, vector<int> & capt, Network networ
         for (int i = 0; i < n; i++) 
         {
             graph[i] = set<int>();
-            if(capt[i] == 0 && i!=0) continue;
+            if(capt[i] == 0 && i!=0) continue; // we only consider captors and the sink
 
             for(int j = 0; j< n; j++){
                 if( j == i) continue;

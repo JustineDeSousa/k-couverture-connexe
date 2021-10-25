@@ -1,8 +1,8 @@
-#include "Instance.hpp"
-#include "Solution.hpp"
-#include "Graph.hpp"
-#include "FileManager.hpp"
-#include "Population.hpp"
+#include "../include/Instance.hpp"
+#include "../include/Solution.hpp"
+#include "../include/Graph.hpp"
+#include "../include/FileManager.hpp"
+#include "../include/Population.hpp"
 
 using namespace std;
 
@@ -40,7 +40,7 @@ int main(){
 
 
     /** test Solution **/
-    Solution<int> sol(targets_number);
+    Solution<int> sol(inst, targets_number);
     cout << "Initialize solution : " << sol;
     cout << "Shorter way :" << endl;
 
@@ -49,9 +49,8 @@ int main(){
 
 
     /* test Graph */
-    sol.update_graph_capt(inst);
-    sol.update_graph_com(inst);
-
+    sol.update_graph_capt();
+    sol.update_graph_com();
     cout<< sol.get_graph_capt()<< endl;
 
 
@@ -60,11 +59,12 @@ int main(){
     vector<int> captors2 = sol.get_captors();
     captors2[3] = 0;
     sol.set_captors(captors2);
+    sol.reverse_target(5);
     cout<< "new Sol : " << sol;
 
-    sol.update_graph_com(inst);
+    sol.update_graph_com();
     cout << "new graph com : " << sol.get_graph_com();
-    sol.update_graph_capt(inst);
+    sol.update_graph_capt();
     cout << "new graph capt : " << sol.get_graph_capt();
 
 }
