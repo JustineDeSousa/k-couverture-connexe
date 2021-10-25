@@ -26,18 +26,25 @@ public:
  */
     Solution(int size = 0){ captors = vector<int>(size, 1); captors[0] = 0;}; 
 
+    // getters
     int size() const {return captors.size();};
     int nb_captors(){ return accumulate(captors.begin(), captors.end(), 0);};
+
     int nb_cover();
-    
+
     const vector<int> & get_captors() const {return captors;}
-
-    void update_graph_capt(Instance<number> & inst) {graph_capt = Graph<number>(inst, captors, captation);};
-    void update_graph_com(Instance<number> & inst) {graph_capt = Graph<number>(inst, captors, communication);};
-
-
     const Graph<number>& get_graph_capt() const {return graph_capt;}
     const Graph<number>& get_graph_com() const {return graph_com;}
+
+
+    // setters
+    void set_captors(vector<int>& captors_) {captors = captors_;}
+    void reverse_target(int t) {captors[t] = !captors[t];}
+
+    // metter à jour
+    void update_graph_capt(Instance<number> & inst) {graph_capt = Graph<number>(inst, captors, captation);};
+    void update_graph_com(Instance<number> & inst) {graph_com = Graph<number>(inst, captors, communication);};
+
 
     //print
     ostream& short_print(ostream& stream);
