@@ -29,6 +29,8 @@ int main(){
     Instance<int> inst(targets, N);
     cout << inst;
 
+    cout << "target 1 and target 2 can be capted ? " << inst.is_capted(1, 2) << endl;
+
 
     
 }

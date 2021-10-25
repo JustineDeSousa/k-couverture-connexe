@@ -9,14 +9,14 @@ using namespace std;
 
 class Solution{
     private:
-    vector<bool> captors;
+    vector<bool> captors; // captors[i] = 1 => i is a captor, captors[i] = 0 otherwise 
 
     public:
-    int fitness();
-    int nb_captors();
+    //int fitness();
+    //int nb_captors();
     //bool k_coverage(Instance instance);
     //bool communication(Instance instance);
-    Solution neighboor(int d);
+    //Solution neighboor(int d);
 };
 
 #endif

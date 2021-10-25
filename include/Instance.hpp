@@ -6,6 +6,8 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <math.h> 
+#include <cmath>
 
 #include "Solution.hpp"
 
@@ -22,7 +24,7 @@ private:
     int R_com; // radius communication
     int k; // k connectivity
     //float borne_PL; 
-    Solution best_solution; // best solution found by genetic algorithm
+    //Solution best_solution; // best solution found by genetic algorithm
 
 
 
@@ -45,6 +47,16 @@ public:
     int get_R_com() const {return R_com;}
     int get_k() const {return k;}
     int get_N() const {return N;}
+
+    // return the distance euclidean of two targets i and j
+    float dist_euclidean(int i, int j) const {return sqrt(pow(targets[i].first - targets[j].first, 2) +
+     pow(targets[i].second - targets[j].second, 2) );}
+    
+    // return true, if targets i and j can be capted by each other
+    bool is_capted(int i, int j) const { return dist_euclidean(i, j) <= R_capt;}
+
+    // return true, if two targets/captors can communicate
+    bool is_communicatable(int i, int j) const { return dist_euclidean(i, j) <= R_com;}
 
 
 };
