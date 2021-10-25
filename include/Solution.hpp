@@ -28,6 +28,7 @@ public:
 
     int size() const {return captors.size();};
     int nb_captors(){ return accumulate(captors.begin(), captors.end(), 0);};
+    int nb_cover();
     
     const vector<int> & get_captors() const {return captors;}
 
@@ -46,6 +47,10 @@ public:
     //bool communication(Instance instance);
     //Solution neighboor(int d);
 };
+// template <class number>
+// int Solution<number>::nb_cover(){
+//     for( )
+// }
 template <class number>
 ostream& Solution<number>::short_print(ostream& stream){
     stream << "Solution : [ " ;
