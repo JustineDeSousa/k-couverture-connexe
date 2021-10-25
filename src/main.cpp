@@ -54,4 +54,17 @@ int main(){
 
     cout<< sol.get_graph_capt()<< endl;
 
+
+
+    /* tets fonctions de Solution */
+    vector<int> captors2 = sol.get_captors();
+    captors2[3] = 0;
+    sol.set_captors(captors2);
+    cout<< "new Sol : " << sol;
+
+    sol.update_graph_com(inst);
+    cout << "new graph com : " << sol.get_graph_com();
+    sol.update_graph_capt(inst);
+    cout << "new graph capt : " << sol.get_graph_capt();
+
 }

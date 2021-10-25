@@ -109,7 +109,7 @@ ostream& operator <<(ostream& stream, const Graph<number>& graph){
         }
         stream << " ]; ";
     }
-    return stream;
+    return stream << endl;
     
 }
 
