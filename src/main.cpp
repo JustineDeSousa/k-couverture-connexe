@@ -2,6 +2,7 @@
 #include "../include/Solution.hpp"
 #include "../include/Graph.hpp"
 #include "../include/FileManager.hpp"
+#include "Population.hpp"
 
 using namespace std;
 
