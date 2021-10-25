@@ -21,7 +21,7 @@ int main(){
     */
 
 
-    string instanceName = "grille2525_2"; // grille1010_1
+    string instanceName = "grille1010_1"; // grille1010_1, grille2525_2
     vector< pair<int,int> > targets;
     int N;
     N = lecture_instance_tronc( instanceName, targets);
