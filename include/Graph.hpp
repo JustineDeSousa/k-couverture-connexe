@@ -10,16 +10,16 @@ template <class number>
 class Graph
 {
 private:
-    map<int, set<int>> graph; // dictionary
-    Network graph_type;
+    map<int, set<int>> graph; // dictionary: {sommet, {sommets adjacents} }
+    Network graph_type; //communication or captation
 
 public:
     Graph(Instance<number> & inst, Solution & sol, Network n);
 
-    const map<int, set<int>> & get_graph() const {return graph;}
-    Network type() const {return graph_type;}
+    const map<int, set<int>> & get_graph() const {return graph;};
+    Network type() const {return graph_type;};
     const set<int> & get_neighbours(int i) const;
-    int degree(int i) const {return get_neighbours().size() ;}
+    int degree(int i) const {return get_neighbours(i).size() ;};
 };
 
 /**
@@ -41,7 +41,8 @@ Graph<number>::Graph(Instance<number> & inst, Solution & sol, Network network) :
         {
             graph[i] = set<int>();
 
-            for(int j = 1; j< n && j!=i; j++){
+            for(int j = 1; j< n; j++){
+                if(j==i) continue;
                 if(sol.get_captors()[j] == 0) continue;
                 
                 if(inst.is_capted(i, j)) graph[i].insert(j);
@@ -56,7 +57,8 @@ Graph<number>::Graph(Instance<number> & inst, Solution & sol, Network network) :
             graph[i] = set<int>();
             if(sol.get_captors()[i] == 0 && i!=0) continue;
 
-            for(int j = 0; j< n && j!= i; j++){
+            for(int j = 0; j< n; j++){
+                if( j == i) continue;
                 if(sol.get_captors()[j] == 0) continue;
                 
                 if(inst.is_communicatable(i, j)) graph[i].insert(j);
