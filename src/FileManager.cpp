@@ -77,13 +77,21 @@ int lecture_instance_tronc( const string instanceName, vector< pair<int,int> > &
         file.close();
 
         // Initialisation de la grille
+        bool to_del = false;
         for( int j=0; j<grid_size; j++ ){
             for(int l=0; l<grid_size; l++){
-                for( int i=0; i<x.size(); i++ ){
-                    if( ! (x[i]==j && y[i]==l) ){
-                        res.push_back( make_pair( j,l ) );        
+                to_del = false;
+                //is (j,l) to be deleted ?
+                for( unsigned int i=0; i<x.size(); i++ ){
+                    if( x[i]==j && y[i]==l ){
+                        to_del = true; 
                     }
                 }
+                if(!to_del){
+                    res.push_back( make_pair( j,l ) );
+                    cout << "(" << j << ", " << l << ")" << endl;
+                }
+                
             }
         }
 
