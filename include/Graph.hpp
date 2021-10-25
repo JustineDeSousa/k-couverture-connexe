@@ -13,7 +13,8 @@ private:
     Network graph_type; //communication or captation
 
 public:
-    Graph(Instance<number> & inst, const vector<int> & capt, Network n);
+    Graph(){};
+    Graph(Instance<number> & inst, vector<int> & capt, Network n);
 
     const map<int, set<int>> & get_graph() const {return graph;};
     Network type() const {return graph_type;};
@@ -29,7 +30,7 @@ public:
  * @param sol solution
  */
 template<typename number>
-Graph<number>::Graph(Instance<number> & inst, const vector<int> & capt, Network network) : graph_type(network) {
+Graph<number>::Graph(Instance<number> & inst, vector<int> & capt, Network network) : graph_type(network) {
     int n = capt.size();
 
     switch (graph_type)

@@ -4,15 +4,13 @@
 #include "Solution.hpp"
 #include "AlgoGenetic.hpp"
 
+/*
 class Population{
     private:
         vector<Solution> solutions;
     public:    
         Population( vector<Solution> sols ) : solutions(sols){};
 
-        /********************************************************************/
-        /***************************** Iterator *****************************/
-        /********************************************************************/
         struct Iterator { 
             using iterator_category = std::input_iterator_tag;
             using difference_type   = std::ptrdiff_t;
@@ -40,20 +38,15 @@ class Population{
 
         Iterator begin(){ return Iterator(&solutions[0]); };
         Iterator end() { return Iterator(&solutions[solutions.size()]); };
-        /********************************************************************/
 
         //getters
         int size() const{ return solutions.size(); };
         vector<Solution> get_solutions() const { return solutions;};
-
-        //genetic algo
-        void selection_roulette( Population& pop );
-        //void selection( Population& pop, Selection s );
-        
-        // void selection_elite( Population& pop );
-        
+*/
 };
 
 // fonction externe
 ostream& operator <<(ostream& stream, Population& pop);
+*/
+
 #endif
