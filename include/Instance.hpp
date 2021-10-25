@@ -42,7 +42,7 @@ public:
                 : N(n), targets(res), R_capt(capt), R_com(com), k(K) {}
 
     // getters 
-    vector< pair<number,number> > get_targets() const {return targets;}
+    const vector< pair<number,number> > & get_targets() const {return targets;}
     int get_R_capt() const {return R_capt;}
     int get_R_com() const {return R_com;}
     int get_k() const {return k;}

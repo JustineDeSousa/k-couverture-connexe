@@ -2,21 +2,36 @@
 #define SOLUTION_HPP
 
 #include <vector>
-
 #include "Instance.hpp"
 
 using namespace std;
 
-class Solution{
-    private:
-    vector<bool> captors; // captors[i] = 1 => i is a captor, captors[i] = 0 otherwise 
+class Solution
+{
+private:
+    vector<int> captors; // captors[i] = 1 => i is a captor, captors[i] = 0 otherwise 
 
-    public:
+
+public:
+/**
+ * @brief Construct a new Solution object
+ * Initially, we consider all targets are placed by captors
+ * 
+ * @param size the total number of targets
+ */
+    Solution(int size = 0){ captors = vector<int>(size, 1);}; 
+
+    int nb_captors() const {return captors.size();};
+    const vector<int> & get_captors() const {return captors;}
+
     //int fitness();
-    //int nb_captors();
     //bool k_coverage(Instance instance);
     //bool communication(Instance instance);
     //Solution neighboor(int d);
 };
+
+// fonction externe
+ostream& operator <<(ostream& stream, const Solution & sol);
+
 
 #endif

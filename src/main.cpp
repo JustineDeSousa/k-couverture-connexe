@@ -1,4 +1,5 @@
 #include "../include/Instance.hpp"
+#include "../include/Solution.hpp"
 #include "../include/FileManager.hpp"
 
 using namespace std;
@@ -32,5 +33,7 @@ int main(){
     cout << "target 1 and target 2 can be capted ? " << inst.is_capted(1, 2) << endl;
 
 
-    
+    /** test Solution **/
+    Solution sol(targets_number);
+    cout << "Initialize solution : " << sol;
 }
