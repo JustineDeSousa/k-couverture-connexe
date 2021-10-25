@@ -25,6 +25,9 @@ public:
     int size() const {return captors.size();};
     const vector<int> & get_captors() const {return captors;}
 
+    //print
+    ostream& short_print(ostream& stream);
+
     //int fitness();
     //bool k_coverage(Instance instance);
     //bool communication(Instance instance);

@@ -2,6 +2,7 @@
 #include "../include/Solution.hpp"
 #include "../include/Graph.hpp"
 #include "../include/FileManager.hpp"
+#include "Population.hpp"
 
 using namespace std;
 
@@ -39,10 +40,16 @@ int main(){
 
 
     /** test Solution **/
-    //Solution sol(targets_number);
+    Solution sol(targets_number);
     //cout << "Initialize solution : " << sol;
 
     /* test Graph */
     //Graph<int> graph_capt(inst, sol, captation);
     //cout << graph_capt<<endl;
+
+    /** test Population **/
+    vector<Solution> sols;
+    sols.push_back(sol);
+    Population pop(sols);
+    cout << pop << endl;
 }
