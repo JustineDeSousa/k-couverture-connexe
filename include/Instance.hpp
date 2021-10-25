@@ -39,20 +39,6 @@ public:
     Instance(vector< pair<number,number> > & res, int n, int capt = 1, int com = 1, int K = 1) 
                 : N(n), targets(res), R_capt(capt), R_com(com), k(K) {}
 
-    /*
-    pair<int,int> jl;
-    for( int j=0; j<grid_size; j++ ){
-        for(int l=0; l<grid_size; l++){
-            jl = make_pair( j,l );
-            for( auto elmt : to_be_deleted ){
-                if( elmt != jl ){
-                    res.push_back( jl );        
-                }
-            }
-        }
-    }
-    */
-
     // getters 
     vector< pair<number,number> > get_targets() const {return targets;}
     int get_R_capt() const {return R_capt;}
