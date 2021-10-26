@@ -1,0 +1,69 @@
+#include "Instance_tronc.hpp"
+
+
+Instance_tronc::Instance_tronc( const string instance_name, const int capt, const int com)
+                                :Instance(capt,com){
+    string filename = "./instances/" + instance_name + ".dat";
+    cout << "Instance_tronc:: Lecture du fichier " << filename << endl;
+    ifstream file(filename, ios::in);
+    
+    vector<int> x,y;
+    if(file.is_open()){
+        string token;
+        
+        file >> token >> token >> token >> token >> token >> token;
+        grid_size = sqrt( stoi(token.substr(2,token.size()-3)) );
+
+        file >> token >> token >> token >> token >> token;
+        int nb_lines = stoi( token.substr(2,token.size()-3) );
+
+        getline(file, token);
+        getline(file, token);
+
+        //On récupère les points à supprimer
+        for(int i=0; i<nb_lines; i++ ){
+            file >> token >> token >> token;
+            x.push_back( stoi( token.substr(1,token.size()-2) ) );
+
+            file >> token;
+            y.push_back( stoi( token.substr(0,token.size()-1) ) );
+        }
+        file.close();
+
+    }else{
+        cerr <<("Couldn't open file : " + filename).c_str() << endl;
+        exit(-1);
+    }
+    // Initialisation de la grille
+    bool to_del = false;
+    for( int i=0; i<grid_size; i++ ){
+        for(int j=0; j<grid_size; j++){
+            to_del = false;
+            //is (i,j) to be deleted ?
+            for( unsigned int l=0; l<x.size(); l++ ){
+                if( x[l]==i && y[l]==j ){
+                    to_del = true; 
+                }
+            }
+            if(!to_del){
+                cibles.push_back( make_pair(i,j) );
+            }
+        }
+    }
+    //Calcul de la matrice des distances
+    init_dist(cibles);
+}
+
+
+
+
+//Affichage
+ostream& Instance_tronc::print_targets(ostream& stream) const
+{
+    stream << "list of targets : [" << endl;
+    for(uint i=0; i<cibles.size(); i++){
+        stream << "#" << i << "=(" << cibles[i].first << "," << cibles[i].second << ")\t";
+    }
+    stream << endl << "]" << endl;
+    return stream;
+}

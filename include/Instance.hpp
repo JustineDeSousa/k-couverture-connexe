@@ -1,82 +1,72 @@
 #ifndef INSTANCE_HPP
 #define INSTANCE_HPP
 
+#include <vector>
+#include <string>
 #include <iostream>
 #include <fstream>
-#include <sstream>
-#include <string>
-#include <vector>
-#include <math.h> 
-#include <cmath>
+#include <numeric>
+#include <math.h>
 
-enum Network { captation, communication };
-
+typedef unsigned int uint;
 using namespace std;
 
-template <class number>
-class Instance
+class Instance : public vector< vector<float> >
+//Matrice des distances entre chaque cible
+//matrice symétrique, on pourrait stocker que la moitié
 {
-
-private:
-    int N; // grid size N * N
-    vector< pair<number,number> > targets; // vector of targets' positions
-    int R_capt; // radius captation
-    int R_com; // radius communication
-    int k; // k connectivity
-    //float borne_PL; 
-    //Solution best_solution; // best solution found by genetic algorithm
-
-
+protected:
+    int grid_size; // nb cibles = grid_size * grid_size
+    int const R_capt; // radius captation
+    int const R_com; // radius communication
+    int const K; // k couverture
 
 public:
-/**
- * @brief Construct a new Instance object
- * 
- * @param res vector of targets' positions
- * @param n grid length
- * @param capt radius captation, =1 by defaut
- * @param com radius communication, =1 by defaut
- * @param K connectivity, =1 by defaut
- */
-    Instance(vector< pair<number,number> > & res, int n, int capt = 1, int com = 1, int K = 1) : N(n), 
-    targets(res), R_capt(capt), R_com(com), k(K) {}
+    Instance(const int capt=1, const int com=1, const int k=1)
+            :grid_size(0), R_capt(capt), R_com(com), K(k){};
+    Instance(const string instance_name, int const capt=1, int const com=1, int const k=1);
 
-    // getters 
-    const vector< pair<number,number> > & get_targets() const {return targets;}
-    int get_R_capt() const {return R_capt;}
-    int get_R_com() const {return R_com;}
-    int get_k() const {return k;}
-    int get_N() const {return N;}
+    template <typename number>
+    void init_dist(const vector< pair<number,number> >& targets );
 
-    // return the distance euclidean of two targets i and j
-    float dist_euclidean(int i, int j) const {
-        return sqrt(pow(targets[i].first - targets[j].first, 2) + pow(targets[i].second - targets[j].second, 2) );}
-    
-    // return true, if targets i and j can be capted by each other
-    bool do_capt(int i, int j) const { return dist_euclidean(i, j) <= R_capt;}
+    //getter
+    int k(){ return K;};
 
-    // return true, if two targets/captors can communicate
-    bool do_communicate(int i, int j) const { return dist_euclidean(i, j) <= R_com;}
+    //on peut supposer i<j et stocker que la moitié de la matrice
+    bool capt_linked(int i, int j){ return (*this)[i][j] <= R_capt;};
+    bool com_linked(int i, int j){ return (*this)[i][j] <= R_com;};
 
+    //Affichage
+    ostream& print(ostream& stream) const;
 
 };
-
-
-// fonctions externes
-
+/********* fonctions externes ***************************/ 
+ostream& operator <<(ostream& stream, const Instance& inst);
 template <typename number>
-ostream& operator <<(ostream& stream, const Instance<number>& inst){
-    stream << "Instance {" << endl << "grid size : " << inst.get_N() << "*" << inst.get_N()<<
-    "; R_capt=" << inst.get_R_capt() << "; R_com=" << inst.get_R_com() << "; k=" << inst.get_k()<<"; "<<endl;
-    
-    stream << "list of targets : ["<<endl;
-    int i = 0;
-    for(pair<number, number> t : inst.get_targets()){
-        stream << i << " : " << "(" <<t.first<<", "<<t.second<<")\t";
-        i +=1;
-    }
-    return stream <<"]" <<endl;
+float dist(pair<number,number> i, pair<number,number> j);
 
+
+
+/********* IMPLEMENTATION ***************************/ 
+
+//Calcul de la matrice des distances
+//matrice symétrique, on pourrait stocker que la moitié
+template <typename number>
+void Instance::init_dist(const vector< pair<number,number> >& cibles )
+{
+    (*this).reserve(cibles.size());
+    for(uint i=0; i<cibles.size(); i++){
+        (*this)[i] = vector<float>(cibles.size(),0);
+        for(uint j=0; j<cibles.size(); j++){
+            if(i==j) continue;
+            //cout << cibles[i].first << " " << cibles[i].second << " - " << cibles[j].first << " " << cibles[j].second << endl;
+            (*this)[i].push_back(dist(cibles[i], cibles[j]));
+        }
+    }
 }
 
+template <typename number>
+float dist(pair<number,number> i, pair<number,number> j){
+    return sqrt( pow(i.first-j.first,2) + pow(i.second-j.second,2) );
+}
 #endif

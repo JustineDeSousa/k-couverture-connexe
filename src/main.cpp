@@ -1,70 +1,52 @@
 #include "Instance.hpp"
+#include "Instance_tronc.hpp"
+#include "Instance_alea.hpp"
 #include "Solution.hpp"
-#include "Graph.hpp"
-#include "FileManager.hpp"
 #include "Population.hpp"
 
 using namespace std;
 
 
 
-int main(){   
 
-    /** test lecture **/
-    /*
-    string instanceName = "captANOR150_7_4"; //alea
-    vector< pair<float,float> > targets;
-    int N;
-    N = lecture_instance_alea( instanceName, targets);
-    int targets_number = targets.size();
-    cout << "targets_number = " << targets_number << endl;
-    cout << "grid size = " << N << " * " << N<< endl;
-    */
+int main(){
+    cout << "TEST INSTANCE" << endl;
+    Instance inst(10);
+    cout << "OK" << endl;
+    
+    cout << "TEST INSTANCE TRONQUEE" << endl;
+    string instance_name = "grille1010_1";
+    Instance_tronc inst_tronc(instance_name);
+    cout << "inst_tronc : " << endl;
+    inst_tronc.print(cout);
+    cout << "OK" << endl;
 
-
-    string instanceName = "grille1010_1"; // grille1010_1, grille2525_2
-    vector< pair<int,int> > targets;
-    int N;
-    N = lecture_instance_tronc( instanceName, targets);
-
-    int targets_number = targets.size();
-    cout << "targets_number = " << targets_number << endl;
-    cout << "grid size = " << N << " * " << N<< endl;
+    cout << "TEST INSTANCE ALEA" << endl;
+    instance_name = "captANOR150_7_4";
+    Instance_alea inst_alea(instance_name);
+    cout << "inst_alea : " << endl;
+    inst_alea.print(cout);
+    cout << "OK" << endl;
 
 
-    /** test Instance **/ 
-    //Instance<float> inst(targets, N);
-    Instance<int> inst(targets, N);
-    cout << inst;
-    cout << "target 1 and target 2 can be capted ? " << inst.do_capt(1, 2) << endl;
+    cout << "TEST SOLUTION(i)" << endl;
+    Solution solution(2);
+    for(bool elmt : solution)
+        cout << elmt << endl;
+    cout << "OK" << endl;
 
+    cout << "TEST SOLUTION(captors)" << endl;
+    vector<bool> captors(4,1);
+    cout << "captors = " << endl;
+    Solution sol(captors);
+    cout << "Solution(captors) = " << endl;
+    for(bool elmt : sol)
+        cout << elmt << endl;
+    cout << "OK" << endl;
 
-    /** test Solution **/
-    Solution<int> sol(targets_number);
-    cout << "Initialize solution : " << sol;
-    cout << "Shorter way :" << endl;
-
-    sol.short_print(cout);
-    cout << "Number of captors = " << sol.nb_captors() << endl;
-
-
-    /* test Graph */
-    sol.update_graph_capt(inst);
-    sol.update_graph_com(inst);
-
-    cout<< sol.get_graph_capt()<< endl;
-
-
-
-    /* tets fonctions de Solution */
-    vector<int> captors2 = sol.get_captors();
-    captors2[3] = 0;
-    sol.set_captors(captors2);
-    cout<< "new Sol : " << sol;
-
-    sol.update_graph_com(inst);
-    cout << "new graph com : " << sol.get_graph_com();
-    sol.update_graph_capt(inst);
-    cout << "new graph capt : " << sol.get_graph_capt();
-
+    cout << "TEST POPULATION(solutions)" << endl;
+    vector<Solution> solutions = {solution, sol};
+    Population pop(solutions);
+    cout << "pop.size() = " << pop.size() << endl;
+    cout << "OK" << endl;
 }
