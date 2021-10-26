@@ -77,4 +77,6 @@ int main(){
     cout << "CC from " << 0<<" : ( ";
     for(int v: cc) {cout<<v<<", ";}
     cout<<" ) "<<endl;
+
+    cout << "nb connected component G com : " << sol.get_graph_com().nb_connected_components() << endl;
 }

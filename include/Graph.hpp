@@ -6,6 +6,7 @@
 #include <set>
 #include <queue>
 
+
 template <class number>
 class Graph
 {
@@ -22,12 +23,13 @@ public:
     Network type() const {return graph_type;};
     set<int> neighbours(int i) const { return list_adjacence[i];} // return the set of neighbours of terget i
     int degree(int i) const {return neighbours(i).size() ;};
+
+    // iterate list adjacency lecture only
     vector<set<int>>::const_iterator begin() const {return list_adjacence.begin(); };
     vector<set<int>>::const_iterator end() const {return list_adjacence.end(); };;
 
     // network communication
-    //int nb_connected components();
-
+    int nb_connected_components();
     // the set of vertices visited by BFS (a Connected Component) starting from vertex departure
     void BFS(int depart, vector<bool>& visited, vector<int>& cc); 
 };
@@ -86,12 +88,11 @@ Graph<number>::Graph(Instance<number> & inst, vector<int> & capt, Network networ
 
 
 /**
- * @brief Return a connected component (set of vertices) explored by BFS from the departure
+ * @brief Find a connected component (set of vertices) explored by BFS from the departure
  * 
  * @tparam number 
  * @param depart 
  * @param visited modified after the BFS
- * @return vector<int>& 
  */
 template <typename number>
 void Graph<number>::BFS(int depart, vector<bool>& visited, vector<int>& cc){
@@ -120,6 +121,36 @@ void Graph<number>::BFS(int depart, vector<bool>& visited, vector<int>& cc){
     }
 }
 
+/**
+ * @brief While there exixts vertices non visited, we explore the graph communication by BFS.
+ *  the number of calls BFS equals to the number of CC.
+ * 
+ * @tparam number 
+ * @return int the number of connected components in graph communication
+ */
+template <typename number>
+ int Graph<number>::nb_connected_components(){
+    int n = nb_vertices();
+    vector<bool> visited(n, false);
+    set<vector<int>> all_cc;
+
+    for (int i = 0; i < n; i++)
+    {
+        if(!visited[i]) {
+            vector<int> cc;
+            BFS(i, visited, cc);
+            all_cc.insert(cc);
+        }
+    }
+
+    for(bool v : visited){
+        if(!v){
+        cerr << "ERROR: still vertices unexplored ! " << endl;
+        exit(-1);
+        }
+    }
+    return all_cc.size();
+}
 
 
 /**
