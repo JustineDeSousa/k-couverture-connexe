@@ -6,7 +6,7 @@
 int Solution::pena_couverture(){
     int sum_couverture = 0;
     for(uint i=0; i<size(); i++){
-        sum_couverture += instance.k() - nb_couverture(i);
+        sum_couverture += instance->k() - nb_couverture(i);
     }
     return sum_couverture;
 }

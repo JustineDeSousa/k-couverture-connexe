@@ -9,10 +9,13 @@ using namespace std;
 class Solution : public vector<bool>
 {
 private:
-    Instance instance;
+    Instance* instance;
+
+
+
 
 public:
-    Solution(int size = 0): vector<bool>(size,1){ (*this)[0] = 0;};
+    Solution(int size = 0): vector<bool>(size,1){ (*this)[0] = 0; };
     Solution(vector<bool> captors): vector<bool>(captors){(*this)[0] = 0; };
 
     //Renvoie le nombre de composantes connexes

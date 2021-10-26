@@ -29,7 +29,6 @@ Instance_tronc::Instance_tronc( const string instance_name, const int capt, cons
             y.push_back( stoi( token.substr(0,token.size()-1) ) );
         }
         file.close();
-
     }else{
         cerr <<("Couldn't open file : " + filename).c_str() << endl;
         exit(-1);
@@ -51,19 +50,18 @@ Instance_tronc::Instance_tronc( const string instance_name, const int capt, cons
         }
     }
     //Calcul de la matrice des distances
-    init_dist(cibles);
+    Instance::init_dist(cibles);
 }
 
-
-
-
-//Affichage
-ostream& Instance_tronc::print_targets(ostream& stream) const
-{
+ostream& operator<<(ostream& stream, const Instance_tronc& inst){
+    inst.print(stream);
     stream << "list of targets : [" << endl;
-    for(uint i=0; i<cibles.size(); i++){
-        stream << "#" << i << "=(" << cibles[i].first << "," << cibles[i].second << ")\t";
+    for(uint i=0; i<inst.cibles.size(); i++){
+        stream << "#" << i << "=(" << inst.cibles[i].first << "," << inst.cibles[i].second << ")\t";
+        
+        if(i%inst.grid_size == 0) stream << endl;
     }
-    stream << endl << "]" << endl;
+    stream << "]" << endl;
+
     return stream;
 }

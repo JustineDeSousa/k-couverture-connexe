@@ -7,6 +7,7 @@
 #include <fstream>
 #include <numeric>
 #include <math.h>
+#include <sstream>
 
 typedef unsigned int uint;
 using namespace std;
@@ -21,6 +22,9 @@ protected:
     int const R_com; // radius communication
     int const K; // k couverture
 
+    ostream& print(ostream&);
+    friend ostream& operator<<(ostream& stream, const Instance& inst);
+
 public:
     Instance(const int capt=1, const int com=1, const int k=1)
             :grid_size(0), R_capt(capt), R_com(com), K(k){};
@@ -32,16 +36,15 @@ public:
     //getter
     int k(){ return K;};
 
-    //on peut supposer i<j et stocker que la moitié de la matrice
-    bool capt_linked(int i, int j){ return (*this)[i][j] <= R_capt;};
-    bool com_linked(int i, int j){ return (*this)[i][j] <= R_com;};
+    //on pourrait supposer i<j et stocker que la moitié de la matrice
+    bool capt_linked(int i, int j){ return (*this)[i][j] <= R_capt; };
+    bool com_linked(int i, int j){ return (*this)[i][j] <= R_com; };
 
     //Affichage
     ostream& print(ostream& stream) const;
-
 };
 /********* fonctions externes ***************************/ 
-ostream& operator <<(ostream& stream, const Instance& inst);
+
 template <typename number>
 float dist(pair<number,number> i, pair<number,number> j);
 
@@ -59,7 +62,6 @@ void Instance::init_dist(const vector< pair<number,number> >& cibles )
         (*this)[i] = vector<float>(cibles.size(),0);
         for(uint j=0; j<cibles.size(); j++){
             if(i==j) continue;
-            //cout << cibles[i].first << " " << cibles[i].second << " - " << cibles[j].first << " " << cibles[j].second << endl;
             (*this)[i].push_back(dist(cibles[i], cibles[j]));
         }
     }

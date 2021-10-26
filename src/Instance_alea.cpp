@@ -1,4 +1,4 @@
-#include "../include/Instance_alea.hpp"
+#include "Instance_alea.hpp"
 
 void tokenize(std::string const &str, const char delim, vector<std::string> &out) 
 { 
@@ -38,13 +38,16 @@ Instance_alea::Instance_alea( const string instance_name, const int capt, const 
     init_dist(cibles);
 }
 
-//Affichage
-ostream& Instance_alea::print_targets(ostream& stream) const
-{
-    stream << "list of targets : [" << endl;
-    for(uint i=0; i<cibles.size(); i++){
-        stream << "#" << i << "=(" << cibles[i].first << "," << cibles[i].second << ")\t";
+
+/********* fonctions externes ***************************/ 
+ostream& operator<<(ostream& stream, const Instance_alea& inst){
+    inst.print(stream);
+        stream << "list of targets : [" << endl;
+    for(uint i=0; i<inst.cibles.size(); i++){
+        stream << "#" << i << "=(" << inst.cibles[i].first << "," << inst.cibles[i].second << ")\t";
+
+        if(i%inst.grid_size == 0) stream << endl;
     }
-    stream << endl << "]" << endl;
-    return stream;
+    stream << "]" << endl;
+    return stream << "}";
 }
