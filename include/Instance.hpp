@@ -50,7 +50,7 @@ float dist(pair<number,number> i, pair<number,number> j);
 /********* IMPLEMENTATION ***************************/ 
 
 //Calcul de la matrice des distances
-//matrice symétrique, on pourrait stocker que la moitié
+//matrice symétrique, on pourrait stocker que la moitié (antoine : c'est pas très grave parce que vous aurez qu'une seul instance a chaque fois)
 template <typename number>
 void Instance::init_dist(const vector< pair<number,number> >& cibles )
 {
