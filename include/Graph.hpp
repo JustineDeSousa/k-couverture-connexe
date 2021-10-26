@@ -16,7 +16,7 @@ private:
 
 public:
     Graph(){};
-    Graph(Instance<number> & inst, vector<int> & capt, Network network);
+    Graph(const Instance<number> * const inst, vector<int> & capt, Network network);
 
     // getters
     int nb_vertices() const {return list_adjacence.size();}
@@ -42,7 +42,7 @@ public:
  * @param sol solution
  */
 template<typename number>
-Graph<number>::Graph(Instance<number> & inst, vector<int> & capt, Network network) : graph_type(network) {
+Graph<number>::Graph(const Instance<number> * const inst, vector<int> & capt, Network network) : graph_type(network) {
     int n = capt.size();
 
     switch (graph_type)
@@ -57,7 +57,7 @@ Graph<number>::Graph(Instance<number> & inst, vector<int> & capt, Network networ
             for(int j = 1; j< n; j++){
                 if(capt[j] == 0) continue;
                 
-                if(inst.do_capt(i, j)) list_adjacence[i].insert(j);
+                if(inst->do_capt(i, j)) list_adjacence[i].insert(j);
             }
         }
         break;
@@ -73,7 +73,7 @@ Graph<number>::Graph(Instance<number> & inst, vector<int> & capt, Network networ
                 if( j == i) continue;
                 if(capt[j] == 0) continue;
                 
-                if(inst.do_communicate(i, j)) list_adjacence[i].insert(j);
+                if(inst->do_communicate(i, j)) list_adjacence[i].insert(j);
             }
         }
         break;

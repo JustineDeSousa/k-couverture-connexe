@@ -15,7 +15,7 @@ private:
     vector<int> captors; // captors[i] = 1 => i is a captor, captors[i] = 0 otherwise 
     Graph<number> Graph_capt;
     Graph<number> Graph_com;
-    Instance<number> Inst;
+    const Instance<number> * const Inst; //const pointer to const object, neither the ptr nor object modifiable
 
 public:
 /**
@@ -24,7 +24,7 @@ public:
  * 
  * @param size the total number of targets
  */
-    Solution(Instance<number> & inst_, int size = 0) : Inst(inst_) { captors = vector<int>(size, 1); if(size>0) captors[0] = 0;}; 
+    Solution(Instance<number>& inst_, int size = 0) : Inst(&inst_) { captors = vector<int>(size, 1); if(size>0) captors[0] = 0;}; 
 
     // getters
     int size() const {return captors.size();};
@@ -64,7 +64,7 @@ int Solution<number>::constraint_k_capt(){
     for (int i = 1; i < S; i++)// we don't consider the k-coverage for the sink
     {   
         int d = get_graph_capt().degree(i);
-        if ( d < Inst.get_k()) {acc += Inst.get_k() - d; }
+        if ( d < Inst->get_k()) {acc += Inst->get_k() - d; }
     }
     return acc;
 }
