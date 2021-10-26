@@ -29,7 +29,7 @@ public:
     //int nb_connected components();
 
     // the set of vertices visited by BFS (a Connected Component) starting from vertex departure
-    vector<int>& BFS(int depart, vector<bool>& visited=NULL); 
+    void BFS(int depart, vector<bool>& visited, vector<int>& cc); 
 };
 
 /**
@@ -94,14 +94,13 @@ Graph<number>::Graph(Instance<number> & inst, vector<int> & capt, Network networ
  * @return vector<int>& 
  */
 template <typename number>
-vector<int>& Graph<number>::BFS(int depart, vector<bool>& visited){
-    vector<int> cc;
+void Graph<number>::BFS(int depart, vector<bool>& visited, vector<int>& cc){
     int n = nb_vertices();
-    /*
+    
     queue<int> myqueue;
     myqueue.push(depart);
 
-    if(visited == NULL) {visited = vector<bool>(n, false);} 
+    if(visited.size() != n) {visited = vector<bool>(n, false);} 
 
     while (!myqueue.empty()) // when there exists vertices to visit
     {
@@ -119,8 +118,6 @@ vector<int>& Graph<number>::BFS(int depart, vector<bool>& visited){
 
         }
     }
-    */
-    return cc;
 }
 
 

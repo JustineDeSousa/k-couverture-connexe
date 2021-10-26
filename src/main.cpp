@@ -71,4 +71,10 @@ int main(){
     "sol constraint_k_capt violated = " << sol.constraint_k_capt() << endl <<
     "sol fonction fitness value = " << sol.fitness() << endl;
 
+    vector<bool> visited;
+    vector<int> cc;
+    sol.get_graph_com().BFS(0, visited, cc);
+    cout << "CC from " << 0<<" : ( ";
+    for(int v: cc) {cout<<v<<", ";}
+    cout<<" ) "<<endl;
 }

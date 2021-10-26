@@ -30,8 +30,8 @@ public:
     int size() const {return captors.size();};
     int nb_captors(){ return accumulate(captors.begin(), captors.end(), 0);};
     const vector<int> & get_captors() const {return captors;}
-    const Graph<number>& get_graph_capt() const {return Graph_capt;}
-    const Graph<number>& get_graph_com() const {return Graph_com;}
+    Graph<number> get_graph_capt() const {return Graph_capt;}
+    Graph<number> get_graph_com() const {return Graph_com;}
 
 
     // setters
