@@ -24,7 +24,7 @@ public:
  * 
  * @param size the total number of targets
  */
-    Solution(Instance<number> & inst_, int size = 0) : Inst(inst_) { captors = vector<int>(size, 1); captors[0] = 0;}; 
+    Solution(Instance<number> & inst_, int size = 0) : Inst(inst_) { captors = vector<int>(size, 1); if(size>0) captors[0] = 0;}; 
 
     // getters
     int size() const {return captors.size();};
@@ -47,7 +47,7 @@ public:
     ostream& short_print(ostream& stream);
 
     // fonctions evluation
-    int fitness() {return nb_captors() + constraint_k_capt() ; };
+    int fitness() {return nb_captors() + constraint_k_capt() + nb_connected_component(); };
     int constraint_k_capt(); // accumulate for each target |k - degree|
     int nb_connected_component(); // return the number of connected component in the communication network 
     bool is_k_coverage() {return constraint_k_capt() == 0 ;};

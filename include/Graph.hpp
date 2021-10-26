@@ -4,6 +4,7 @@
 #include "Instance.hpp"
 #include <vector>
 #include <set>
+#include <queue>
 
 template <class number>
 class Graph
@@ -14,17 +15,21 @@ private:
 
 public:
     Graph(){};
-    Graph(Instance<number> & inst, vector<int> & capt, Network n);
+    Graph(Instance<number> & inst, vector<int> & capt, Network network);
 
     // getters
-    const vector<set<int>> & list_adjacence() const {return list_adjacence;}; // return the list adjacence
+    int nb_vertices() const {return list_adjacence.size();}
     Network type() const {return graph_type;};
-    const set<int> & neighbours(int i) const { return list_adjacence()[i];}; // return the set of neighbours of terget i
+    set<int> neighbours(int i) const { return list_adjacence[i];} // return the set of neighbours of terget i
     int degree(int i) const {return neighbours(i).size() ;};
+    vector<set<int>>::const_iterator begin() const {return list_adjacence.begin(); };
+    vector<set<int>>::const_iterator end() const {return list_adjacence.end(); };;
 
     // network communication
     //int nb_connected components();
-    //vector<int>& BFS(int depart, vector<int> visited); // the set of vertices visited by BFS starting from vertex departure
+
+    // the set of vertices visited by BFS (a Connected Component) starting from vertex departure
+    vector<int>& BFS(int depart, vector<bool>& visited=NULL); 
 };
 
 /**
@@ -42,11 +47,10 @@ Graph<number>::Graph(Instance<number> & inst, vector<int> & capt, Network networ
     {
     case captation:
         // we don't consider the captation for the sink
-        list_adjacence[0] = set<int>();
+        list_adjacence = vector<set<int>>(n, set<int>());
 
         for (int i = 1; i < n; i++) 
         {
-            list_adjacence[i] = set<int>();
 
             for(int j = 1; j< n; j++){
                 if(capt[j] == 0) continue;
@@ -58,9 +62,9 @@ Graph<number>::Graph(Instance<number> & inst, vector<int> & capt, Network networ
 
 
     case communication:
+        list_adjacence = vector<set<int>>(n, set<int>());
         for (int i = 0; i < n; i++) 
         {
-            list_adjacence[i] = set<int>();
             if(capt[i] == 0 && i!=0) continue; // we only consider captors and the sink
 
             for(int j = 0; j< n; j++){
@@ -70,7 +74,6 @@ Graph<number>::Graph(Instance<number> & inst, vector<int> & capt, Network networ
                 if(inst.do_communicate(i, j)) list_adjacence[i].insert(j);
             }
         }
-
         break;
     
     default:
@@ -81,12 +84,45 @@ Graph<number>::Graph(Instance<number> & inst, vector<int> & capt, Network networ
 
 }
 
-/*
-template <typename number>
-vector<int>& DFS(int depart, ){
 
+/**
+ * @brief Return a connected component (set of vertices) explored by BFS from the departure
+ * 
+ * @tparam number 
+ * @param depart 
+ * @param visited modified after the BFS
+ * @return vector<int>& 
+ */
+template <typename number>
+vector<int>& Graph<number>::BFS(int depart, vector<bool>& visited){
+    vector<int> cc;
+    int n = nb_vertices();
+    /*
+    queue<int> myqueue;
+    myqueue.push(depart);
+
+    if(visited == NULL) {visited = vector<bool>(n, false);} 
+
+    while (!myqueue.empty()) // when there exists vertices to visit
+    {
+        int v = myqueue.front();
+        myqueue.pop();
+
+        if(!visited[v]){ // if the first vertex in queue is not visited
+            cc.push_back(v);
+            visited[v] = true; // visit the vertex v
+
+            // for each neighbour u of v, if u is not visited, add into the queue
+            for(int u : neighbours(v)){
+                if(!visited[u]) {myqueue.push(u);}
+            }
+
+        }
+    }
+    */
+    return cc;
 }
-*/
+
 
 
 /**
@@ -114,13 +150,17 @@ ostream& operator <<(ostream& stream, const Graph<number>& graph){
         exit(-1);
         break;
     }
-    vector<set<int>> list_adjacence = graph.list_adjacence();
-    int n = list_adjacence.size();
-    for(int i = 0; i < n; i++){
-        stream << i << " : [ ";
-        for(int v : list_adjacence[i]){
-            stream << v << ", ";
+
+    vector<set<int>>::const_iterator it = graph.begin();
+    int i = 0;
+    for(; it != graph.end(); ++it){
+        stream << i++ << " : [ ";
+    
+        set<int>::const_iterator it_set = it->begin();
+        for(; it_set != it->end(); ++it_set){
+            stream << *it_set << ", ";
         }
+    
         stream << " ]; ";
     }
     return stream << endl;
