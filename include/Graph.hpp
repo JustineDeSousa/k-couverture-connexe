@@ -16,7 +16,7 @@ private:
 
 public:
     Graph(){};
-    Graph(const Instance<number> * const inst, vector<int> & capt, Network network);
+    Graph(const Instance<number> * const inst, const vector<int> * const capt, Network network);
 
     // getters
     int nb_vertices() const {return list_adjacence.size();}
@@ -31,7 +31,11 @@ public:
     // network communication
     int nb_connected_components();
     // the set of vertices visited by BFS (a Connected Component) starting from vertex departure
-    void BFS(int depart, vector<bool>& visited, vector<int>& cc); 
+    void BFS(int depart, vector<bool>& visited, vector<int>& cc);
+
+    // update the adjacency for the captor v
+    void add_captor(const Instance<number> * const inst, const vector<int> * const capt, int v); 
+    //void supprime_captor(const Instance<number> * const inst, const vector<int> * const capt, int v);
 };
 
 /**
@@ -42,8 +46,8 @@ public:
  * @param sol solution
  */
 template<typename number>
-Graph<number>::Graph(const Instance<number> * const inst, vector<int> & capt, Network network) : graph_type(network) {
-    int n = capt.size();
+Graph<number>::Graph(const Instance<number> * const inst, const vector<int> * const capt, Network network) : graph_type(network) {
+    int n = capt->size();
 
     switch (graph_type)
     {
@@ -55,7 +59,7 @@ Graph<number>::Graph(const Instance<number> * const inst, vector<int> & capt, Ne
         {
 
             for(int j = 1; j< n; j++){
-                if(capt[j] == 0) continue;
+                if(capt->at(j) == 0) continue;
                 
                 if(inst->do_capt(i, j)) list_adjacence[i].insert(j);
             }
@@ -67,11 +71,11 @@ Graph<number>::Graph(const Instance<number> * const inst, vector<int> & capt, Ne
         list_adjacence = vector<set<int>>(n, set<int>());
         for (int i = 0; i < n; i++) 
         {
-            if(capt[i] == 0 && i!=0) continue; // we only consider captors and the sink
+            if(capt->at(i) == 0 && i!=0) continue; // we only consider captors and the sink
 
             for(int j = 0; j< n; j++){
                 if( j == i) continue;
-                if(capt[j] == 0) continue;
+                if(capt->at(j) == 0) continue;
                 
                 if(inst->do_communicate(i, j)) list_adjacence[i].insert(j);
             }
@@ -85,6 +89,48 @@ Graph<number>::Graph(const Instance<number> * const inst, vector<int> & capt, Ne
     }
 
 }
+
+
+template <typename number>
+void Graph<number>::add_captor(const Instance<number> * const inst, const vector<int> * const capt, int v){
+    int n = nb_vertices();
+
+    switch (graph_type)
+    {
+    case captation:
+        for (int i = 1; i < n; i++) // we dont consider the sink
+        {
+            if(inst->do_capt(v, i)) {
+                // i is covered by captor v
+                list_adjacence[i].insert(v); 
+                // if i is also a captor, then v is covered by i as well
+                if(capt->at(i) == 1 ) list_adjacence[v].insert(i);
+            }
+        }
+        break;
+
+
+    case communication:
+        for (int i = 0; i < n; i++) 
+        {
+            if(capt->at(i) == 0 && i!=0) continue; // we only consider captors and the sink
+
+            if( v == i) continue; // we don't add edge to itself
+            
+            if(inst->do_communicate(v, i)) {
+                list_adjacence[i].insert(v);
+                list_adjacence[v].insert(i);
+            }
+        }
+        break;
+    
+    default:
+        cerr << "Invalid argument Network" << endl;
+        exit(-1);
+        break;
+    }
+}
+
 
 
 /**

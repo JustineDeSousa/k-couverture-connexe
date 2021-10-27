@@ -49,21 +49,19 @@ int main(){
 
 
     /* test Graph */
-    sol.update_graph_capt();
-    sol.update_graph_com();
+    sol.update_graphs();
     cout<< sol.get_graph_capt()<< endl;
 
 
     /* tets fonctions de Solution */
     vector<int> captors2 = sol.get_captors();
     captors2[3] = 0;
-    sol.set_captors(captors2);
-    sol.reverse_target(5);
+    sol.set_captors(captors2, false);
+    sol.reverse_target(5, false);
     cout<< "new Sol : " << sol;
 
-    sol.update_graph_com();
+    sol.update_graphs();
     cout << "new graph com : " << sol.get_graph_com();
-    sol.update_graph_capt();
     cout << "new graph capt : " << sol.get_graph_capt();
 
     cout << "sol is_k_coverage ? " << sol.is_k_coverage() << endl;
@@ -79,4 +77,10 @@ int main(){
     cout<<" ) "<<endl;
 
     cout << "nb connected component G com : " << sol.get_graph_com().nb_connected_components() << endl;
+
+
+
+    cout << "add captor 3"<< endl;
+    sol.reverse_target(3, true);
+    cout<< sol.get_graph_capt()<<endl <<sol.get_graph_com()<<endl;
 }
