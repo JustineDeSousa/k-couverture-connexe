@@ -29,23 +29,13 @@ int main(){
 
     cout << endl << "TEST SOLUTION(Instance_tronc*)" << endl;
     Solution solution(&inst_tronc);
-    // cout << solution << endl;
+    Solution solution_t(&inst_tronc);
+    cout << solution << endl;
     cout << "OK" << endl;
 
     cout << endl << "TEST SOLUTION(Instance_alea*)" << endl;
     Solution solution_1(&inst_alea);
     // cout << solution_1 << endl;
-    cout << "OK" << endl;
-
-    cout << endl << "TEST SOLUTION(captors)" << endl;
-    vector<bool> captors(4,1);
-    // Solution sol(captors);
-    // cout << sol;
-    cout << "OK" << endl;
-
-    cout << endl << "TEST SOLUTION(Solution)" << endl;
-    // Solution solution_2(sol);
-    // cout << solution_2 << endl;
     cout << "OK" << endl;
 
     cout << endl << "TEST nb_couverture()" << endl;
@@ -59,9 +49,14 @@ int main(){
     // }
     cout << "OK" << endl;
 
-    // cout << "TEST POPULATION(solutions)" << endl;
-    // vector<Solution> solutions = {solution, sol};
-    // Population pop(solutions);
-    // cout << "pop.size() = " << pop.size() << endl;
-    // cout << "OK" << endl;
+    cout << "TEST POPULATION(solutions)" << endl;
+    vector<Solution> solutions = {solution, solution_t};
+    Population parents(solutions, Selection::ELITE);
+    cout << parents << endl;
+    Population enfants(&inst_tronc);
+    parents.selection(enfants);
+    cout << "OK" << endl;  
+
+
+
 }

@@ -11,26 +11,30 @@ private:
     vector< set<int> > graph_capt;
     vector< set<int> > graph_com;
 
-    friend ostream& operator<<(ostream& stream, const Solution solution);
+    friend ostream& operator<<(ostream& stream, const Solution& solution);
 
 public:
-    Solution(const Instance* const inst): vector<bool>(inst->size(),1), instance(inst){ (*this)[0] = 0; };
+    Solution(const Instance* const inst): 
+            vector<bool>(inst->size(),1), instance(inst){ (*this)[0] = 0; };
+    Solution(const Solution&);
+    Solution& operator=(const Solution& solution);
     // Solution(const Instance* const inst, const vector<bool>& captors): 
     //             vector<bool>(captors), instance(inst){(*this)[0] = 0; };
 
     /*********************** EVALUATION DE LA SOLUTION ***********************/
+    bool operator<(const Solution& solution);
     //Renvoie le nombre de composantes connexes
-    int nb_connexite();
-    bool is_connexe(){ return nb_connexite() == 1; }
+    int nb_connexite() const;
+    bool is_connexe() const{ return nb_connexite() == 1; }
     //renvoie le nombre de couverture de la cible i
-    int nb_couverture(int i);
+    int nb_couverture(int i) const;
     //nb de couverture de chacune des cibles
-    vector<int> nb_couverture();
-    bool is_k_covered();
+    vector<int> nb_couverture() const;
+    bool is_k_covered() const;
     //renvoie le nombre de capteurs
-    int nb_capteurs(){ return accumulate((*this).begin(),(*this).end(),0); };
+    int nb_capteurs() const{ return accumulate((*this).begin(),(*this).end(),0); };
     //Score de la solution
-    int fitness();
+    int fitness() const;
 
     // bool sol_capt_linked(int i, int j){ 
     //     if( (*this)[i]){
@@ -57,5 +61,5 @@ public:
 #endif
 /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
 // Renvoie les deux enfants E1 et E2 issus du cross_over de P1 et P2
-pair<Solution,Solution> cross_over(Solution P1, Solution P2);
+void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& E2);
 /**************************************************************************/

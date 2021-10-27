@@ -9,6 +9,8 @@
 #include <numeric>
 #include <math.h>
 #include <sstream>
+#include <assert.h>
+#include <algorithm>
 
 typedef unsigned int uint;
 using namespace std;
@@ -67,17 +69,34 @@ float dist(pair<number,number> i, pair<number,number> j);
 
 //Calcul de la matrice des distances
 //matrice symétrique, on pourrait stocker que la moitié
+// template <typename number>
+// void Instance::init_dist(const vector< pair<number,number> >& cibles )
+// {
+//     (*this).reserve(cibles.size());
+//     for(uint i=0; i<cibles.size(); i++){
+
+//         (*this)[i] = vector<float>(cibles.size(),0);
+//         for(uint j=0; j<cibles.size(); j++){
+//             if(i==j) continue;
+//             (*this)[i][j] = dist(cibles[i], cibles[j]);
+//         }
+//     }
+// }
 template <typename number>
 void Instance::init_dist(const vector< pair<number,number> >& cibles )
 {
-    (*this).reserve(cibles.size());
-    for(uint i=0; i<cibles.size(); i++){
-        (*this)[i] = vector<float>(cibles.size(),0);
+    vector<float> v(cibles.size(), 0.0);
+
+    (*this).resize(cibles.size(), v);
+
+    for(uint i = 0; i < cibles.size(); i++){
+
         for(uint j=0; j<cibles.size(); j++){
             if(i==j) continue;
-            (*this)[i].push_back(dist(cibles[i], cibles[j]));
+            (*this)[i][j] = dist(cibles[i], cibles[j]);
         }
     }
+
 }
 
 template <typename number>
