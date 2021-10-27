@@ -37,15 +37,17 @@ void Solution::reverse(int i){
     (*this)[i] = 1-(*this)[i]; 
     cout << "Solution::reverse(int) : IL FAUT METTRE A JOUR LE GRAPHE" << endl;
 };
+/*
 vector<bool> Solution::val_bit_mask(){
     vector<bool> result;
     float x = rand()%instance->Grid_size();
     float y = rand()%instance->Grid_size();
-    for(auto cible : instance->bit_mask(x,y) ){
+    for(int cible : instance->bit_mask(x,y) ){
         //Valeur de la solution sur la cible
         result.push_back( (*this)[cible] );
     }
 }
+*/
 void Solution::mutation(float mut_rate){
     float p = rand()/RAND_MAX;
     if( p <= mut_rate ){

@@ -10,10 +10,7 @@ using namespace std;
 
 
 int main(){
-    // cout << "TEST INSTANCE" << endl;
-    // Instance inst;
-    // cout << "inst.size() = " << inst.size() << endl;
-    // cout << "OK" << endl;
+
     
     cout << endl << "TEST INSTANCE TRONQUEE" << endl;
     string instance_name = "grille1010_1";
@@ -42,12 +39,12 @@ int main(){
 
     cout << endl << "TEST SOLUTION(captors)" << endl;
     vector<bool> captors(4,1);
-    Solution sol(captors);
+    // Solution sol(captors);
     // cout << sol;
     cout << "OK" << endl;
 
     cout << endl << "TEST SOLUTION(Solution)" << endl;
-    Solution solution_2(sol);
+    // Solution solution_2(sol);
     // cout << solution_2 << endl;
     cout << "OK" << endl;
 

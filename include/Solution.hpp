@@ -7,15 +7,16 @@
 class Solution : public vector<bool>
 {
 private:
-    Instance* instance;
+    const Instance* const instance; //const pointer to const object, neither the ptr nor object modifiable
     vector< set<int> > graph_capt;
     vector< set<int> > graph_com;
 
     friend ostream& operator<<(ostream& stream, const Solution solution);
 
 public:
-    Solution(Instance* inst): vector<bool>(inst->size(),1), instance(inst){ (*this)[0] = 0; };
-    Solution(const vector<bool>& captors): vector<bool>(captors){(*this)[0] = 0; };
+    Solution(const Instance* const inst): vector<bool>(inst->size(),1), instance(inst){ (*this)[0] = 0; };
+    // Solution(const Instance* const inst, const vector<bool>& captors): 
+    //             vector<bool>(captors), instance(inst){(*this)[0] = 0; };
 
     /*********************** EVALUATION DE LA SOLUTION ***********************/
     //Renvoie le nombre de composantes connexes
@@ -30,6 +31,15 @@ public:
     int nb_capteurs(){ return accumulate((*this).begin(),(*this).end(),0); };
     //Score de la solution
     int fitness();
+
+    // bool sol_capt_linked(int i, int j){ 
+    //     if( (*this)[i]){
+    //         return instance->capt_linked(i,j);
+    //     }else{
+    //         return 0;
+    //     }
+         
+    // };
     /**************************************************************************/
 
     /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
@@ -38,7 +48,8 @@ public:
     //Renvoie les val de la solution sur le bit_mask de instance
     vector<bool> val_bit_mask();
     
-    //Fais muter la solution avec proba mut_rate
+    //Fais muter la solution avec proba mut_rate 
+    // Pour l'instant on inverse un seul bit
     void mutation(float mut_rate);
     /**************************************************************************/
 };

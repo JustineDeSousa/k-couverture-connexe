@@ -3,7 +3,7 @@
 
 #include "Instance.hpp"
 
-class Instance_tronc : public virtual Instance
+class Instance_tronc : public Instance
 {
 private:
     const int K=1;
@@ -16,7 +16,7 @@ public:
     Instance_tronc(const string instance_name, const int capt=1, const int com=1);
 
     //getters
-    int size(){ return cibles.size(); };
+    int size() const{ return cibles.size(); };
 
     /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
     //Renvoie l'ensemble des cibles contenues dans le carré de taille width avec

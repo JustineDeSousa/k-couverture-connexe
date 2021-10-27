@@ -23,7 +23,7 @@ protected:
     int const R_capt; // radius captation
     int const R_com; // radius communication
     int const K; // k couverture
-    int const width_bit_mask;
+    int const width_bit_mask; //pour le crossover
 
     ostream& print(ostream&);
     friend ostream& operator<<(ostream& stream, const Instance& inst);
@@ -38,19 +38,19 @@ public:
     void init_dist(const vector< pair<number,number> >& targets );
 
     //getter
-    int k(){ return K; };
-    virtual int size(){ return grid_size*grid_size; };
-    int Grid_size(){ return grid_size; };
+    int k() const{ return K; };
+    virtual int size() const = 0;
+    int Grid_size() const{ return grid_size; };
 
     //on pourrait supposer i<j et stocker que la moitié de la matrice
-    //Doit être dans Solution
-    // bool capt_linked(int i, int j){ return (*this)[i][j] <= R_capt; };
-    // bool com_linked(int i, int j){ return (*this)[i][j] <= R_com; };
+    // Doit être dans Solution
+    bool capt_linked(int i, int j){ return (*this)[i][j] <= R_capt; };
+    bool com_linked(int i, int j){ return (*this)[i][j] <= R_com; };
 
     /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
     //Renvoie l'ensemble des cibles contenues dans le carré de taille width avec
     //coin supérieur droit = (x,y)
-    virtual vector<int> bit_mask(float x, float y);
+    virtual vector<int> bit_mask(float x, float y) = 0;
     /**************************************************************************/
 
     //Affichage

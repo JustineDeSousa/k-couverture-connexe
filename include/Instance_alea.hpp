@@ -14,7 +14,7 @@ public:
     Instance_alea( const string instance_name, int capt=1, int com=1, int k=1);
 
     //getters
-    int size(){ return cibles.size(); };
+    int size() const{ return cibles.size(); };
 
     /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
     //Renvoie l'ensemble des cibles contenues dans le carré de taille width avec
