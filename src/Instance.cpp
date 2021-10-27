@@ -1,4 +1,4 @@
-#include "Instance.hpp"
+#include "../include/Instance.hpp"
 
 ostream& Instance::print(ostream& stream) const{
     stream << "Instance (grid size=" << grid_size << "*" << grid_size << ",";

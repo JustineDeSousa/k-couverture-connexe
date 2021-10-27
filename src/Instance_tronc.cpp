@@ -1,4 +1,4 @@
-#include "Instance_tronc.hpp"
+#include "../include/Instance_tronc.hpp"
 
 /***************************** CONSTRUCTEUR *****************************/
 Instance_tronc::Instance_tronc( const string instance_name, const int capt, const int com)

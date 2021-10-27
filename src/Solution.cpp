@@ -43,32 +43,43 @@ int Solution::fitness() const{
     return nb_capteurs() + nb_connexite() + instance->k()*size() 
     - accumulate(nb_couverture().begin(),nb_couverture().end(),0); 
 }
+void Solution::update_graphs(int t){
+    if((*this)[t]){ // we add a captor
+        Graph_com.add_captor(instance, (*this), t);
+        Graph_capt.add_captor(instance, (*this), t);
+    }else{
+        Graph_capt.supprime_captor(t);
+        Graph_com.supprime_captor(t);
+    }
+}
+
+
 /**************************************************************************/
 
 /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
 
-void Solution::reverse(int i){
-    (*this)[i] = 1-(*this)[i]; 
-    cout << "Solution::reverse(int) : IL FAUT METTRE A JOUR LE GRAPHE" << endl;
+
+/**
+ * @brief if G=true, we update also the vertex i in two graphs
+ * 
+ * @param i 
+ * @param G 
+ */
+void Solution::reverse(int i, bool G){
+    (*this)[i] = !(*this)[i]; 
+    if(G) update_graphs(i);
 };
-/*
-vector<bool> Solution::val_bit_mask(){
-    vector<bool> result;
-    float x = rand()%instance->Grid_size();
-    float y = rand()%instance->Grid_size();
-    for(int cible : instance->bit_mask(x,y) ){
-        //Valeur de la solution sur la cible
-        result.push_back( (*this)[cible] );
-    }
-}
-*/
+
+
 void Solution::mutation(float mut_rate){
     float p = rand()/RAND_MAX;
     if( p <= mut_rate ){
         int bit_to_reverse = rand() % size();
-        reverse(bit_to_reverse);
+        reverse(bit_to_reverse, false);
     }
 }
+
+
 /**************************************************************************/
 
 /**********************************/
@@ -80,12 +91,20 @@ void Solution::mutation(float mut_rate){
 pair<Solution,Solution> cross_over(Solution P1, Solution P2){
     Solution E1(P1);
     Solution E2(P2);
+<<<<<<< HEAD
     
+=======
+    //TODO
+>>>>>>> main
 
     return make_pair(E1,E2);
 }
 /**************************************************************************/
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 /******************************** AFFICHAGE *******************************/
 ostream& operator<<(ostream& stream, const Solution& solution){
     stream << "Solution (taille " << solution.size() << ")" << endl;
@@ -96,4 +115,16 @@ ostream& operator<<(ostream& stream, const Solution& solution){
     }
     return stream << "}" << endl;
 }
+<<<<<<< HEAD
 /**************************************************************************/
+=======
+/**************************************************************************/
+
+
+
+
+
+void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& E2){
+    
+}
+>>>>>>> main

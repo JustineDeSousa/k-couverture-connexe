@@ -4,6 +4,7 @@
 #include "Solution.hpp"
 
 enum class Selection{ ROULETTE, ELITE };
+
 static const string to_str (const Selection s){
     switch (s) 
     {
@@ -17,6 +18,7 @@ static const string to_str (const Selection s){
     }
     return "";
 }
+
 
 class Population : public vector<Solution>
 {

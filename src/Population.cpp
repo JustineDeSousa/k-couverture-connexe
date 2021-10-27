@@ -1,4 +1,5 @@
-#include "Population.hpp"
+#include "../include/Population.hpp"
+#include "../include/Solution.hpp"
 
 //genetic algo
 

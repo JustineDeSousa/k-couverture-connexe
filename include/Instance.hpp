@@ -14,11 +14,13 @@
 
 typedef unsigned int uint;
 using namespace std;
+enum Network { captation, communication };
+
 
 
 class Instance : public vector< vector<float> >
 //Matrice des distances entre chaque cible
-//matrice symétrique, on pourrait stocker que la moitié
+
 {
 protected:
     int grid_size; // nb cibles = grid_size * grid_size
@@ -36,6 +38,7 @@ public:
             :grid_size(0), R_capt(capt), R_com(com), K(k), width_bit_mask(0.1*grid_size){};
     Instance(const string instance_name, int const capt=1, int const com=1, int const k=1);
 
+
     template <typename number>
     void init_dist(const vector< pair<number,number> >& targets );
 
@@ -45,9 +48,9 @@ public:
     int Grid_size() const{ return grid_size; };
 
     //on pourrait supposer i<j et stocker que la moitié de la matrice
-    // Doit être dans Solution
-    bool capt_linked(int i, int j){ return (*this)[i][j] <= R_capt; };
-    bool com_linked(int i, int j){ return (*this)[i][j] <= R_com; };
+    bool capt_linked(int i, int j) const { return (*this)[i][j] <= R_capt; };
+    bool com_linked(int i, int j) const { return (*this)[i][j] <= R_com; };
+
 
     /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
     //Renvoie l'ensemble des cibles contenues dans le carré de taille width avec
@@ -69,19 +72,7 @@ float dist(pair<number,number> i, pair<number,number> j);
 
 //Calcul de la matrice des distances
 //matrice symétrique, on pourrait stocker que la moitié
-// template <typename number>
-// void Instance::init_dist(const vector< pair<number,number> >& cibles )
-// {
-//     (*this).reserve(cibles.size());
-//     for(uint i=0; i<cibles.size(); i++){
 
-//         (*this)[i] = vector<float>(cibles.size(),0);
-//         for(uint j=0; j<cibles.size(); j++){
-//             if(i==j) continue;
-//             (*this)[i][j] = dist(cibles[i], cibles[j]);
-//         }
-//     }
-// }
 template <typename number>
 void Instance::init_dist(const vector< pair<number,number> >& cibles )
 {
@@ -96,7 +87,7 @@ void Instance::init_dist(const vector< pair<number,number> >& cibles )
             (*this)[i][j] = dist(cibles[i], cibles[j]);
         }
     }
-
+    
 }
 
 template <typename number>
