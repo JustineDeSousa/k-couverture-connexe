@@ -2,6 +2,7 @@
 #define SOLUTION_HPP
 
 #include "Instance.hpp"
+#include "Graph.hpp"
 
 
 class Solution : public vector<bool>
@@ -29,7 +30,7 @@ public:
 
 
     /*********************** EVALUATION DE LA SOLUTION ***********************/
-
+    int fitness();
     /**************************************************************************/
 
 
