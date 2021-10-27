@@ -51,8 +51,6 @@ Instance_tronc::Instance_tronc( const string instance_name, const int capt, cons
     }
     //Calcul de la matrice des distances
     Instance::init_dist(cibles);
-
-
 }
 /**************************************************************************/
 

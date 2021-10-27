@@ -3,7 +3,8 @@
 
 #include "Instance.hpp"
 
-class Instance_alea : public Instance
+class Instance_alea : public virtual Instance
+
 {
 private:
     vector< pair<float,float> > cibles; //position des cibles

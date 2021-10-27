@@ -29,15 +29,33 @@ int main(){
 
     cout << endl << "TEST SOLUTION(Instance_tronc*)" << endl;
     Solution solution(&inst_tronc);
+    Solution solution_t(&inst_tronc);
     cout << solution << endl;
     cout << "OK" << endl;
 
     cout << endl << "TEST SOLUTION(Instance_alea*)" << endl;
     Solution solution_1(&inst_alea);
-    cout << solution_1 << endl;
+    // cout << solution_1 << endl;
     cout << "OK" << endl;
 
+    cout << endl << "TEST nb_couverture()" << endl;
+    // for(uint i=0; i<solution_1.size(); i++){
+    //     cout << "solution_1.nb_couverture(i)= " 
+    //             << solution_1.nb_couverture(i) << endl;
+    // }
+    // for(uint i=0; i<solution_1.size(); i++){
+    //     cout << "solution_1.nb_couverture()[i]= " 
+    //             << solution_1.nb_couverture()[i] << endl;
+    // }
+    cout << "OK" << endl;
 
+    cout << "TEST POPULATION(solutions)" << endl;
+    vector<Solution> solutions = {solution, solution_t};
+    Population parents(solutions, Selection::ELITE);
+    cout << parents << endl;
+    Population enfants(&inst_tronc);
+    parents.selection(enfants);
+    cout << "OK" << endl;  
     cout << endl << "TEST GRAPHS(Instance_tronc*)" << endl;
     solution.update_graphs();
     cout << solution.get_graph_capt() << endl;
