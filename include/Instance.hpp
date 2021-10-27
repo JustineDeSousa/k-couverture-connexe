@@ -10,6 +10,7 @@
 #include <cmath>
 
 enum Network { captation, communication };
+// comment
 
 using namespace std;
 
