@@ -1,4 +1,4 @@
-#include "algo_genetic.hpp"
+#include "../include/algo_genetic.hpp"
 
 void new_generation(const Instance* const inst, Population& pop, int N, float rep_rate){
     //Population initiale de taille N
