@@ -2,7 +2,7 @@
 #ifndef GRAPH_HPP
 #define GRAPH_HPP
 
-#include "Solution.hpp"
+#include "Instance.hpp"
 
 
 class Graph : public vector< set<int> >
@@ -10,10 +10,11 @@ class Graph : public vector< set<int> >
 private:
     Network graph_type; //communication or captation network
     friend ostream& operator <<(ostream& stream, const Graph& graph);
+
 public:
     /**************************************** CONSTRUCTORS ****************************************/
+    Graph(){};
     Graph(Network network = communication, int n=0) : vector< set<int> >(n), graph_type(network){};
-    
     Graph(Solution& sol, Network network);
     /**********************************************************************************************/
     /**************************************** GETTERS *********************************************/
@@ -27,7 +28,7 @@ public:
     int nb_connected_components() const;
     
     // update the adjacency for the captor v
-    void add_captor(Solution& sol, int v); 
+    void add_captor(const Instance * const inst, vector<bool>& sol, int v); 
     void supprime_captor(int v);
     /**********************************************************************************************/
 

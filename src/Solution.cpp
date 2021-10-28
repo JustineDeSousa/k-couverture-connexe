@@ -1,4 +1,4 @@
-#include "Solution.hpp"
+#include "../include/Solution.hpp"
 
 /**************************************** CONSTRUCTORS ****************************************/
 Solution::Solution(const Solution& solution) : vector<bool>(solution), instance(solution.instance)
@@ -16,16 +16,16 @@ Solution& Solution::operator=(const Solution& solution){
 /******************************** OPERATIONS DE GRAPHE ****************************************/
 void Solution::update_graphs(int t){
     if((*this)[t]){ // we add a captor
-        graph_com.add_captor(*this, t);
-        graph_capt.add_captor(*this, t);
+        graph_com.add_captor(instance, *this, t);
+        graph_capt.add_captor(instance, *this, t);
     }else{
         graph_capt.supprime_captor(t);
         graph_com.supprime_captor(t);
     }
 }
 void Solution::update_graphs(){
-    graph_capt = Graph(*this, Network::captation); 
-    graph_com = Graph(*this, communication);
+    graph_capt = Graph(instance, *this, Network::captation); 
+    graph_com = Graph(instance, *this, communication);
 }
 /**********************************************************************************************/
 /*********************** EVALUATION DE LA SOLUTION ***********************/

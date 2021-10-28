@@ -4,7 +4,6 @@
 #include "Instance.hpp"
 #include "Graph.hpp"
 
-
 class Solution : public vector<bool>
 {
 private:
@@ -20,7 +19,7 @@ public:
     Solution& operator=(const Solution& solution);
     /**********************************************************************************************/
     /**************************************** GETTERS *********************************************/
-    const Instance* get_instance() const{ return instance; };
+    //const Instance* get_instance() const{ return instance; };
     Graph get_graph_capt() const {return graph_capt;}
     Graph get_graph_com() const {return graph_com;}
     /**********************************************************************************************/
