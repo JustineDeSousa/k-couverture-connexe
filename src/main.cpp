@@ -1,3 +1,4 @@
+
 #include "../include/Instance.hpp"
 #include "../include/Instance_tronc.hpp"
 #include "../include/Instance_alea.hpp"
@@ -8,8 +9,8 @@
 
 using namespace std;
 
-
 const Instance* Solution::instance;
+
 
 int main(){
     srand (static_cast <unsigned> (time(0)));
@@ -25,7 +26,6 @@ int main(){
     //Solution solution_1();
     // cout << solution_1 << endl;
     //cout << "OK" << endl;
-
 
     
     //cout << endl << "TEST INSTANCE TRONQUEE" << endl;

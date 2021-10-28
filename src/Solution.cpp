@@ -1,7 +1,6 @@
 #include "../include/Solution.hpp"
 
 /**************************************** CONSTRUCTORS ****************************************/
-
 Solution::Solution(const Solution& solution, bool G)
 {   
     this->resize(solution.size());
@@ -10,7 +9,6 @@ Solution::Solution(const Solution& solution, bool G)
     {
         (*this)[i] = solution[i];
     }
-    
     if(G){
     graph_capt = solution.graph_capt;
     graph_com = solution.graph_com;
@@ -26,6 +24,14 @@ Solution& Solution::operator=(const Solution& solution){
     //TODO I think instance is empty
 }
 
+/**********************************************************************************************/
+/**************************************** GETTERS *********************************************/
+void Solution::bit_mask(vector<int>& result) const{
+    // a random float between 0.0 and grid_size
+    float x = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/ instance->Grid_size()));
+    float y = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/ instance->Grid_size()));
+    instance->bit_mask(x, y, result);
+}
 /**********************************************************************************************/
 /******************************** OPERATIONS DE GRAPHE ****************************************/
 void Solution::update_graphs(int t){
@@ -57,7 +63,6 @@ int Solution::captation(int i) const{
     return graph_capt[i].size();
 }
 
-
 /**
  * @brief Return the total number of missed captors for each targets
  * 
@@ -81,8 +86,8 @@ int Solution::nb_captation_missed() const{
  * @return false 
  */
 bool Solution::is_k_covered() const{
-    for (int i = 1; i < size(); i++)
-    {
+    for (int i = 1; i < size(); i++){
+
         if(graph_capt.degree(i) < Solution::instance->k()) return false;
     }
 
@@ -129,16 +134,15 @@ void Solution::bit_mask(vector<int>& result) const{
 }
 // Renvoie les deux enfants E1 et E2 issus du cross_over de P1 et P2
 void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& E2){
-    vector<int> bits_to_corss;
-    P1.bit_mask(bits_to_corss);
+    vector<int> bits_to_cross;
+    P1.bit_mask(bits_to_cross);
     cout << "hereS" << endl;
 
-    for (int bit : bits_to_corss)
+    for (int bit : bits_to_cross)
     {   cout << bit << ", " ;
         E1[bit] = P2[bit];
         E2[bit] = P1[bit];
     }
-
 }
 /**************************************************************************/
 /******************************** AFFICHAGE *******************************/
