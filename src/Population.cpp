@@ -1,6 +1,16 @@
 #include "../include/Population.hpp"
-#include "../include/Solution.hpp"
 
+
+Population::Population( vector<Solution>& solutions, Selection t) : vector<Solution>(solutions), select(t)
+{
+    sort();
+    Solution best( (*this)[0] );
+}
+/***************************** UPDATES *****************************/
+void update(Solution solution){
+    Solution best( solution);
+}
+/*******************************************************************/
 //genetic algo
 
 void Population::selection_roulette( Population& pop ){
@@ -20,7 +30,7 @@ void Population::selection_roulette( Population& pop ){
 
 
 void Population::selection_elite( Population& pop, int nb_enf ){
-    sort(pop.begin(), pop.end());
+    sort();
     for(int i=0; i<nb_enf; i++){
         pop.push_back((*this)[i]);
     }

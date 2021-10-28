@@ -12,6 +12,7 @@
 #include <assert.h>
 #include <algorithm>
 #include <queue>
+#include <time.h>
 
 typedef unsigned int uint;
 using namespace std;

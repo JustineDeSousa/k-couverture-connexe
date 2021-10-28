@@ -1,11 +1,11 @@
 #include "../include/Solution.hpp"
 
 /**************************************** CONSTRUCTORS ****************************************/
-Solution::Solution(const Solution& solution) : vector<bool>(solution), instance(solution.instance)
-{
-    graph_capt = solution.graph_capt;
-    graph_com = solution.graph_com;
-}
+// Solution::Solution(const Solution& solution) : vector<bool>(solution), instance(solution.instance)
+// {
+//     graph_capt = solution.graph_capt;
+//     graph_com = solution.graph_com;
+// }
 Solution& Solution::operator=(const Solution& solution){
     if(this == &solution) return *this;
     graph_capt = solution.graph_capt;

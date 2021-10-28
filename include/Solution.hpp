@@ -8,7 +8,7 @@
 class Solution : public vector<bool>
 {
 private:
-    const Instance* const instance; //const pointer to const object, neither the ptr nor object modifiable
+    static const Instance* const instance; //const pointer to const object, neither the ptr nor object modifiable
     Graph graph_capt;
     Graph graph_com;
 
@@ -16,7 +16,8 @@ private:
 
 public:
     /**************************************** CONSTRUCTORS ****************************************/
-    Solution(const Instance* const inst): vector<bool>(inst->size(),1), instance(inst){ (*this)[0] = 0; };
+    Solution(){};
+    Solution(const Instance* const inst): vector<bool>(inst->size(),1){ (*this)[0] = 0; };
     Solution& operator=(const Solution& solution);
     /**********************************************************************************************/
     /**************************************** GETTERS *********************************************/

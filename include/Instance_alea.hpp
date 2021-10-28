@@ -11,8 +11,12 @@ private:
 
     friend ostream& operator<<(ostream& stream, const Instance_alea& inst);
 public:
+    /**************************************** CONSTRUCTORS ****************************************/
+    Instance_alea(const int capt=1, const int com=1, const int k=1);
     //Constructeur grâce à la lecture d'un fichier
     Instance_alea( const string instance_name, int capt=1, int com=1, int k=1);
+    /**********************************************************************************************/
+    
 
     //getters
     int size() const{ return cibles.size(); };

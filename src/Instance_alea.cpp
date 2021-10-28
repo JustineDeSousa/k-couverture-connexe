@@ -11,7 +11,12 @@ void tokenize(std::string const &str, const char delim, vector<std::string> &out
             out.push_back(s); 
     } 
 }
-
+/**************************************** CONSTRUCTORS ****************************************/
+Instance_alea::Instance_alea(const int capt, const int com, const int k)
+{
+    cibles = vector< pair<float,float> >();
+    init_dist(cibles);
+}
 /**
  * @brief Construct a new Instance_alea::Instance_alea object
  * 
@@ -45,6 +50,7 @@ Instance_alea::Instance_alea( const string instance_name, const int capt, const 
     //Calcul de la matrice des distances
     init_dist(cibles);
 }
+/**********************************************************************************************/
 
 /**
  * @brief return a set of identity whose captor are under the mask region

@@ -1,4 +1,4 @@
-#include "algo_genetic.hpp"
+#include "../include/algo_genetic.hpp"
 
 void new_generation(const Instance* const inst, Population& pop, int N, float rep_rate){
     //Population initiale de taille N
@@ -22,4 +22,12 @@ void new_generation(const Instance* const inst, Population& pop, int N, float re
     //Nouvelle génération de taille N = rep_rate*N parents + (1-rep_rate)*N enfants
     pop = parents;
     enfants.selection(pop,(1-rep_rate)*N);
+}
+
+void genetic_algo(const Instance* const inst, Population& pop, float min_max, int N=100, float rep_rate=0.1){
+    clock_t time_begin = clock();
+    while( double(clock() - time_begin)/CLOCKS_PER_SEC < 60*min_max ){ // while( durée < min_max min)
+        new_generation(inst, pop, N, rep_rate);
+    }
+    cout << double(clock()-time_begin)/CLOCKS_PER_SEC << "s -- BEST INDIVIDUAL : " << pop.best_individual() << endl;
 }
