@@ -8,8 +8,9 @@ Population::Population( vector<Solution>& solutions, Selection t) : vector<Solut
 }
 /***************************** UPDATES *****************************/
 // TODO pop.update_best_solution()
-void update(Solution solution){
-    Solution best( solution);
+void Population::update(){
+    sort();
+    Solution best((*this)[0]);
 }
 /*******************************************************************/
 //genetic algo
