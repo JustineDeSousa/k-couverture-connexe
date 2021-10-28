@@ -11,18 +11,26 @@ void Population::update(){
 /*******************************************************************/
 /******************** FONCTIONS SELECTION *********************************/
 void Population::sort(){
-     cout << "Population::sort()" << endl; 
+     for(int i=0; i<size(); i++){
+        (*this)[i].update_graphs();
+    }
      std::sort( begin(), end() );
 }
 void Population::selection_roulette( Population& pop, int nb_indiv){
     sort();
     vector<int> fit;
-    for( Solution sol : pop){
+    for( Solution sol : *this){
         fit.push_back( sol.fitness() );
     }
     int sum_fit = accumulate(fit.begin(), fit.end(), 0);
+    
+    //TODO partial sum
     vector<int> partial_sum_fit;
     partial_sum(fit.begin(), fit.end(), partial_sum_fit.begin());
+
+    for(uint i=0; i<partial_sum_fit.size(); i++){
+        cout << partial_sum_fit[i] << " ";
+    }
     int nb_ajout = 0;
     while( nb_ajout < nb_indiv ){
         int tirage = rand()%sum_fit; //int entre 0 et sum_fit
@@ -41,17 +49,19 @@ void Population::selection_elite( Population& pop, int nb_indiv ){
         pop.push_back((*this)[i]);
     }
 }
-void Population::selection( Population& pop, int nb_indiv){
+void Population::selection( Population& pop, int nb_indiv, Selection select){
     switch(select)
     {
     case Selection::ROULETTE:
+        cout << "*****Selection ROULETTE\n";
         selection_roulette(pop, nb_indiv);
         break;
     case Selection::ELITE:
+        cout << "*****Selection ELITE\n";
         selection_elite(pop, nb_indiv);
         break;
     default:
-        cerr << "Population::select = " << to_str(select) << "; invalid Seletion attribute " << endl;
+        cerr << "Population::select = invalid Selection attribute : " << to_str(select) << endl;
         exit(-1);
         break;    
     }

@@ -95,6 +95,7 @@ bool Solution::is_k_covered() const{
  * @return int 
  */
 int Solution::fitness() const{ 
+    //if(graph_capt.size()==0 || graph_com.size()==0) update_graphs();
     return nb_capteurs() + nb_connected_component()-1 + nb_captation_missed(); 
 }
 

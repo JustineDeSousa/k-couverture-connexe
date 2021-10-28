@@ -35,7 +35,7 @@ int main(){
     //cout << "OK" << endl;
 
     Solution::instance = &inst_tronc;
-    cout << endl << "TEST SOLUTION" << endl;
+    std::cout << endl << "TEST SOLUTION" << endl;
     Solution solution;
     Solution solution_t;
     cout << *(solution.instance) << endl;
@@ -77,17 +77,15 @@ int main(){
     
     cout << "\n\n***************************************** TEST POPULATION *****************************************" << endl;
     vector<Solution> solutions = {P1, P2, E1, E2};
-    Population pop(solutions, Selection::ROULETTE);
+    Population pop(solutions);
     cout << "Population de taille " << pop.size() << endl;
     int i=1;
-    for(Solution sol : pop){
-        cout << "sol " << i << " : " << sol << endl;
-        i++;
+    for(int i=0; i<pop.size(); i++){
+        pop[i].update_graphs();
+        cout << "sol " << i << "(" << pop[i].fitness() << ") : " << pop[i] << endl;
+        
     }
-    cout << "\nTEST POPULATION::SORT()\n";
-    pop.sort();
-    genetic_algo(pop, 0.1);
+    genetic_algo(pop, 1,Selection::ROULETTE,0.5);
     cout << "OK" << endl;  
 
-  
 }

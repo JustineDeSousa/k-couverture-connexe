@@ -19,11 +19,9 @@ static const string to_str (const Selection s){
     return "";
 }
 
-
 class Population : public vector<Solution>
 {
 private:
-    Selection select;
     Solution best;
     
     friend ostream& operator<<(ostream& stream, Population& pop);
@@ -32,8 +30,7 @@ public:
     /*****************************  CONSTRUCTORS *****************************/
     Population(){};
     // n = taille de la population = nbre d'individus
-    Population( vector<Solution>& solutions, Selection t) 
-                : vector<Solution>(solutions), select(t){};
+    Population( vector<Solution>& solutions) : vector<Solution>(solutions){};
     /*************************************************************************/
     /***************************** GETTERS *****************************/
     Solution best_individual() { update(); return best; };
@@ -46,7 +43,7 @@ public:
     void sort();
     void selection_roulette( Population& pop, int);
     void selection_elite( Population& pop, int);
-    void selection( Population& pop, int nb = 2);
+    void selection( Population& pop, int nb, Selection);
     /********************************************************************/
 
 };
