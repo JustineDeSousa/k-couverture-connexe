@@ -8,23 +8,24 @@
 class Solution : public vector<bool>
 {
 private:
-    const Instance* const instance; //const pointer to const object, neither the ptr nor object modifiable
     Graph graph_capt;
     Graph graph_com;
 
     friend ostream& operator<<(ostream& stream, const Solution &solution);
 
 public:
+    static const Instance* instance; //const pointer to const object, neither the ptr nor object modifiable
+
     /**************************************** CONSTRUCTORS ****************************************/
-    Solution(const Instance* const inst): vector<bool>(inst->size(),1), instance(inst){ (*this)[0] = 0; };
-    Solution(const vector<bool>& vec, const Instance* const inst): vector<bool>(vec), instance(inst) {};
+    Solution(): vector<bool>(instance->size(),1){ (*this)[0] = 0; };
+    Solution(const vector<bool>& vec): vector<bool>(vec) {};
     Solution(const Solution& solution, bool G);
     Solution& operator=(const Solution& solution); //TODO tester
 
     /**********************************************************************************************/
     /**************************************** GETTERS *********************************************/
     void bit_mask(vector<int>& result) const ;
-    const Instance* const get_instance() const {return instance;} ;
+    //const Instance* const get_instance() const {return instance;} ;
     Graph get_graph_capt() const {return graph_capt;}
     Graph get_graph_com() const {return graph_com;}
     /**********************************************************************************************/

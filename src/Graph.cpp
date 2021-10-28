@@ -9,7 +9,7 @@
  * @param sol solution
  */
 
-Graph::Graph(const Instance * const inst, vector<bool>& sol, Network network) : vector< set<int> >(sol.size()), graph_type(network) {
+Graph::Graph(const Instance * inst, vector<bool>& sol, Network network) : vector< set<int> >(sol.size()), graph_type(network) {
     switch (graph_type)
     {
     case Network::captation:
@@ -97,7 +97,7 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc) const{
     return all_cc.size();
 }
 
-void Graph::add_captor(const Instance * const inst, vector<bool>& sol, int v){
+void Graph::add_captor(const Instance * inst, vector<bool>& sol, int v){
     switch (graph_type)
     {
     case Network::captation:

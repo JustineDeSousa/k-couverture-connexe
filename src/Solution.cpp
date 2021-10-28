@@ -2,8 +2,13 @@
 
 /**************************************** CONSTRUCTORS ****************************************/
 
-Solution::Solution(const Solution& solution, bool G) : vector<bool>(solution), instance(solution.instance)
-{
+Solution::Solution(const Solution& solution, bool G)
+{   
+    for (int i = 0; i < solution.size(); i++)
+    {
+        (*this)[i] = solution[i];
+    }
+    
     if(G){
     graph_capt = solution.graph_capt;
     graph_com = solution.graph_com;
@@ -126,9 +131,11 @@ void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& 
     P1.bit_mask(bits_to_corss);
     E1 = Solution(P1, false);
     E2 = Solution(P2, false);
+    cout << "E1" << E1 << endl;
+    cout << "E2" << E2 << endl;
 
     for (int bit : bits_to_corss)
-    {
+    {   cout << bit << ", " ;
         E1[bit] = P2[bit];
         E2[bit] = P1[bit];
     }

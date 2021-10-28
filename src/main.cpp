@@ -14,6 +14,19 @@ using namespace std;
 int main(){
     srand (static_cast <unsigned> (time(0)));
 
+    //cout << endl << "TEST INSTANCE ALEA" << endl;
+    //instance_name = "captANOR150_7_4";
+    //Instance_alea inst_alea(instance_name);
+    //cout << "inst_alea.size() = " << inst_alea.size() << endl;
+    //cout << "inst_alea : " << inst_alea << endl;
+    //cout << "OK" << endl;
+
+    //cout << endl << "TEST SOLUTION(Instance_alea*)" << endl;
+    //Solution solution_1();
+    // cout << solution_1 << endl;
+    //cout << "OK" << endl;
+
+
     
     //cout << endl << "TEST INSTANCE TRONQUEE" << endl;
     string instance_name = "grille1010_1";
@@ -22,24 +35,14 @@ int main(){
     //cout << "inst_tronc : " << inst_tronc << endl;
     //cout << "OK" << endl;
 
-    //cout << endl << "TEST INSTANCE ALEA" << endl;
-    instance_name = "captANOR150_7_4";
-    Instance_alea inst_alea(instance_name);
-    //cout << "inst_alea.size() = " << inst_alea.size() << endl;
-    //cout << "inst_alea : " << inst_alea << endl;
-    //cout << "OK" << endl;
-
-
+    Solution::instance = &inst_tronc;
     cout << endl << "TEST SOLUTION(Instance_tronc*)" << endl;
-    Solution solution(&inst_tronc);
-    Solution solution_t(&inst_tronc);
+    Solution solution;
+    Solution solution_t;
     cout << solution << endl;
     cout << "OK" << endl;
 
-    cout << endl << "TEST SOLUTION(Instance_alea*)" << endl;
-    Solution solution_1(&inst_alea);
-    // cout << solution_1 << endl;
-    cout << "OK" << endl;
+
 
 
 /*
@@ -75,16 +78,16 @@ int main(){
     cout << "TEST CROSS OVER"<< endl;
     vector<bool> v1(solution.size(), 0);
     vector<bool> v2(solution.size(), 1);
-    Solution P1(v1, &inst_tronc);
-    Solution P2(v2, &inst_tronc);
-    Solution E1(&inst_tronc);
-    Solution E2(&inst_tronc);
+    Solution P1(v1);
+    Solution P2(v2);
+    Solution E1;
+    Solution E2;
     cout << P1 << endl;
     cout << P2 << endl;
 
     cross_over(P1, P2, E1, E2);
-    cout <<"E1 : " << E1<< endl;
-    cout << "E2 : "<< E2 << endl;
+    cout << endl <<"E1 : " << E1<< endl;
+    cout << endl << "E2 : "<< E2 << endl;
 
 
   
