@@ -1,8 +1,6 @@
-#include "Solution.hpp"
+#include "../include/Solution.hpp"
 
-/**********************************/
-/******* fonctions membres *******/
-/**********************************/
+/**************************************** CONSTRUCTORS ****************************************/
 Solution::Solution(const Solution& solution) : vector<bool>(solution), instance(solution.instance)
 {
     graph_capt = solution.graph_capt;
@@ -14,63 +12,65 @@ Solution& Solution::operator=(const Solution& solution){
     graph_com = solution.graph_com;
     return *this;
 }
+/**********************************************************************************************/
+/******************************** OPERATIONS DE GRAPHE ****************************************/
+void Solution::update_graphs(int t){
+    if((*this)[t]){ // we add a captor
+        graph_com.add_captor(instance, *this, t);
+        graph_capt.add_captor(instance, *this, t);
+    }else{
+        graph_capt.supprime_captor(t);
+        graph_com.supprime_captor(t);
+    }
+}
+void Solution::update_graphs(){
+    graph_capt = Graph(instance, *this, Network::captation); 
+    graph_com = Graph(instance, *this, communication);
+}
+/**********************************************************************************************/
 /*********************** EVALUATION DE LA SOLUTION ***********************/
-bool Solution::operator<(const Solution& solution){
+bool Solution::operator<(const Solution& solution) const{
     return fitness() < solution.fitness();
 }
-int Solution::nb_connexite() const{
-    //A ECRIRE
-    return 0;
+int Solution::captation(int i) const{
+    return graph_capt[i].size();
 }
-int Solution::nb_couverture(int i) const{
-    //A ECRIRE
-    return 0;
-}
-vector<int> Solution::nb_couverture() const{
+vector<int> Solution::captation() const{
     vector<int> result;
     for(uint i=0; i<size(); i++){
-        result.push_back(nb_couverture(i));
+        result.push_back(captation(i));
     }
     return result;
 }
+int Solution::nb_captation() const{
+    int sum_deg = 0;
+    for (int i=1; i<instance->size(); i++)// we don't consider the k-coverage for the sink
+    {
+        sum_deg += graph_capt[i].size();
+    }
+    return size()*instance->k() - sum_deg;
+}
 bool Solution::is_k_covered() const{
-    for(int elmt : nb_couverture()){
+    for(int elmt : captation()){
         if( elmt < instance->k() ) return false;
     }
     return true;
 }
 int Solution::fitness() const{ 
-    return nb_capteurs() + nb_connexite() + instance->k()*size() 
-    - accumulate(nb_couverture().begin(),nb_couverture().end(),0); 
+    return nb_capteurs() + nb_connected_component() + nb_captation(); 
 }
-void Solution::update_graphs(int t){
-    if((*this)[t]){ // we add a captor
-        Graph_com.add_captor(instance, (*this), t);
-        Graph_capt.add_captor(instance, (*this), t);
-    }else{
-        Graph_capt.supprime_captor(t);
-        Graph_com.supprime_captor(t);
-    }
-}
-
-
 /**************************************************************************/
-
 /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
-
-
 /**
  * @brief if G=true, we update also the vertex i in two graphs
  * 
- * @param i 
- * @param G 
+ * @param i = cibles à changer
+ * @param G = true si on va faire une selection
  */
 void Solution::reverse(int i, bool G){
     (*this)[i] = !(*this)[i]; 
     if(G) update_graphs(i);
 };
-
-
 void Solution::mutation(float mut_rate){
     float p = rand()/RAND_MAX;
     if( p <= mut_rate ){
@@ -78,33 +78,15 @@ void Solution::mutation(float mut_rate){
         reverse(bit_to_reverse, false);
     }
 }
-
-
-/**************************************************************************/
-
-/**********************************/
-/******* fonctions externes *******/
-/**********************************/
-
-/******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
 // Renvoie les deux enfants E1 et E2 issus du cross_over de P1 et P2
 pair<Solution,Solution> cross_over(Solution P1, Solution P2){
     Solution E1(P1);
     Solution E2(P2);
-<<<<<<< HEAD
-    
-=======
     //TODO
->>>>>>> main
 
     return make_pair(E1,E2);
 }
 /**************************************************************************/
-
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 /******************************** AFFICHAGE *******************************/
 ostream& operator<<(ostream& stream, const Solution& solution){
     stream << "Solution (taille " << solution.size() << ")" << endl;
@@ -115,16 +97,4 @@ ostream& operator<<(ostream& stream, const Solution& solution){
     }
     return stream << "}" << endl;
 }
-<<<<<<< HEAD
 /**************************************************************************/
-=======
-/**************************************************************************/
-
-
-
-
-
-void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& E2){
-    
-}
->>>>>>> main
