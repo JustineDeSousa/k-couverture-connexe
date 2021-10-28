@@ -13,52 +13,34 @@ void Population::update(){
     Solution best((*this)[0]);
 }
 /*******************************************************************/
-//genetic algo
-void Population::selection_roulette( Population& pop, int nb_indiv ){
-    assert(pop.size() == 0);
-    int sum_fit = 0;
+/******************** GENETIC ALGO *********************************/
+void Population::selection_roulette( Population& pop, int nb_indiv){
+    sort();
+    vector<int> fit;
     for( Solution sol : pop){
-        sum_fit += sol.fitness();
+        fit.push_back( sol.fitness() );
     }
-    for( Solution sol : pop){
-        double p = (double)rand() / (double)RAND_MAX ;;
-        if( p <= sol.fitness() / sum_fit){
-            pop.push_back(sol);
+    int sum_fit = accumulate(fit.begin(), fit.end(), 0);
+    vector<int> partial_sum_fit;
+    partial_sum(fit.begin(), fit.end(), partial_sum_fit);
+    int nb_ajout = 0;
+    while( nb_ajout < nb_indiv ){
+        int tirage = rand()%sum_fit; //int entre 0 et sum_fit
+        for(int i=0; i<size(); i++){
+            if( tirage <= partial_sum_fit[i] ){
+            pop.push_back((*this)[0]);
+            nb_ajout ++;
+            break;
+            }
         }
     }
 }
-// void Population::selection_roulette( Population& pop, int nb_indiv){
-//     vector<int> fit();
-//     for( Solution sol : pop){
-//         sum_fit += sol.fitness();
-//     }
-//     int nb_ajout = 0;
-//     while( nb_ajout < nb_indiv ){
-//         int tirage = rand()%sum_fit; //int entre 0 et sum_fit
-//         if( tirage <= (*this)[0].fitness() ){
-//             pop.push_back((*this)[0]);
-//         }else if( tirage <= ){
-
-//         }
-//     }
-//     for( Solution sol : pop){
-//         double p = (double)rand() / (double)RAND_MAX ;;
-//         if( p <= sol.fitness() / sum_fit){
-//             pop.push_back(sol);
-//         }
-//     }
-// }
-
-
-
 void Population::selection_elite( Population& pop, int nb_indiv ){
     sort();
     for(int i=0; i<nb_indiv; i++){
         pop.push_back((*this)[i]);
     }
 }
-
-
 void Population::selection( Population& pop, int nb_indiv){
     switch(select)
     {
@@ -69,17 +51,13 @@ void Population::selection( Population& pop, int nb_indiv){
         selection_elite(pop, nb_indiv);
         break;
     default:
-        cerr << "Population::select = " << to_str(select) << "; invalid Type_seletion attribute " << endl;
+        cerr << "Population::select = " << to_str(select) << "; invalid Seletion attribute " << endl;
         exit(-1);
         break;    
     }
 }
-
-
-/**********************************/
-/******* fonctions externes *******/
-/**********************************/
-
+/*******************************************************************/
+/******************** AFFICHAGE ************************************/
 
 ostream& operator <<(ostream& stream, Population& pop){
     stream << "Population : (" << pop.size() << " individus) [ " << endl;

@@ -42,21 +42,6 @@ int main(){
     cout << solution << endl;
     cout << "OK" << endl;
 
-
-
-
-/*
-    cout << "TEST POPULATION(solutions)" << endl;
-    vector<Solution> solutions = {solution, solution_t};
-    Population parents(solutions, Selection::ELITE);
-    cout << parents << endl;
-    Population enfants(&inst_tronc);
-    parents.selection(enfants);
-    cout << "OK" << endl;  
-*/
-
-
-
     cout << endl << "TEST GRAPHS(Instance_tronc*)" << endl;
     solution.update_graphs();
     cout << solution.get_graph_capt() << endl;
@@ -86,12 +71,18 @@ int main(){
     cout << P1 << endl;
     cout << P2 << endl;
 
-    cout << "here  CROSS OVER" << endl;
-
     cross_over(P1, P2, E1, E2);
-    cout << endl <<"E1 : " << E1<< endl;
-    cout << endl << "E2 : "<< E2 << endl;
+    cout << endl << "E1 : " << E1 << endl;
+    cout << endl << "E2 : " << E2 << endl;
 
+    
+    cout << "TEST POPULATION" << endl;
+    vector<Solution> solutions = {P1, P2, E1, E2};
+    Population parents(solutions, Selection::ELITE);
+    cout << parents << endl;
+    Population enfants;
+    parents.selection(enfants);
+    cout << "OK" << endl;  
 
   
 }
