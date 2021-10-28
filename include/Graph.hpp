@@ -5,7 +5,6 @@
 #include "Solution.hpp"
 
 
-
 class Graph : public vector< set<int> >
 {
 private:
@@ -14,6 +13,7 @@ private:
 public:
     /**************************************** CONSTRUCTORS ****************************************/
     Graph(Network network = communication, int n=0) : vector< set<int> >(n), graph_type(network){};
+    
     Graph(Solution& sol, Network network);
     /**********************************************************************************************/
     /**************************************** GETTERS *********************************************/
