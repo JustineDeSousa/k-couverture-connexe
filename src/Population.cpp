@@ -14,8 +14,7 @@ void Population::update(){
 }
 /*******************************************************************/
 //genetic algo
-
-void Population::selection_roulette( Population& pop ){
+void Population::selection_roulette( Population& pop, int nb_indiv ){
     assert(pop.size() == 0);
     int sum_fit = 0;
     for( Solution sol : pop){
@@ -28,25 +27,46 @@ void Population::selection_roulette( Population& pop ){
         }
     }
 }
+// void Population::selection_roulette( Population& pop, int nb_indiv){
+//     vector<int> fit();
+//     for( Solution sol : pop){
+//         sum_fit += sol.fitness();
+//     }
+//     int nb_ajout = 0;
+//     while( nb_ajout < nb_indiv ){
+//         int tirage = rand()%sum_fit; //int entre 0 et sum_fit
+//         if( tirage <= (*this)[0].fitness() ){
+//             pop.push_back((*this)[0]);
+//         }else if( tirage <= ){
+
+//         }
+//     }
+//     for( Solution sol : pop){
+//         double p = (double)rand() / (double)RAND_MAX ;;
+//         if( p <= sol.fitness() / sum_fit){
+//             pop.push_back(sol);
+//         }
+//     }
+// }
 
 
 
-void Population::selection_elite( Population& pop, int nb_enf ){
+void Population::selection_elite( Population& pop, int nb_indiv ){
     sort();
-    for(int i=0; i<nb_enf; i++){
+    for(int i=0; i<nb_indiv; i++){
         pop.push_back((*this)[i]);
     }
 }
 
 
-void Population::selection( Population& pop, int nb_enf){
+void Population::selection( Population& pop, int nb_indiv){
     switch(select)
     {
     case Selection::ROULETTE:
-        selection_roulette(pop);
+        selection_roulette(pop, nb_indiv);
         break;
     case Selection::ELITE:
-        selection_elite(pop, nb_enf);
+        selection_elite(pop, nb_indiv);
         break;
     default:
         cerr << "Population::select = " << to_str(select) << "; invalid Type_seletion attribute " << endl;

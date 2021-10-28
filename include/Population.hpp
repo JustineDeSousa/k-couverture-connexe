@@ -44,7 +44,7 @@ public:
     /*******************************************************************/
     /******************* OPERATIONS POUR SELECTION *********************/
     void sort() { std::sort( begin(), end() ); };
-    void selection_roulette( Population& pop);
+    void selection_roulette( Population& pop, int);
     void selection_elite( Population& pop, int);
     void selection( Population& pop, int nb = 2);
     /********************************************************************/
