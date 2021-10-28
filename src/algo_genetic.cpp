@@ -5,11 +5,11 @@ void new_generation(const Instance* const inst, Population& pop, int N, float re
     //Population initiale de taille N
 
     //Population de reproducteurs de taille rep_rate*N
-    Population parents(inst);
+    Population parents;
     pop.selection(parents,rep_rate*N);
 
     //Population enfant de taille (rep_rate*N)!
-    Population enfants(inst);
+    Population enfants;
     Solution E1, E2;
     for(Solution P1 : parents){
         for(Solution P2 : parents){
