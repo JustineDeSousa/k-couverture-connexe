@@ -7,6 +7,7 @@ Population::Population( vector<Solution>& solutions, Selection t) : vector<Solut
     Solution best( (*this)[0] );
 }
 /***************************** UPDATES *****************************/
+// TODO pop.update_best_solution()
 void update(Solution solution){
     Solution best( solution);
 }

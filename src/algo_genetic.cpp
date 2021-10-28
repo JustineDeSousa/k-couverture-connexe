@@ -1,6 +1,7 @@
 #include "../include/algo_genetic.hpp"
 
 void new_generation(const Instance* const inst, Population& pop, int N, float rep_rate){
+    //TODO garder le meilleur individu
     //Population initiale de taille N
 
     //Population de reproducteurs de taille rep_rate*N
@@ -9,7 +10,7 @@ void new_generation(const Instance* const inst, Population& pop, int N, float re
 
     //Population enfant de taille (rep_rate*N)!
     Population enfants(inst);
-    Solution E1(inst), E2(inst);
+    Solution E1, E2;
     for(Solution P1 : parents){
         for(Solution P2 : parents){
             if( P1 == P2) continue;

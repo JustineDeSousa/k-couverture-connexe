@@ -12,7 +12,7 @@
 Graph::Graph(const Instance * const inst, vector<bool>& sol, Network network) : vector< set<int> >(sol.size()), graph_type(network) {
     switch (graph_type)
     {
-    case captation:
+    case Network::captation:
         // we don't consider the captation for the sink
         for (int i=1; i<size(); i++) {
             for(int j=1; j< size(); j++){
@@ -21,7 +21,7 @@ Graph::Graph(const Instance * const inst, vector<bool>& sol, Network network) : 
             }
         }
         break;
-    case communication:
+    case Network::communication:
         for (int i=0; i<size(); i++) {
             if(!sol[i] && i!=0) continue; // we only consider captors and the sink
 
@@ -100,7 +100,7 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc) const{
 void Graph::add_captor(const Instance * const inst, vector<bool>& sol, int v){
     switch (graph_type)
     {
-    case captation:
+    case Network::captation:
         for (uint i=1; i<size(); i++) // we dont consider the sink
         {
             if(inst->capt_linked(v, i)) {
@@ -111,7 +111,7 @@ void Graph::add_captor(const Instance * const inst, vector<bool>& sol, int v){
             }
         }
         break;
-    case communication:
+    case Network::communication:
         for (uint i=0; i<size(); i++) {
             if(!sol[i] && i!=0) continue; // we only consider captors and the sink
             if( v == i) continue; // we don't add edge to itself
@@ -132,13 +132,13 @@ void Graph::add_captor(const Instance * const inst, vector<bool>& sol, int v){
 void Graph::supprime_captor(int v){
     switch (graph_type)
     {
-    case captation:
+    case Network::captation:
         for (int i=0; i<size(); i++) // we dont consider the sink
         {
             (*this)[i].erase(v);
         }
         break;
-    case communication:
+    case Network::communication:
         for (int i=0; i<size(); i++) // we dont consider the sink
         {   
             if(i == v){
@@ -167,11 +167,11 @@ void Graph::supprime_captor(int v){
 ostream& operator<<(ostream& stream, const Graph& graph){
     switch (graph.type())
     {
-    case captation:
+    case Network::captation:
         stream << "Graph captation : {" << endl;
         break;
     
-    case communication:
+    case Network::communication:
         stream << "Graph communication : {" << endl;
         break;
     
@@ -180,7 +180,9 @@ ostream& operator<<(ostream& stream, const Graph& graph){
         exit(-1);
         break;
     }
+    int i = 0;
     for(auto sommet : graph){
+        stream << i++ << " : [ ";
         for(int voisin : sommet){
             stream << voisin << ", ";
         }

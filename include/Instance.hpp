@@ -12,7 +12,8 @@
 #include <assert.h>
 #include <algorithm>
 #include <queue>
-#include <time.h>
+#include <cstdlib>
+#include <ctime>
 
 typedef unsigned int uint;
 using namespace std;
@@ -53,7 +54,7 @@ public:
     bool com_linked(int i, int j) const { return (*this)[i][j] <= R_com; };
     //Renvoie l'ensemble des cibles contenues dans le carré de taille width avec
     //coin supérieur gauche = (x,y)
-    virtual vector<int> bit_mask(float x, float y) = 0;
+    virtual void bit_mask(float x, float y, vector<int>& result) const = 0;
     /**************************************************************************/
 
     //Affichage

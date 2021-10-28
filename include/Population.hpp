@@ -30,14 +30,16 @@ private:
 
 public:
     /*****************************  CONSTRUCTORS *****************************/
+    // n = taille de la population = nbre d'individus
     Population(const Instance* const inst, int n=0, Selection t=Selection::ROULETTE) 
-                : vector<Solution>(n,Solution(inst)), select(t), best(inst){};
+                : vector<Solution>(n,Solution()), select(t), best(){};
     Population( vector<Solution>& solutions, Selection t=Selection::ROULETTE);
     /*************************************************************************/
     /***************************** GETTERS *****************************/
     Solution best_individual() const { return best; };
     /*******************************************************************/
     /***************************** UPDATES *****************************/
+    // Mise à jour de best
     void update(Solution solution);
     /*******************************************************************/
     /******************* OPERATIONS POUR SELECTION *********************/

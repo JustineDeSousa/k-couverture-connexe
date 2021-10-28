@@ -1,11 +1,13 @@
 #include "../include/Solution.hpp"
 
 /**************************************** CONSTRUCTORS ****************************************/
-// Solution::Solution(const Solution& solution) : vector<bool>(solution), instance(solution.instance)
-// {
-//     graph_capt = solution.graph_capt;
-//     graph_com = solution.graph_com;
-// }
+Solution::Solution(const Solution& solution, bool G) : vector<bool>(solution)
+{
+    if(G){
+    graph_capt = solution.graph_capt;
+    graph_com = solution.graph_com;
+    }
+}
 Solution& Solution::operator=(const Solution& solution){
     if(this == &solution) return *this;
     graph_capt = solution.graph_capt;
@@ -42,22 +44,29 @@ vector<int> Solution::captation() const{
     }
     return result;
 }
-int Solution::nb_captation() const{
-    int sum_deg = 0;
-    for (int i=1; i<instance->size(); i++)// we don't consider the k-coverage for the sink
+/**
+ * @brief Return the total number of missed captors for each targets
+ * 
+ * @return int 
+ */
+int Solution::nb_captation_missed() const{
+    int missed = 0;
+    for (int i=1; i<size(); i++)// we don't consider the k-coverage for the sink
     {
-        sum_deg += graph_capt[i].size();
+        if(graph_capt.degree(i) < instance->k()){
+            missed += instance->k() - graph_capt.degree(i);
+        }
     }
-    return size()*instance->k() - sum_deg;
+    return missed;
 }
 bool Solution::is_k_covered() const{
-    for(int elmt : captation()){
-        if( elmt < instance->k() ) return false;
+    for (int i = 1; i < size(); i++){
+        if(graph_capt.degree(i) < instance->k()) return false;
     }
     return true;
 }
 int Solution::fitness() const{ 
-    return nb_capteurs() + nb_connected_component() + nb_captation(); 
+    return nb_capteurs() + nb_connected_component()-1 + nb_captation_missed(); 
 }
 /**************************************************************************/
 /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
@@ -72,19 +81,23 @@ void Solution::reverse(int i, bool G){
     if(G) update_graphs(i);
 };
 void Solution::mutation(float mut_rate){
-    float p = rand()/RAND_MAX;
+    float p = static_cast <float> (rand()) / static_cast <float> (RAND_MAX); // between 0.0 and 1.0
     if( p <= mut_rate ){
-        int bit_to_reverse = rand() % size();
+        int min_ = 0; int max_=size()-1;
+        int bit_to_reverse =  rand()%(max_-min_ + 1) + min_; // a position between 0 and size()-1
         reverse(bit_to_reverse, false);
     }
 }
 // Renvoie les deux enfants E1 et E2 issus du cross_over de P1 et P2
-pair<Solution,Solution> cross_over(Solution P1, Solution P2){
-    Solution E1(P1);
-    Solution E2(P2);
-    //TODO
+void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& E2){
+    vector<int> bits_to_cross;
+    P1.bit_mask(bits_to_cross);
 
-    return make_pair(E1,E2);
+    for (int bit : bits_to_cross)
+    {
+        E1[bit] = P2[bit];
+        E2[bit] = P1[bit];
+    }
 }
 /**************************************************************************/
 /******************************** AFFICHAGE *******************************/
