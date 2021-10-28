@@ -24,25 +24,32 @@ class Population : public vector<Solution>
 {
 private:
     Selection select;
-    void selection_roulette( Population& pop);
-    void selection_elite( Population& pop, int);
-
+    Solution best;
+    
     friend ostream& operator<<(ostream& stream, Population& pop);
 
 public:
-    Population(const Instance* const inst, int n=0, Selection t=Selection::ROULETTE) 
-                : vector<Solution>(n,Solution()), select(t){};
+    /*****************************  CONSTRUCTORS *****************************/
+    // n = taille de la population = nbre d'individus
     Population( vector<Solution> solutions, Selection t=Selection::ROULETTE): 
                 vector<Solution>(solutions), select(t){};
-
-    /******************* OPERATIONS POUR SELECTION *******************/
+    Population( vector<Solution>& solutions, Selection t=Selection::ROULETTE);
+    /*************************************************************************/
+    /***************************** GETTERS *****************************/
+    Solution best_individual() const { return best; };
+    /*******************************************************************/
+    /***************************** UPDATES *****************************/
+    // Mise à jour de best
+    void update();
+    /*******************************************************************/
+    /******************* OPERATIONS POUR SELECTION *********************/
+    void sort() { std::sort( begin(), end() ); };
+    void selection_roulette( Population& pop, int);
+    void selection_elite( Population& pop, int);
     void selection( Population& pop, int nb = 2);
-    /******************************************************************/
+    /********************************************************************/
 
 };
-
-// fonction externe
-ostream& operator<<(ostream& stream, Population& pop);
 
 
 #endif
