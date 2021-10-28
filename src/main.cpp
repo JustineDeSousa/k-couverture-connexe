@@ -4,8 +4,7 @@
 #include "../include/Instance_alea.hpp"
 #include "../include/Solution.hpp"
 #include "../include/Population.hpp"
-#include <cstdlib>
-#include <ctime>
+#include "../include/algo_genetic.hpp"
 
 using namespace std;
 
@@ -36,22 +35,22 @@ int main(){
     //cout << "OK" << endl;
 
     Solution::instance = &inst_tronc;
-    cout << endl << "TEST SOLUTION(Instance_tronc*)" << endl;
+    cout << endl << "TEST SOLUTION" << endl;
     Solution solution;
     Solution solution_t;
-    cout << solution << endl;
+    cout << *(solution.instance) << endl;
     cout << "OK" << endl;
 
     cout << endl << "TEST GRAPHS(Instance_tronc*)" << endl;
     solution.update_graphs();
-    cout << solution.get_graph_capt() << endl;
-    cout << solution.get_graph_com() << endl;
+    // cout << solution.get_graph_capt() << endl;
+    // cout << solution.get_graph_com() << endl;
 
 
     cout<<endl <<" TEST solution.reverse(5, true) "<< endl;
     solution.reverse(5, true);
-    cout << solution.get_graph_capt() << endl;
-    cout << solution.get_graph_com() << endl;
+    // cout << solution.get_graph_capt() << endl;
+    // cout << solution.get_graph_com() << endl;
 
     cout << "solution.is_graph_com_connected() : "<< solution.is_graph_com_connected() << endl;
     cout << " solution.nb_connected_component : " << solution.nb_connected_component() << endl;
@@ -68,20 +67,25 @@ int main(){
 
     Solution E1(P1, false);
     Solution E2(P2, false);
-    cout << P1 << endl;
-    cout << P2 << endl;
+    // cout << P1 << endl;
+    // cout << P2 << endl;
 
     cross_over(P1, P2, E1, E2);
-    cout << endl << "E1 : " << E1 << endl;
-    cout << endl << "E2 : " << E2 << endl;
+    // cout << endl << "E1 : " << E1 << endl;
+    // cout << endl << "E2 : " << E2 << endl;
 
     
-    cout << "TEST POPULATION" << endl;
+    cout << "\n\n***************************************** TEST POPULATION *****************************************" << endl;
     vector<Solution> solutions = {P1, P2, E1, E2};
-    Population parents(solutions, Selection::ELITE);
-    cout << parents << endl;
-    Population enfants;
-    parents.selection(enfants);
+    Population pop(solutions, Selection::ROULETTE);
+    cout << "Population de taille " << pop.size() << endl;
+    int i=1;
+    for(Solution sol : pop){
+        cout << "sol " << i << " : " << sol << endl;
+        i++;
+    }
+    pop.sort();
+    genetic_algo(pop, 0.1);
     cout << "OK" << endl;  
 
   

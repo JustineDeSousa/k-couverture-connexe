@@ -1,11 +1,7 @@
 #include "../include/Population.hpp"
 
 
-Population::Population( vector<Solution>& solutions, Selection t) : vector<Solution>(solutions), select(t)
-{
-    sort();
-    Solution best( (*this)[0] );
-}
+
 /***************************** UPDATES *****************************/
 // TODO pop.update_best_solution()
 void Population::update(){
@@ -22,11 +18,11 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
     }
     int sum_fit = accumulate(fit.begin(), fit.end(), 0);
     vector<int> partial_sum_fit;
-    partial_sum(fit.begin(), fit.end(), partial_sum_fit);
+    partial_sum(fit.begin(), fit.end(), partial_sum_fit.begin());
     int nb_ajout = 0;
     while( nb_ajout < nb_indiv ){
         int tirage = rand()%sum_fit; //int entre 0 et sum_fit
-        for(int i=0; i<size(); i++){
+        for(uint i=0; i<size(); i++){
             if( tirage <= partial_sum_fit[i] ){
             pop.push_back((*this)[0]);
             nb_ajout ++;
