@@ -34,6 +34,7 @@ public:
     Population( vector<Solution> solutions, Selection t=Selection::ROULETTE): 
                 vector<Solution>(solutions), select(t){};
     Population( vector<Solution>& solutions, Selection t=Selection::ROULETTE);
+    Population(){};
     /*************************************************************************/
     /***************************** GETTERS *****************************/
     Solution best_individual() const { return best; };
