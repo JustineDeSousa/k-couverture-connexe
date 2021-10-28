@@ -14,8 +14,8 @@ private:
 public:
     /**************************************** CONSTRUCTORS ****************************************/
     Graph(){};
-    Graph(Network network = communication, int n=0) : vector< set<int> >(n), graph_type(network){};
-    Graph(Solution& sol, Network network);
+    //Graph(Network network = communication, int n=0) : vector< set<int> >(n), graph_type(network){};
+    Graph(const Instance * const inst, vector<bool>& sol, Network network);
     /**********************************************************************************************/
     /**************************************** GETTERS *********************************************/
     Network type() const {return graph_type;};
