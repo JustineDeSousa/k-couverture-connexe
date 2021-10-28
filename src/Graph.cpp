@@ -38,6 +38,21 @@ Graph::Graph(const Instance * inst, vector<bool>& sol, Network network) : vector
         break;
     }
 }
+
+
+
+Graph& Graph::operator=(const Graph& graph){
+    if(this == &graph) return *this;
+    
+    if(this->size() == 0 ) this->reserve(graph.size());
+    for (int i = 0; i < graph.size(); i++)
+    {
+        (*this)[i] = graph[i];
+    }
+    
+    graph_type = graph.type();
+    return *this;
+}
 /**********************************************************************************************/
 /******************************** OPERATIONS DE GRAPHE ****************************************/
 /**

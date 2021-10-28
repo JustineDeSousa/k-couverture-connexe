@@ -16,6 +16,7 @@ public:
     Graph(){}; // permet d'avoir un objet vraiment vide
 
     Graph(const Instance * inst, vector<bool>& sol, Network network);
+    Graph& operator=(const Graph& graph);
     /**********************************************************************************************/
     /**************************************** GETTERS *********************************************/
     Network type() const {return graph_type;};
