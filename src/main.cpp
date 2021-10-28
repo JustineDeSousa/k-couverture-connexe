@@ -84,6 +84,7 @@ int main(){
         cout << "sol " << i << " : " << sol << endl;
         i++;
     }
+    cout << "\nTEST POPULATION::SORT()\n";
     pop.sort();
     genetic_algo(pop, 0.1);
     cout << "OK" << endl;  

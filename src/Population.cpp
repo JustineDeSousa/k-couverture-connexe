@@ -9,7 +9,11 @@ void Population::update(){
     Solution best((*this)[0]);
 }
 /*******************************************************************/
-/******************** GENETIC ALGO *********************************/
+/******************** FONCTIONS SELECTION *********************************/
+void Population::sort(){
+     cout << "Population::sort()" << endl; 
+     std::sort( begin(), end() );
+}
 void Population::selection_roulette( Population& pop, int nb_indiv){
     sort();
     vector<int> fit;

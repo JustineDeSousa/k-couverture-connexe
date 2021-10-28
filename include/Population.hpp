@@ -43,7 +43,7 @@ public:
     void update();
     /*******************************************************************/
     /******************* OPERATIONS POUR SELECTION *********************/
-    void sort() { std::sort( begin(), end() ); };
+    void sort();
     void selection_roulette( Population& pop, int);
     void selection_elite( Population& pop, int);
     void selection( Population& pop, int nb = 2);
