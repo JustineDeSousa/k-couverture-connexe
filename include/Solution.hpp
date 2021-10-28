@@ -18,7 +18,7 @@ public:
 
     static const Instance* instance; //const pointer to const object, neither the ptr nor object modifiable
     /**************************************** CONSTRUCTORS ****************************************/
-    Solution(): vector<bool>(instance->size(),1){ (*this)[0] = 0; };
+    Solution(): vector<bool>(Solution::instance->size(),1){ (*this)[0] = 0; };
     Solution(const vector<bool>& vec): vector<bool>(vec) {};
     Solution(const Solution& solution, bool G);
     Solution& operator=(const Solution& solution); //TODO tester

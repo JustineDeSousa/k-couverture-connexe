@@ -26,16 +26,16 @@ void Solution::bit_mask(vector<int>& result) const{
 /******************************** OPERATIONS DE GRAPHE ****************************************/
 void Solution::update_graphs(int t){
     if((*this)[t]){ // we add a captor
-        graph_com.add_captor(instance, *this, t);
-        graph_capt.add_captor(instance, *this, t);
+        graph_com.add_captor(Solution::instance, *this, t);
+        graph_capt.add_captor(Solution::instance, *this, t);
     }else{
         graph_capt.supprime_captor(t);
         graph_com.supprime_captor(t);
     }
 }
 void Solution::update_graphs(){
-    graph_capt = Graph(instance, *this, Network::captation); 
-    graph_com = Graph(instance, *this, communication);
+    graph_capt = Graph(Solution::instance, *this, Network::captation); 
+    graph_com = Graph(Solution::instance, *this, communication);
 }
 /**********************************************************************************************/
 /*********************** EVALUATION DE LA SOLUTION ***********************/
@@ -62,14 +62,14 @@ int Solution::nb_captation_missed() const{
     for (int i=1; i<size(); i++)// we don't consider the k-coverage for the sink
     {
         if(graph_capt.degree(i) < instance->k()){
-            missed += instance->k() - graph_capt.degree(i);
+            missed += Solution::instance->k() - graph_capt.degree(i);
         }
     }
     return missed;
 }
 bool Solution::is_k_covered() const{
     for (int i = 1; i < size(); i++){
-        if(graph_capt.degree(i) < instance->k()) return false;
+        if(graph_capt.degree(i) < Solution::instance->k()) return false;
     }
     return true;
 }
@@ -114,7 +114,7 @@ ostream& operator<<(ostream& stream, const Solution& solution){
     stream << "{" << endl;
     for(uint i=0; i<solution.size(); i++){
         stream << solution[i] << "\t";
-        if( i%solution.instance->Grid_size()-1 == 0) stream << endl;
+        if( i%Solution::instance->Grid_size()-1 == 0) stream << endl;
     }
     return stream << "}" << endl;
 }
