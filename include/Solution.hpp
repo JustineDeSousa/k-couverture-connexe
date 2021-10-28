@@ -15,16 +15,18 @@ private:
     friend ostream& operator<<(ostream& stream, const Solution &solution);
 
 public:
+    /**************************************** CONSTRUCTORS ****************************************/
     Solution(const Instance* const inst): vector<bool>(inst->size(),1), instance(inst){ (*this)[0] = 0; };
     Solution& Solution::operator=(const Solution& solution);
-
+    /**********************************************************************************************/
     /**************************************** GETTERS *********************************************/
     const Instance* get_instance() const{ return instance; };
     Graph get_graph_capt() const {return graph_capt;}
     Graph get_graph_com() const {return graph_com;}
     /**********************************************************************************************/
     /******************************** OPERATIONS DE GRAPHE ****************************************/
-    void update_graphs(int t); // update the neighbourhood of target t
+    // update the neighbourhood of target t
+    void update_graphs(int t);
     void update_graphs() {graph_capt = Graph(*this, Network::captation); 
     graph_com = Graph(*this, communication);};
     /**********************************************************************************************/
@@ -34,8 +36,9 @@ public:
     // return the number of connected component in the communication network 
     int nb_connected_component() const{ return graph_com.nb_connected_components(); };
     int captation(int i) const;
-    int k_capted() const;
-    bool is_k_covered() const{return k_capted() == 0 ;};
+    vector<int> captation() const;
+    int nb_captation() const;
+    bool is_k_covered() const;
     int fitness() const;
     bool Solution::operator<(const Solution& solution) const;
     /**************************************************************************/
