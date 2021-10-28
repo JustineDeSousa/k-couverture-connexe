@@ -55,10 +55,11 @@ Instance_tronc::Instance_tronc( const string instance_name, const int capt, cons
 /**************************************************************************/
 
 /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
-vector<int> Instance_tronc::bit_mask(float x, float y){
-    vector<int> result;
-    float width = 0.1*grid_size;
-    bool x_in, y_in = false;
+void Instance_tronc::bit_mask(float x, float y, vector<int>& result) const {
+    float width = 0.5*grid_size;
+    bool x_in = false;
+    bool y_in = false;
+
     for(uint i=0; i<cibles.size(); i++){
         x_in = cibles[i].first >= x && cibles[i].first <= x+width;
         y_in = cibles[i].second >= y && cibles[i].second <= y+width;
@@ -66,7 +67,6 @@ vector<int> Instance_tronc::bit_mask(float x, float y){
             result.push_back(i);
         }
     }
-    return result;
 }
 /**************************************************************************/
 

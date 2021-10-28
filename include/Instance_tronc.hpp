@@ -22,7 +22,7 @@ public:
     //Renvoie l'ensemble des cibles contenues dans le carré de taille width avec
     //coin supérieur droit = (x,y)
 
-    vector<int> bit_mask(float x, float y);
+    void bit_mask(float x, float y, vector<int>& result) const ;
 
     /**************************************************************************/
 };

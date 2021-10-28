@@ -1,64 +1,104 @@
 #include "../include/Solution.hpp"
 
 /**************************************** CONSTRUCTORS ****************************************/
-Solution::Solution(const Solution& solution) : vector<bool>(solution), instance(solution.instance)
-{
+
+Solution::Solution(const Solution& solution, bool G)
+{   
+    this->resize(solution.size());
+
+    for (int i = 0; i < solution.size(); i++)
+    {
+        (*this)[i] = solution[i];
+    }
+    
+    if(G){
     graph_capt = solution.graph_capt;
     graph_com = solution.graph_com;
+    }
 }
+
+
 Solution& Solution::operator=(const Solution& solution){
     if(this == &solution) return *this;
     graph_capt = solution.graph_capt;
     graph_com = solution.graph_com;
     return *this;
+    //TODO I think instance is empty
 }
+
 /**********************************************************************************************/
 /******************************** OPERATIONS DE GRAPHE ****************************************/
 void Solution::update_graphs(int t){
     if((*this)[t]){ // we add a captor
-        graph_com.add_captor(instance, *this, t);
-        graph_capt.add_captor(instance, *this, t);
+        graph_com.add_captor(Solution::instance, *this, t);
+        graph_capt.add_captor(Solution::instance, *this, t);
     }else{
         graph_capt.supprime_captor(t);
         graph_com.supprime_captor(t);
     }
 }
 void Solution::update_graphs(){
-    graph_capt = Graph(instance, *this, Network::captation); 
-    graph_com = Graph(instance, *this, communication);
+    graph_capt = Graph(Solution::instance, *this, Network::captation); 
+    graph_com = Graph(Solution::instance, *this, Network::communication);
 }
 /**********************************************************************************************/
 /*********************** EVALUATION DE LA SOLUTION ***********************/
 bool Solution::operator<(const Solution& solution) const{
     return fitness() < solution.fitness();
 }
+
+/**
+ * @brief Return the number of captors covering target i
+ * 
+ * @param i 
+ * @return int 
+ */
 int Solution::captation(int i) const{
     return graph_capt[i].size();
 }
-vector<int> Solution::captation() const{
-    vector<int> result;
-    for(uint i=0; i<size(); i++){
-        result.push_back(captation(i));
-    }
-    return result;
-}
-int Solution::nb_captation() const{
-    int sum_deg = 0;
-    for (int i=1; i<instance->size(); i++)// we don't consider the k-coverage for the sink
+
+
+/**
+ * @brief Return the total number of missed captors for each targets
+ * 
+ * @return int 
+ */
+int Solution::nb_captation_missed() const{
+    int missed = 0;
+    for (int i=1; i<size(); i++)// we don't consider the k-coverage for the sink
     {
-        sum_deg += graph_capt[i].size();
+        if(graph_capt.degree(i) < Solution::instance->k()){
+            missed += Solution::instance->k() - graph_capt.degree(i);
+        }
     }
-    return size()*instance->k() - sum_deg;
+    return missed;
 }
+
+/**
+ * @brief Return true if every target is covered by at least K captors
+ * 
+ * @return true 
+ * @return false 
+ */
 bool Solution::is_k_covered() const{
-    for(int elmt : captation()){
-        if( elmt < instance->k() ) return false;
+    for (int i = 1; i < size(); i++)
+    {
+        if(graph_capt.degree(i) < Solution::instance->k()) return false;
     }
+
     return true;
 }
+
+/**
+ * @brief Return the fitness value
+ * 
+ * @return int 
+ */
 int Solution::fitness() const{ 
-    return nb_capteurs() + nb_connected_component() + nb_captation(); 
+    return nb_capteurs() + nb_connected_component()-1 + nb_captation_missed(); 
 }
+
+
 /**************************************************************************/
 /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
 /**
@@ -72,19 +112,33 @@ void Solution::reverse(int i, bool G){
     if(G) update_graphs(i);
 };
 void Solution::mutation(float mut_rate){
-    float p = rand()/RAND_MAX;
+    float p = static_cast <float> (rand()) / static_cast <float> (RAND_MAX); // between 0.0 and 1.0
     if( p <= mut_rate ){
-        int bit_to_reverse = rand() % size();
+        int min_ = 0; int max_=size()-1;
+        int bit_to_reverse =  rand()%(max_-min_ + 1) + min_; // a position between 0 and size()-1
         reverse(bit_to_reverse, false);
     }
 }
-// Renvoie les deux enfants E1 et E2 issus du cross_over de P1 et P2
-pair<Solution,Solution> cross_over(Solution P1, Solution P2){
-    Solution E1(P1);
-    Solution E2(P2);
-    //TODO
 
-    return make_pair(E1,E2);
+
+void Solution::bit_mask(vector<int>& result) const{
+    // a random float between 0.0 and grid_size
+    float x = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/ Solution::instance->Grid_size()));
+    float y = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/ Solution::instance->Grid_size()));
+    Solution::instance->bit_mask(x, y, result);
+}
+// Renvoie les deux enfants E1 et E2 issus du cross_over de P1 et P2
+void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& E2){
+    vector<int> bits_to_corss;
+    P1.bit_mask(bits_to_corss);
+    cout << "hereS" << endl;
+
+    for (int bit : bits_to_corss)
+    {   cout << bit << ", " ;
+        E1[bit] = P2[bit];
+        E2[bit] = P1[bit];
+    }
+
 }
 /**************************************************************************/
 /******************************** AFFICHAGE *******************************/
@@ -93,7 +147,7 @@ ostream& operator<<(ostream& stream, const Solution& solution){
     stream << "{" << endl;
     for(uint i=0; i<solution.size(); i++){
         stream << solution[i] << "\t";
-        if( i%solution.instance->Grid_size()-1 == 0) stream << endl;
+        if( i%Solution::instance->Grid_size()-1 == 0) stream << endl;
     }
     return stream << "}" << endl;
 }
