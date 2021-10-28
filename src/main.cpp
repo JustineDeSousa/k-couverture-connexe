@@ -77,8 +77,8 @@ int main(){
     vector<bool> v2(solution.size(), 1);
     Solution P1(v1, &inst_tronc);
     Solution P2(v2, &inst_tronc);
-    Solution E1(P1, false);
-    Solution E2(P2, false);
+    Solution E1(&inst_tronc);
+    Solution E2(&inst_tronc);
     cout << P1 << endl;
     cout << P2 << endl;
 

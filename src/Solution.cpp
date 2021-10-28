@@ -124,8 +124,8 @@ void Solution::bit_mask(vector<int>& result) const{
 void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& E2){
     vector<int> bits_to_corss;
     P1.bit_mask(bits_to_corss);
-    //E1 = Solution(P1, false);
-    //E2 = Solution(P2, false);
+    E1 = Solution(P1, false);
+    E2 = Solution(P2, false);
 
     for (int bit : bits_to_corss)
     {
