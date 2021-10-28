@@ -14,17 +14,31 @@ Solution& Solution::operator=(const Solution& solution){
     graph_com = solution.graph_com;
     return *this;
 }
+void Solution::update_graphs() {
+    graph_capt = Graph(*this, Network::captation); 
+    graph_com = Graph(*this, Network::communication);
+}
 /*********************** EVALUATION DE LA SOLUTION ***********************/
-bool Solution::operator<(const Solution& solution){
+bool Solution::operator<(const Solution& solution) const{
     return fitness() < solution.fitness();
 }
-int Solution::nb_connexite() const{
-    //A ECRIRE
-    return 0;
+int Solution::captation(int i) const{
+    return graph_capt[i].size();
 }
-int Solution::nb_couverture(int i) const{
-    //A ECRIRE
-    return 0;
+
+
+
+int Solution::k_capted() const{
+    int acc = 0;
+
+    for (int i=1; i<instance->size(); i++)// we don't consider the k-coverage for the sink
+    {   
+        int degree = graph_capt[i].size();
+        if ( degree < instance->k() ) {
+            acc += instance->k() - degree;
+        }
+    }
+    return acc;
 }
 vector<int> Solution::nb_couverture() const{
     vector<int> result;
@@ -33,6 +47,7 @@ vector<int> Solution::nb_couverture() const{
     }
     return result;
 }
+
 bool Solution::is_k_covered() const{
     for(int elmt : nb_couverture()){
         if( elmt < instance->k() ) return false;
@@ -40,13 +55,13 @@ bool Solution::is_k_covered() const{
     return true;
 }
 int Solution::fitness() const{ 
-    return nb_capteurs() + nb_connexite() + instance->k()*size() 
+    return nb_capteurs() + nb_connected_component() + instance->k()*size() 
     - accumulate(nb_couverture().begin(),nb_couverture().end(),0); 
 }
 void Solution::update_graphs(int t){
     if((*this)[t]){ // we add a captor
-        Graph_com.add_captor(instance, (*this), t);
-        Graph_capt.add_captor(instance, (*this), t);
+        graph_com.add_captor(instance, (*this), t);
+        graph_capt.add_captor(instance, (*this), t);
     }else{
         Graph_capt.supprime_captor(t);
         Graph_com.supprime_captor(t);

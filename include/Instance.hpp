@@ -11,6 +11,7 @@
 #include <sstream>
 #include <assert.h>
 #include <algorithm>
+#include <queue>
 
 typedef unsigned int uint;
 using namespace std;

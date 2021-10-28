@@ -1,5 +1,6 @@
 #include "../include/Graph.hpp"
 
+/**************************************** CONSTRUCTORS ****************************************/
 /**
  * @brief Construct a new Graph<number>:: Graph object regarding to the given solution
  * 
@@ -8,127 +9,37 @@
  * @param sol solution
  */
 
-Graph::Graph(const Instance * const inst, vector<bool> & sol, Network network) : graph_type(network) {
-    int n = sol.size();
-
+Graph::Graph(Solution& sol, Network network) : Graph(network,sol.size()) {
     switch (graph_type)
     {
     case captation:
         // we don't consider the captation for the sink
-        list_adjacence = vector<set<int>>(n, set<int>());
-
-        for (int i = 1; i < n; i++) 
-        {
-
-            for(int j = 1; j< n; j++){
+        for (int i=1; i<size(); i++) {
+            for(int j=1; j< size(); j++){
                 if(!sol[j]) continue;
-                
-                if(inst->capt_linked(i, j)) list_adjacence[i].insert(j);
+                if(sol.get_instance()->capt_linked(i, j)) (*this)[i].insert(j);
             }
         }
         break;
-
-
     case communication:
-        list_adjacence = vector<set<int>>(n, set<int>());
-        for (int i = 0; i < n; i++) 
-        {
+        for (int i=0; i<size(); i++) {
             if(!sol[i] && i!=0) continue; // we only consider captors and the sink
 
-            for(int j = 0; j< n; j++){
-                if( j == i) continue;
-                if(!sol[j] ) continue;
-                
-                if(inst->com_linked(i, j)) list_adjacence[i].insert(j);
+            for(int j=0; j<size(); j++){
+                if( j == i ) continue;
+                if( !sol[j] ) continue;
+                if(sol.get_instance()->com_linked(i, j)) (*this)[i].insert(j);
             }
         }
         break;
-    
-    default:
-        cerr << "Invalid argument Network" << endl;
-        exit(-1);
-        break;
-    }
-
-}
-
-
-void Graph::add_captor(const Instance * const inst, vector<bool> & sol, int v){
-    int n = nb_vertices();
-
-    switch (graph_type)
-    {
-    case captation:
-        for (int i = 1; i < n; i++) // we dont consider the sink
-        {
-            if(inst->capt_linked(v, i)) {
-                // i is covered by captor v
-                list_adjacence[i].insert(v); 
-                // if i is also a captor, then v is covered by i as well
-                if(sol[i]) list_adjacence[v].insert(i);
-            }
-        }
-        break;
-
-
-    case communication:
-        for (int i = 0; i < n; i++) 
-        {
-            if(!sol[i] && i!=0) continue; // we only consider captors and the sink
-
-            if( v == i) continue; // we don't add edge to itself
-            
-            if(inst->com_linked(v, i)) {
-                list_adjacence[i].insert(v);
-                list_adjacence[v].insert(i);
-            }
-        }
-        break;
-    
     default:
         cerr << "Invalid argument Network" << endl;
         exit(-1);
         break;
     }
 }
-
-
-void Graph::supprime_captor(int v){
-    int n = nb_vertices();
-
-    switch (graph_type)
-    {
-    case captation:
-        for (int i = 0; i < n; i++) // we dont consider the sink
-        {
-            list_adjacence[i].erase(v);
-        }
-        break;
-
-
-    case communication:
-        for (int i = 0; i < n; i++) // we dont consider the sink
-        {   
-            if(i == v){
-                list_adjacence[i] = set<int>();
-            }else{list_adjacence[i].erase(v);}
-        }
-
-        break;
-    
-    default:
-        cerr << "Invalid argument Network" << endl;
-        exit(-1);
-        break;
-    }
-
-
-
-}
-
-
-
-
+/**********************************************************************************************/
+/******************************** OPERATIONS DE GRAPHE ****************************************/
 /**
  * @brief Find a connected component (set of vertices) explored by BFS from the departure
  * 
@@ -136,34 +47,28 @@ void Graph::supprime_captor(int v){
  * @param depart 
  * @param visited modified after the BFS
  */
-void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc){
-    int n = nb_vertices();
-    
+void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc) const{
     queue<int> myqueue;
     myqueue.push(depart);
 
-    if(visited.size() != n) {visited = vector<bool>(n, false);} 
-
-    while (!myqueue.empty()) // when there exists vertices to visit
+    if( visited.size()!=size() ) {
+        visited = vector<bool>(size(), false);
+    } 
+    while( !myqueue.empty() ) // when there exists vertices to visit
     {
         int v = myqueue.front();
         myqueue.pop();
-
         if(!visited[v]){ // if the first vertex in queue is not visited
             cc.push_back(v);
             visited[v] = true; // visit the vertex v
 
             // for each neighbour u of v, if u is not visited, add into the queue
-            for(int u : neighbours(v)){
+            for(int u : (*this)[v]){
                 if(!visited[u]) {myqueue.push(u);}
             }
-
         }
     }
 }
-
-
-
 /**
  * @brief While there exixts vertices non visited, we explore the graph communication by BFS.
  *  the number of calls BFS equals to the number of CC.
@@ -171,12 +76,11 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc){
  * @tparam number 
  * @return int the number of connected components in graph communication
  */
- int Graph::nb_connected_components(){
-    int n = nb_vertices();
-    vector<bool> visited(n, false);
+ int Graph::nb_connected_components() const{
+    vector<bool> visited(size(), false);
     set<vector<int>> all_cc;
 
-    for (int i = 0; i < n; i++)
+    for (int i=0; i<size(); i++)
     {
         if(!visited[i]) {
             vector<int> cc;
@@ -184,7 +88,6 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc){
             all_cc.insert(cc);
         }
     }
-
     for(bool v : visited){
         if(!v){
         cerr << "ERROR: still vertices unexplored ! " << endl;
@@ -194,9 +97,64 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc){
     return all_cc.size();
 }
 
+void Graph::add_captor(Solution& sol, int v){
+    switch (graph_type)
+    {
+    case captation:
+        for (uint i=1; i<size(); i++) // we dont consider the sink
+        {
+            if(sol.get_instance()->capt_linked(v, i)) {
+                // i is covered by captor v
+                (*this)[i].insert(v); 
+                // if i is also a captor, then v is covered by i as well
+                if(sol[i]) (*this)[v].insert(i);
+            }
+        }
+        break;
+    case communication:
+        for (uint i=0; i<size(); i++) {
+            if(!sol[i] && i!=0) continue; // we only consider captors and the sink
+            if( v == i) continue; // we don't add edge to itself
+            if(sol.get_instance()->com_linked(v, i)) {
+                (*this)[i].insert(v);
+                (*this)[v].insert(i);
+            }
+        }
+        break;
+    default:
+        cerr << "Invalid argument Network" << endl;
+        exit(-1);
+        break;
+    }
+}
 
 
-
+void Graph::supprime_captor(int v){
+    switch (graph_type)
+    {
+    case captation:
+        for (int i=0; i<size(); i++) // we dont consider the sink
+        {
+            (*this)[i].erase(v);
+        }
+        break;
+    case communication:
+        for (int i=0; i<size(); i++) // we dont consider the sink
+        {   
+            if(i == v){
+                (*this)[i] = set<int>();
+            }else{
+                (*this)[i].erase(v);
+            }
+        }
+        break;
+    default:
+        cerr << "Invalid argument Network" << endl;
+        exit(-1);
+        break;
+    }
+}
+/**********************************************************************************************/
 
 /**
  * @brief Fonction externe affichage
@@ -206,7 +164,7 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc){
  * @param graph 
  * @return ostream& 
  */
-ostream& operator <<(ostream& stream, const Graph& graph){
+ostream& operator<<(ostream& stream, const Graph& graph){
     switch (graph.type())
     {
     case captation:
@@ -222,19 +180,11 @@ ostream& operator <<(ostream& stream, const Graph& graph){
         exit(-1);
         break;
     }
-
-    vector<set<int>>::const_iterator it = graph.begin();
-    int i = 0;
-    for(; it != graph.end(); ++it){
-        stream << i++ << " : [ ";
-    
-        set<int>::const_iterator it_set = it->begin();
-        for(; it_set != it->end(); ++it_set){
-            stream << *it_set << ", ";
+    for(auto sommet : graph){
+        for(int voisin : sommet){
+            stream << voisin << ", ";
         }
-    
         stream << " ]; ";
     }
     return stream << endl;
-    
 }

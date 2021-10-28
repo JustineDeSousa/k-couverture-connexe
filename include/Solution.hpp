@@ -9,33 +9,36 @@ class Solution : public vector<bool>
 {
 private:
     const Instance* const instance; //const pointer to const object, neither the ptr nor object modifiable
-    Graph Graph_capt;
-    Graph Graph_com;
+    Graph graph_capt;
+    Graph graph_com;
 
     friend ostream& operator<<(ostream& stream, const Solution &solution);
 
 public:
     Solution(const Instance* const inst): vector<bool>(inst->size(),1), instance(inst){ (*this)[0] = 0; };
-    // Solution(const Instance* const inst, const vector<bool>& captors): 
-    //             vector<bool>(captors), instance(inst){(*this)[0] = 0; };
+    Solution& Solution::operator=(const Solution& solution);
 
-
-    //renvoie le nombre de capteurs
-    int nb_capteurs(){ return accumulate((*this).begin(),(*this).end(),0); };
-    Graph get_graph_capt() const {return Graph_capt;}
-    Graph get_graph_com() const {return Graph_com;}
+    /**************************************** GETTERS *********************************************/
+    const Instance* get_instance() const{ return instance; };
+    Graph get_graph_capt() const {return graph_capt;}
+    Graph get_graph_com() const {return graph_com;}
+    /**********************************************************************************************/
+    /******************************** OPERATIONS DE GRAPHE ****************************************/
     void update_graphs(int t); // update the neighbourhood of target t
-    void update_graphs() {Graph_capt = Graph(instance, *this, captation); 
-    Graph_com = Graph(instance, *this, communication);};
-
-
+    void update_graphs() {graph_capt = Graph(*this, Network::captation); 
+    graph_com = Graph(*this, communication);};
+    /**********************************************************************************************/
     /*********************** EVALUATION DE LA SOLUTION ***********************/
-    int fitness();
+    //renvoie le nombre de capteurs
+    int nb_capteurs() const{ return accumulate((*this).begin(),(*this).end(),0); };
+    // return the number of connected component in the communication network 
+    int nb_connected_component() const{ return graph_com.nb_connected_components(); };
+    int captation(int i) const;
+    int k_capted() const;
+    bool is_k_covered() const{return k_capted() == 0 ;};
+    int fitness() const;
+    bool Solution::operator<(const Solution& solution) const;
     /**************************************************************************/
-
-
-
-
     /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
     //Inverse le bit i et mets à jour le graphe
     void reverse(int i, bool G);
