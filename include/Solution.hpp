@@ -15,6 +15,7 @@ private:
     friend ostream& operator<<(ostream& stream, const Solution &solution);
 
 public:
+
     static const Instance* instance; //const pointer to const object, neither the ptr nor object modifiable
     /**************************************** CONSTRUCTORS ****************************************/
     Solution(): vector<bool>(instance->size(),1){ (*this)[0] = 0; };
@@ -23,7 +24,7 @@ public:
     Solution& operator=(const Solution& solution); //TODO tester
     /**********************************************************************************************/
     /**************************************** GETTERS *********************************************/
-    void bit_mask(vector<int>& result) const ;
+    void bit_mask(vector<int>& result) const;
     const Instance* const get_instance() const {return instance; };
     Graph get_graph_capt() const {return graph_capt; };
     Graph get_graph_com() const {return graph_com; };

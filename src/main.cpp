@@ -7,8 +7,7 @@
 
 using namespace std;
 
-
-
+const Instance* Solution::instance;
 
 int main(){
     srand (static_cast <unsigned> (time(0)));

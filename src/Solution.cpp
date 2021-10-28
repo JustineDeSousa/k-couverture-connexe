@@ -15,6 +15,14 @@ Solution& Solution::operator=(const Solution& solution){
     return *this;
 }
 /**********************************************************************************************/
+/**************************************** GETTERS *********************************************/
+void Solution::bit_mask(vector<int>& result) const{
+    // a random float between 0.0 and grid_size
+    float x = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/ instance->Grid_size()));
+    float y = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/ instance->Grid_size()));
+    instance->bit_mask(x, y, result);
+}
+/**********************************************************************************************/
 /******************************** OPERATIONS DE GRAPHE ****************************************/
 void Solution::update_graphs(int t){
     if((*this)[t]){ // we add a captor
