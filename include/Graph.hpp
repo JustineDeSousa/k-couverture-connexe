@@ -13,7 +13,7 @@ private:
 
 public:
     /**************************************** CONSTRUCTORS ****************************************/
-    Graph(){}; // permet d'avoir un objet vraiment vide
+    Graph() {}; // permet d'avoir un objet vraiment vide
 
     Graph(const Instance * inst, vector<bool>& sol, Network network);
     Graph& operator=(const Graph& graph);
@@ -26,7 +26,7 @@ public:
     // the set of vertices visited by BFS (a Connected Component) starting from vertex departure
     void BFS(int depart, vector<bool>& visited, vector<int>& cc) const;
     // network communication
-    int nb_connected_components() const;
+    int nb_connected_components(vector<bool>& cap) const;
     
     // update the adjacency for the captor v
     void add_captor(const Instance * inst, vector<bool>& sol, int v); 

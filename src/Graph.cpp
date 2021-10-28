@@ -44,7 +44,7 @@ Graph::Graph(const Instance * inst, vector<bool>& sol, Network network) : vector
 Graph& Graph::operator=(const Graph& graph){
     if(this == &graph) return *this;
     
-    if(this->size() == 0 ) this->reserve(graph.size());
+    if(this->size() == 0 ) this->resize(graph.size());
     for (int i = 0; i < graph.size(); i++)
     {
         (*this)[i] = graph[i];
@@ -91,8 +91,11 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc) const{
  * @tparam number 
  * @return int the number of connected components in graph communication
  */
- int Graph::nb_connected_components() const{
+ int Graph::nb_connected_components(vector<bool>& cap) const{
     vector<bool> visited(size(), false);
+
+    for(int i=0; i < cap.size(); i++ ){if(!cap[i]) visited[i]=true;}
+
     set<vector<int>> all_cc;
 
     for (int i=0; i<size(); i++)
