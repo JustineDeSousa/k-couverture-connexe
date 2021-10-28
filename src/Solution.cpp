@@ -4,6 +4,8 @@
 
 Solution::Solution(const Solution& solution, bool G)
 {   
+    this->resize(solution.size());
+
     for (int i = 0; i < solution.size(); i++)
     {
         (*this)[i] = solution[i];

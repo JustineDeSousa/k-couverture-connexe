@@ -80,12 +80,13 @@ int main(){
     vector<bool> v2(solution.size(), 1);
     Solution P1(v1);
     Solution P2(v2);
+
     Solution E1(P1, false);
     Solution E2(P2, false);
     cout << P1 << endl;
     cout << P2 << endl;
 
-    cout << "here" << endl;
+    cout << "here  CROSS OVER" << endl;
 
     cross_over(P1, P2, E1, E2);
     cout << endl <<"E1 : " << E1<< endl;
