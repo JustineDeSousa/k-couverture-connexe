@@ -1,113 +1,57 @@
 #ifndef SOLUTION_HPP
 #define SOLUTION_HPP
 
-#include <vector>
-#include <numeric>
 #include "Instance.hpp"
 #include "Graph.hpp"
 
-using namespace std;
-
-template <class number>
-class Solution
+class Solution : public vector<bool>
 {
 private:
-    vector<int> captors; // captors[i] = 1 => i is a captor, captors[i] = 0 otherwise 
-    Graph<number> Graph_capt;
-    Graph<number> Graph_com;
-    const Instance<number> * const Inst; //const pointer to const object, neither the ptr nor object are modifiable
+    const Instance* const instance; //const pointer to const object, neither the ptr nor object modifiable
+    Graph graph_capt;
+    Graph graph_com;
+
+    friend ostream& operator<<(ostream& stream, const Solution &solution);
 
 public:
-/**
- * @brief Construct a new Solution object
- * Initially, we consider all targets are placed by captors except the sink
- * And the two graphes are empty
- * 
- * @param size the total number of targets
- */
-    Solution(Instance<number>& inst_, int size = 0) : Inst(&inst_) { captors = vector<int>(size, 1); if(size>0) captors[0] = 0;}; 
-
-    // getters
-    int size() const {return captors.size();};
-    int nb_captors(){ return accumulate(captors.begin(), captors.end(), 0);};
-    const vector<int> & get_captors() const {return captors;}
-    Graph<number> get_graph_capt() const {return Graph_capt;}
-    Graph<number> get_graph_com() const {return Graph_com;}
-
-
-    // setters
-    // update captors values, graphes are updated if g=true
-    void set_captors(vector<int>& captors_, bool g) {captors = captors_; if(g) {update_graphs();} } // replace by another vector
-    void reverse_target(int t, bool g) {captors[t] = !captors[t]; if(g) {update_graphs(t);}} // change one target's value
-    void update_graphs(int t); // update the neighbourhood of target t
-    // initilialize graphes
-    void update_graphs() {Graph_capt = Graph<number>(Inst, &captors, captation); 
-    Graph_com = Graph<number>(Inst, &captors, communication);};
-
-
-    //print
-    ostream& short_print(ostream& stream);
-
-    // fonctions evluation
-    int fitness() {return nb_captors() + constraint_k_capt() + nb_connected_component(); };
-    int constraint_k_capt(); // accumulate for each target |k - degree|
-    int nb_connected_component() { return Graph_com.nb_connected_components(); }; // return the number of connected component in the communication network 
-    bool is_k_coverage() {return constraint_k_capt() == 0 ;};
-    //Solution neighboor(int d);
+    /**************************************** CONSTRUCTORS ****************************************/
+    Solution(const Instance* const inst): vector<bool>(inst->size(),1), instance(inst){ (*this)[0] = 0; };
+    Solution& Solution::operator=(const Solution& solution);
+    /**********************************************************************************************/
+    /**************************************** GETTERS *********************************************/
+    //const Instance* get_instance() const{ return instance; };
+    Graph get_graph_capt() const {return graph_capt;}
+    Graph get_graph_com() const {return graph_com;}
+    /**********************************************************************************************/
+    /******************************** OPERATIONS DE GRAPHE ****************************************/
+    // update the neighbourhood of target t
+    void update_graphs(int t);
+    void update_graphs() {graph_capt = Graph(instance, *this, Network::captation); 
+    graph_com = Graph(instance, *this, communication);};
+    /**********************************************************************************************/
+    /*********************** EVALUATION DE LA SOLUTION ***********************/
+    //renvoie le nombre de capteurs
+    int nb_capteurs() const{ return accumulate((*this).begin(),(*this).end(),0); };
+    // return the number of connected component in the communication network 
+    int nb_connected_component() const{ return graph_com.nb_connected_components(); };
+    int captation(int i) const;
+    vector<int> captation() const;
+    int nb_captation() const;
+    bool is_k_covered() const;
+    int fitness() const;
+    bool Solution::operator<(const Solution& solution) const;
+    /**************************************************************************/
+    /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
+    //Inverse le bit i et mets à jour le graphe
+    void reverse(int i, bool G);
+    //Fais muter la solution avec proba mut_rate 
+    // Pour l'instant on inverse un seul bit
+    void mutation(float mut_rate);
+    /**************************************************************************/
 };
 
-
-template <class number>
-void Solution<number>::update_graphs(int t){
-    if(captors[t] == 1){ // we add a captor
-        Graph_com.add_captor(Inst, &captors, t);
-        Graph_capt.add_captor(Inst, &captors, t);
-    }else{
-
-    }
-}
-
-template <class number>
-int Solution<number>::constraint_k_capt(){
-    int acc = 0;
-    int S = size();
-
-    for (int i = 1; i < S; i++)// we don't consider the k-coverage for the sink
-    {   
-        int d = get_graph_capt().degree(i);
-        if ( d < Inst->get_k()) {acc += Inst->get_k() - d; }
-    }
-    return acc;
-}
-
-
-
-template <class number>
-ostream& Solution<number>::short_print(ostream& stream){
-    stream << "Solution : [ " ;
-
-    for (int i = 0; i < size(); i++){
-        stream << get_captors()[i] << ", ";
-    }
-
-    stream << " ]" << endl;
-    return stream;
-}
-
-
-// fonction externe
-template <class number>
-ostream& operator <<(ostream& stream, const Solution<number> & sol){
-    stream << "Solution : [ " ;
-
-    for (int i = 0; i < sol.size(); i++)
-    {
-        stream << i << " : " << sol.get_captors()[i] << ";\t";
-    }
-
-    stream << " ]" << endl;
-    return stream;
-}
-
-
 #endif
+/******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
+// Renvoie les deux enfants E1 et E2 issus du cross_over de P1 et P2
+void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& E2);
+/**************************************************************************/

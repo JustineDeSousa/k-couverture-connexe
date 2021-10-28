@@ -1,86 +1,71 @@
 #include "../include/Instance.hpp"
+#include "../include/Instance_tronc.hpp"
+#include "../include/Instance_alea.hpp"
 #include "../include/Solution.hpp"
-#include "../include/Graph.hpp"
-#include "../include/FileManager.hpp"
 #include "../include/Population.hpp"
 
 using namespace std;
 
 
 
-int main(){   
 
-    /** test lecture **/
-    /*
-    string instanceName = "captANOR150_7_4"; //alea
-    vector< pair<float,float> > targets;
-    int N;
-    N = lecture_instance_alea( instanceName, targets);
-    int targets_number = targets.size();
-    cout << "targets_number = " << targets_number << endl;
-    cout << "grid size = " << N << " * " << N<< endl;
-    */
+int main(){
 
+    
+    //cout << endl << "TEST INSTANCE TRONQUEE" << endl;
+    string instance_name = "grille1010_1";
+    Instance_tronc inst_tronc(instance_name);
+    //cout << "inst_tronc.size() = " << inst_tronc.size() << endl;
+    //cout << "inst_tronc : " << inst_tronc << endl;
+    //cout << "OK" << endl;
 
-    string instanceName = "grille1010_1"; // grille1010_1, grille2525_2
-    vector< pair<int,int> > targets;
-    int N;
-    N = lecture_instance_tronc( instanceName, targets);
-
-    int targets_number = targets.size();
-    cout << "targets_number = " << targets_number << endl;
-    cout << "grid size = " << N << " * " << N<< endl;
+    //cout << endl << "TEST INSTANCE ALEA" << endl;
+    instance_name = "captANOR150_7_4";
+    Instance_alea inst_alea(instance_name);
+    //cout << "inst_alea.size() = " << inst_alea.size() << endl;
+    //cout << "inst_alea : " << inst_alea << endl;
+    //cout << "OK" << endl;
 
 
-    /** test Instance **/ 
-    //Instance<float> inst(targets, N);
-    Instance<int> Inst(targets, N);
-    cout << Inst;
-    cout << "target 1 and target 2 can be capted ? " << Inst.do_capt(1, 2) << endl;
+    cout << endl << "TEST SOLUTION(Instance_tronc*)" << endl;
+    Solution solution(&inst_tronc);
+    Solution solution_t(&inst_tronc);
+    cout << solution << endl;
+    cout << "OK" << endl;
+
+    cout << endl << "TEST SOLUTION(Instance_alea*)" << endl;
+    Solution solution_1(&inst_alea);
+    // cout << solution_1 << endl;
+    cout << "OK" << endl;
+
+    cout << endl << "TEST nb_couverture()" << endl;
+    // for(uint i=0; i<solution_1.size(); i++){
+    //     cout << "solution_1.nb_couverture(i)= " 
+    //             << solution_1.nb_couverture(i) << endl;
+    // }
+    // for(uint i=0; i<solution_1.size(); i++){
+    //     cout << "solution_1.nb_couverture()[i]= " 
+    //             << solution_1.nb_couverture()[i] << endl;
+    // }
+    cout << "OK" << endl;
+
+    cout << "TEST POPULATION(solutions)" << endl;
+    vector<Solution> solutions = {solution, solution_t};
+    Population parents(solutions, Selection::ELITE);
+    cout << parents << endl;
+    Population enfants(&inst_tronc);
+    parents.selection(enfants);
+    cout << "OK" << endl;  
+    cout << endl << "TEST GRAPHS(Instance_tronc*)" << endl;
+    solution.update_graphs();
+    cout << solution.get_graph_capt() << endl;
+    cout << solution.get_graph_com() << endl;
 
 
-    /** test Solution **/
-    Solution<int> sol(Inst, targets_number);
-    cout << "Initialize solution : " << sol;
-    cout << "Shorter way :" << endl;
+    cout<<"solution.reverse(5, true) "<< endl;
+    solution.reverse(5, true);
+    cout << solution.get_graph_capt() << endl;
+    cout << solution.get_graph_com() << endl;
 
-    sol.short_print(cout);
-    cout << "Number of captors = " << sol.nb_captors() << endl;
-
-
-    /* test Graph */
-    sol.update_graphs();
-    cout<< sol.get_graph_capt()<< endl;
-
-
-    /* tets fonctions de Solution */
-    vector<int> captors2 = sol.get_captors();
-    captors2[3] = 0;
-    sol.set_captors(captors2, false);
-    sol.reverse_target(5, false);
-    cout<< "new Sol : " << sol;
-
-    sol.update_graphs();
-    cout << "new graph com : " << sol.get_graph_com();
-    cout << "new graph capt : " << sol.get_graph_capt();
-
-    cout << "sol is_k_coverage ? " << sol.is_k_coverage() << endl;
-    cout << "sol nb_captors = " << sol.nb_captors() << endl <<
-    "sol constraint_k_capt violated = " << sol.constraint_k_capt() << endl <<
-    "sol fonction fitness value = " << sol.fitness() << endl;
-
-    vector<bool> visited;
-    vector<int> cc;
-    sol.get_graph_com().BFS(0, visited, cc);
-    cout << "CC from " << 0<<" : ( ";
-    for(int v: cc) {cout<<v<<", ";}
-    cout<<" ) "<<endl;
-
-    cout << "nb connected component G com : " << sol.get_graph_com().nb_connected_components() << endl;
-
-
-
-    cout << "add captor 3"<< endl;
-    sol.reverse_target(3, true);
-    cout<< sol.get_graph_capt()<<endl <<sol.get_graph_com()<<endl;
+  
 }
