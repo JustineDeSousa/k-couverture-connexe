@@ -26,12 +26,7 @@ Solution& Solution::operator=(const Solution& solution){
 
 /**********************************************************************************************/
 /**************************************** GETTERS *********************************************/
-void Solution::bit_mask(vector<int>& result) const{
-    // a random float between 0.0 and grid_size
-    float x = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/ instance->Grid_size()));
-    float y = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/ instance->Grid_size()));
-    instance->bit_mask(x, y, result);
-}
+
 /**********************************************************************************************/
 /******************************** OPERATIONS DE GRAPHE ****************************************/
 void Solution::update_graphs(int t){
@@ -132,11 +127,12 @@ void Solution::bit_mask(vector<int>& result) const{
     float y = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/ Solution::instance->Grid_size()));
     Solution::instance->bit_mask(x, y, result);
 }
+
+
 // Renvoie les deux enfants E1 et E2 issus du cross_over de P1 et P2
 void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& E2){
     vector<int> bits_to_cross;
     P1.bit_mask(bits_to_cross);
-    cout << "hereS" << endl;
 
     for (int bit : bits_to_cross)
     {   cout << bit << ", " ;
