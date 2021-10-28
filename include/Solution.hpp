@@ -4,7 +4,6 @@
 #include "Instance.hpp"
 #include "Graph.hpp"
 
-
 class Solution : public vector<bool>
 {
 private:
@@ -20,15 +19,15 @@ public:
     Solution& Solution::operator=(const Solution& solution);
     /**********************************************************************************************/
     /**************************************** GETTERS *********************************************/
-    const Instance* get_instance() const{ return instance; };
+    //const Instance* get_instance() const{ return instance; };
     Graph get_graph_capt() const {return graph_capt;}
     Graph get_graph_com() const {return graph_com;}
     /**********************************************************************************************/
     /******************************** OPERATIONS DE GRAPHE ****************************************/
     // update the neighbourhood of target t
     void update_graphs(int t);
-    void update_graphs() {graph_capt = Graph(*this, Network::captation); 
-    graph_com = Graph(*this, communication);};
+    void update_graphs() {graph_capt = Graph(instance, *this, Network::captation); 
+    graph_com = Graph(instance, *this, communication);};
     /**********************************************************************************************/
     /*********************** EVALUATION DE LA SOLUTION ***********************/
     //renvoie le nombre de capteurs

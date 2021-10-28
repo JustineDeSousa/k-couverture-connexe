@@ -9,7 +9,7 @@
  * @param sol solution
  */
 
-Graph::Graph(Solution& sol, Network network) : Graph(network,sol.size()) {
+Graph::Graph(const Instance * const inst, vector<bool>& sol, Network network) : vector< set<int> >(sol.size()), graph_type(network) {
     switch (graph_type)
     {
     case captation:
@@ -17,7 +17,7 @@ Graph::Graph(Solution& sol, Network network) : Graph(network,sol.size()) {
         for (int i=1; i<size(); i++) {
             for(int j=1; j< size(); j++){
                 if(!sol[j]) continue;
-                if(sol.get_instance()->capt_linked(i, j)) (*this)[i].insert(j);
+                if(inst->capt_linked(i, j)) (*this)[i].insert(j);
             }
         }
         break;
@@ -28,7 +28,7 @@ Graph::Graph(Solution& sol, Network network) : Graph(network,sol.size()) {
             for(int j=0; j<size(); j++){
                 if( j == i ) continue;
                 if( !sol[j] ) continue;
-                if(sol.get_instance()->com_linked(i, j)) (*this)[i].insert(j);
+                if(inst->com_linked(i, j)) (*this)[i].insert(j);
             }
         }
         break;
@@ -97,13 +97,13 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc) const{
     return all_cc.size();
 }
 
-void Graph::add_captor(Solution& sol, int v){
+void Graph::add_captor(const Instance * const inst, vector<bool>& sol, int v){
     switch (graph_type)
     {
     case captation:
         for (uint i=1; i<size(); i++) // we dont consider the sink
         {
-            if(sol.get_instance()->capt_linked(v, i)) {
+            if(inst->capt_linked(v, i)) {
                 // i is covered by captor v
                 (*this)[i].insert(v); 
                 // if i is also a captor, then v is covered by i as well
@@ -115,7 +115,7 @@ void Graph::add_captor(Solution& sol, int v){
         for (uint i=0; i<size(); i++) {
             if(!sol[i] && i!=0) continue; // we only consider captors and the sink
             if( v == i) continue; // we don't add edge to itself
-            if(sol.get_instance()->com_linked(v, i)) {
+            if(inst->com_linked(v, i)) {
                 (*this)[i].insert(v);
                 (*this)[v].insert(i);
             }
