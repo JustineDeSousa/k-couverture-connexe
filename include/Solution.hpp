@@ -39,13 +39,14 @@ public:
     int nb_capteurs() const{ return accumulate((*this).begin(),(*this).end(),0); };
 
     // return the number of connected component in the communication network 
-    int nb_connected_component() const{ return graph_com.nb_connected_components(); };
-    bool is_graph_com_connected() const {return graph_com.nb_connected_components()==1;}
+    int nb_connected_component() const {vector<bool> v=(*this); return graph_com.nb_connected_components(v); };
+    bool is_graph_com_connected() const {vector<bool> v=(*this); return graph_com.nb_connected_components(v)==1;}
     int captation(int i) const;
 
     int nb_captation_missed() const;
     bool is_k_covered() const;
     int fitness() const;
+    bool is_realisable() const {return is_k_covered() && is_graph_com_connected();}
     /**************************************************************************/
     /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
     //Inverse le bit i et mets à jour le graphe

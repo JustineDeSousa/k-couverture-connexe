@@ -4,6 +4,7 @@
 #include "../include/Instance_alea.hpp"
 #include "../include/Solution.hpp"
 #include "../include/Population.hpp"
+#include "../include/algo_genetic.hpp"
 #include <cstdlib>
 #include <ctime>
 
@@ -83,6 +84,15 @@ int main(){
     Population enfants;
     parents.selection(enfants);
     cout << "OK" << endl;  
+
+    cout << "TEST HEURICTIC" << endl;
+    Solution sol_heuristic;
+    sol_heuristic.update_graphs();
+    cout << "AVANT sol_heuristic=" << sol_heuristic << endl <<"fit = " << sol_heuristic.fitness()<< endl;
+    heuristic(sol_heuristic);
+    cout <<"APRES sol_heuristic = " << sol_heuristic << endl <<"fit = " << sol_heuristic.fitness()<< endl;
+    cout << "is_realisable = " <<sol_heuristic.is_realisable() << endl;
+
 
   
 }

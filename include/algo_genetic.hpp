@@ -9,4 +9,8 @@ void new_generation(const Instance* const inst, Population& pop, int N=100, floa
 
 void genetic_algo(const Instance* const inst, Population& pop, int N=100, float rep_rate=0.1);
 
+
+
+void heuristic(Solution& sol);
+
 #endif

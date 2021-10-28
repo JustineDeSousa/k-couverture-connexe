@@ -18,10 +18,16 @@ Solution::Solution(const Solution& solution, bool G)
 
 Solution& Solution::operator=(const Solution& solution){
     if(this == &solution) return *this;
+
+    if(this->size() == 0 ) this->resize(solution.size());
+    for (int i = 0; i < solution.size(); i++)
+    {
+        (*this)[i] = solution[i];
+    }
+    
     graph_capt = solution.graph_capt;
     graph_com = solution.graph_com;
     return *this;
-    //TODO I think instance is empty
 }
 
 /**********************************************************************************************/
