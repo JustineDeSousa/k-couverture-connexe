@@ -14,7 +14,7 @@ private:
     friend ostream& operator<<(ostream& stream, const Solution &solution);
 
 public:
-    static const Instance* instance; //const pointer to const object, neither the ptr nor object modifiable
+    static const Instance* instance; 
 
     /**************************************** CONSTRUCTORS ****************************************/
     Solution(): vector<bool>(Solution::instance->size(),1){ (*this)[0] = 0; };
@@ -24,7 +24,6 @@ public:
     /**********************************************************************************************/
     /**************************************** GETTERS *********************************************/
     void bit_mask(vector<int>& result) const;
-    const Instance* const get_instance() const {return instance; };
     Graph get_graph_capt() const {return graph_capt; };
     Graph get_graph_com() const {return graph_com; };
 
@@ -43,11 +42,9 @@ public:
     int nb_connected_component() const{ return graph_com.nb_connected_components(); };
     bool is_graph_com_connected() const {return graph_com.nb_connected_components()==1;}
     int captation(int i) const;
-    vector<int> captation() const;
 
     int nb_captation_missed() const;
     bool is_k_covered() const;
-    bool is_graph_com_connected() const {return graph_com.nb_connected_components()==1;}
     int fitness() const;
     /**************************************************************************/
     /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
