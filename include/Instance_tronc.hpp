@@ -25,7 +25,8 @@ public:
     /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
     //Renvoie l'ensemble des cibles contenues dans le carré de taille width avec
     //coin supérieur droit = (x,y)
-    void bit_mask(float x, float y, vector<int>& result) const;
+    void bit_mask(float x, float y, vector<int>& result) const ;
+
     /**************************************************************************/
 };
 #endif

@@ -17,9 +17,8 @@
 
 typedef unsigned int uint;
 using namespace std;
+
 enum Network { captation, communication };
-
-
 
 class Instance : public vector< vector<float> >
 //Matrice des distances entre chaque cible

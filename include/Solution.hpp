@@ -8,15 +8,14 @@
 class Solution : public vector<bool>
 {
 private:
-    
     Graph graph_capt;
     Graph graph_com;
 
     friend ostream& operator<<(ostream& stream, const Solution &solution);
 
 public:
-
     static const Instance* instance; //const pointer to const object, neither the ptr nor object modifiable
+
     /**************************************** CONSTRUCTORS ****************************************/
     Solution(): vector<bool>(Solution::instance->size(),1){ (*this)[0] = 0; };
     Solution(const vector<bool>& vec): vector<bool>(vec) {};
@@ -28,6 +27,7 @@ public:
     const Instance* const get_instance() const {return instance; };
     Graph get_graph_capt() const {return graph_capt; };
     Graph get_graph_com() const {return graph_com; };
+
     /**********************************************************************************************/
     /******************************** OPERATIONS DE GRAPHE ****************************************/
     // update the neighbourhood of target t
@@ -38,15 +38,17 @@ public:
     bool operator<(const Solution& solution) const;
     //renvoie le nombre de capteurs
     int nb_capteurs() const{ return accumulate((*this).begin(),(*this).end(),0); };
+
     // return the number of connected component in the communication network 
     int nb_connected_component() const{ return graph_com.nb_connected_components(); };
     bool is_graph_com_connected() const {return graph_com.nb_connected_components()==1;}
     int captation(int i) const;
     vector<int> captation() const;
+
     int nb_captation_missed() const;
     bool is_k_covered() const;
+    bool is_graph_com_connected() const {return graph_com.nb_connected_components()==1;}
     int fitness() const;
-
     /**************************************************************************/
     /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
     //Inverse le bit i et mets à jour le graphe

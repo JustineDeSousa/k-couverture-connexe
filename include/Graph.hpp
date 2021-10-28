@@ -14,7 +14,8 @@ private:
 public:
     /**************************************** CONSTRUCTORS ****************************************/
     Graph(){}; // permet d'avoir un objet vraiment vide
-    Graph(const Instance * const inst, vector<bool>& sol, Network network);
+
+    Graph(const Instance * inst, vector<bool>& sol, Network network);
     /**********************************************************************************************/
     /**************************************** GETTERS *********************************************/
     Network type() const {return graph_type;};
@@ -27,7 +28,7 @@ public:
     int nb_connected_components() const;
     
     // update the adjacency for the captor v
-    void add_captor(const Instance * const inst, vector<bool>& sol, int v); 
+    void add_captor(const Instance * inst, vector<bool>& sol, int v); 
     void supprime_captor(int v);
     /**********************************************************************************************/
 
