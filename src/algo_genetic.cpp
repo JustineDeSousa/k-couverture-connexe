@@ -42,3 +42,30 @@ void genetic_algo(Population& pop, float maximum_duration, Selection selection, 
     }
     cout << double(clock()-time_begin)/CLOCKS_PER_SEC << "s -- BEST INDIVIDUAL : " << pop.best_individual() << endl;
 }
+
+void heuristic(Solution& sol){// should be a default solution placing captors at every targets except the sink
+    //vector<bool> visited(Solution::instance->size(), false);
+    sol.update_graphs(); // init graphs
+
+    set<int> available_bits;
+    for (int i = 0; i < Solution::instance->size(); i++) available_bits.insert(available_bits.end(), i);
+
+    // find(visited.begin(), visited.end(), false) != visited.end()
+    while ( available_bits.size() >0)// exists at least one target not visited
+    {   
+        int r = rand()%(available_bits.size()); // a position between 0 and size()-1
+
+        int bit = *next(available_bits.begin(), r); 
+
+        available_bits.erase(available_bits.find(bit));
+
+        if(!sol[bit]) continue; // target bit is not captor => sol[bit]=0
+
+        sol.reverse(bit, true); // update the graph also
+
+        if(!sol.is_graph_com_connected() || !sol.is_k_covered()){// if removing target bit violates constraint NOT realisable
+
+            sol.reverse(bit, true); // undo
+        }
+    }
+}

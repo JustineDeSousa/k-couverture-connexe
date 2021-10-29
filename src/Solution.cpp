@@ -18,10 +18,14 @@ Solution::Solution(const Solution& solution, bool G)
 
 Solution& Solution::operator=(const Solution& solution){
     if(this == &solution) return *this;
+    if(this->size() == 0 ) this->resize(solution.size());
+    for (int i = 0; i < solution.size(); i++)
+    {
+        (*this)[i] = solution[i];
+    }
     graph_capt = solution.graph_capt;
     graph_com = solution.graph_com;
     return *this;
-    //TODO I think instance is empty
 }
 
 /**********************************************************************************************/
@@ -94,8 +98,7 @@ bool Solution::is_k_covered() const{
  * 
  * @return int 
  */
-int Solution::fitness() const{ 
-    //if(graph_capt.size()==0 || graph_com.size()==0) update_graphs();
+int Solution::fitness() const{
     return nb_capteurs() + nb_connected_component()-1 + nb_captation_missed(); 
 }
 

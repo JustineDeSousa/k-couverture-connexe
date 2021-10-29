@@ -82,7 +82,7 @@ int main(){
     int i=1;
     for(int i=0; i<pop.size(); i++){
         pop[i].update_graphs();
-        cout << "sol " << i << " : " << pop[i].fitness() << endl;// ") : " << pop[i] << endl;
+        cout << "sol " << i << " : " << pop[i].fitness() << " : " << pop[i] << endl;
     }
     cout << "pop.sort()" << endl;
     pop.sort();
@@ -92,4 +92,13 @@ int main(){
     //genetic_algo(pop, 1,Selection::ROULETTE,0.5);
     cout << "OK" << endl;  
 
+    
+    
+    cout << "TEST HEURICTIC" << endl;
+    Solution sol_heuristic;
+    sol_heuristic.update_graphs();
+    cout << "AVANT sol_heuristic=" << sol_heuristic << endl <<"fit = " << sol_heuristic.fitness()<< endl;
+    heuristic(sol_heuristic);
+    cout <<"APRES sol_heuristic = " << sol_heuristic << endl <<"fit = " << sol_heuristic.fitness()<< endl;
+    cout << "is_realisable = " <<sol_heuristic.is_realisable() << endl;
 }

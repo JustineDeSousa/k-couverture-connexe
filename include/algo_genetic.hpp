@@ -14,5 +14,6 @@ void new_generation(Population& pop, Selection selection=Selection::ROULETTE, fl
 // rep_rate = taux de reproducteurs
 // sortie: pop = population generation finale 
 void genetic_algo(Population& pop, float maximum_duration, Selection selection=Selection::ROULETTE, float rep_rate=0.1);
+void heuristic(Solution& sol);
 
 #endif
