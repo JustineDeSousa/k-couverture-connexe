@@ -1,6 +1,6 @@
 #include "../include/Solution.hpp"
 
-/**************************************** CONSTRUCTORS ****************************************/
+/**************************************** CONSTRUCTORS *****************************/
 Solution::Solution(const Solution& solution, bool G) : vector<bool>(solution.size())
 {   
     // this->resize(solution.size());
@@ -28,11 +28,8 @@ Solution& Solution::operator=(const Solution& solution){
     return *this;
 }
 
-/**********************************************************************************************/
-/**************************************** GETTERS *********************************************/
-
-/**********************************************************************************************/
-/******************************** OPERATIONS DE GRAPHE ****************************************/
+/********************************************************************************/
+/******************************** OPERATIONS DE GRAPHE *******************/
 void Solution::update_graphs(int t){
     if((*this)[t]){ // we add a captor
         graph_com.add_captor(Solution::instance, *this, t);
@@ -46,12 +43,28 @@ void Solution::update_graphs(){
     graph_capt = Graph(Solution::instance, *this, Network::captation); 
     graph_com = Graph(Solution::instance, *this, Network::communication);
 }
-/**********************************************************************************************/
+/*************************************************************************/
 /*********************** EVALUATION DE LA SOLUTION ***********************/
 bool Solution::operator<(const Solution& solution) const{
-    return fitness() < solution.fitness();
+    cout << "\t\toperator<\n";
+    cout << "\t\t\tsol1 = ";
+    int a = fitness();
+    cout << "\t\t\tsol2 = ";
+    int b = solution.fitness();
+    bool resul = a < b;
+    cout << "\t\t< over\n";
+    return resul;
 }
-
+bool Solution::operator<=(const Solution& solution) const{
+    return fitness() <= solution.fitness();
+}
+bool Solution::operator==(const Solution& solution) const{
+    return fitness() == solution.fitness();
+}
+int Solution::nb_connected_component() const {
+    vector<bool> v=(*this); 
+    return graph_com.nb_connected_components(v); 
+}
 /**
  * @brief Return the number of captors covering target i
  * 
@@ -68,13 +81,24 @@ int Solution::captation(int i) const{
  * @return int 
  */
 int Solution::nb_captation_missed() const{
+    cout << "\t\t\t\tSolution::nb_captation_missed()\n";
     int missed = 0;
-    for (uint i=1; i<size(); i++)// we don't consider the k-coverage for the sink
+    for (int i=1; i<int(size()); i++)// we don't consider the k-coverage for the sink
     {
+        if(graph_capt.size() == 0){
+            cout << "\t\t\t\t" << i << " : graph_capt.size() = " << graph_capt.size() << endl;
+            if(*this==vector<bool>(size(),0)){
+                cout << "\t\t\t\tsol == vecteur nul" << endl;
+            }else if(*this == vector<bool>(size(),1)){
+                cout << "\t\t\t\tsol == vecteur de 1" << endl;
+                return 0;
+            }
+        } 
         if(graph_capt.degree(i) < Solution::instance->k()){
             missed += Solution::instance->k() - graph_capt.degree(i);
         }
     }
+    cout << "\t\t\t\tnb_captation_missed = " << missed <<endl;
     return missed;
 }
 
@@ -99,7 +123,9 @@ bool Solution::is_k_covered() const{
  * @return int 
  */
 int Solution::fitness() const{
-    return nb_capteurs() + nb_connected_component()-1 + nb_captation_missed(); 
+    int fit = nb_capteurs() + nb_connected_component()-1 + nb_captation_missed();
+    cout << "\t\t\tfitness = " << fit << endl;
+    return fit;
 }
 
 

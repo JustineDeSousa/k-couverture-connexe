@@ -35,14 +35,14 @@ public:
     /**********************************************************************************************/
     /*********************** EVALUATION DE LA SOLUTION ***********************/
     bool operator<(const Solution& solution) const;
+    bool operator<=(const Solution& solution) const;
+    bool operator==(const Solution& solution) const;
     //renvoie le nombre de capteurs
-    int nb_capteurs() const{ return accumulate((*this).begin(),(*this).end(),0); };
-
+    int nb_capteurs() const{ int acc=accumulate((*this).begin(),(*this).end(),0);cout<<"nb capteurs = " <<acc<<endl;return acc; };
     // return the number of connected component in the communication network 
-    int nb_connected_component() const {vector<bool> v=(*this); return graph_com.nb_connected_components(v); };
+    int nb_connected_component() const;
     bool is_graph_com_connected() const {vector<bool> v=(*this); return graph_com.nb_connected_components(v)==1;}
     int captation(int i) const;
-
     int nb_captation_missed() const;
     bool is_k_covered() const;
     int fitness() const;

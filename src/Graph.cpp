@@ -35,6 +35,7 @@ Graph::Graph(const Instance * inst, vector<bool>& sol, Network network) : vector
         break;
     default:
         cerr << "Invalid argument Network" << endl;
+        assert(false);
         exit(-1);
         break;
     }
@@ -96,9 +97,8 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc) const{
  * @return int the number of connected components in graph communication
  */
  int Graph::nb_connected_components(vector<bool>& cap) const{
-    int n = cap.size();
     vector<bool> visited(size(), false);
-    for(int i=0; i < n; i++ ){
+    for(int i=0; i < int(cap.size()); i++ ){
         if(!cap[i]){
             visited[i]=true;
         } 
@@ -116,9 +116,11 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc) const{
     for(bool v : visited){
         if(!v){
         cerr << "ERROR: still vertices unexplored ! " << endl;
+        assert(false);
         exit(-1);
         }
     }
+    cout << "\t\t\t\tnb cc = " << all_cc.size() << endl;
     return all_cc.size();
 }
 
@@ -204,6 +206,7 @@ ostream& operator<<(ostream& stream, const Graph& graph){
     
     default:
         cerr << "Invalid Network attribute " << endl;
+        assert(false);
         exit(-1);
         break;
     }

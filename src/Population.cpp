@@ -11,11 +11,13 @@ void Population::update(){
 /*******************************************************************/
 /******************** FONCTIONS SELECTION *********************************/
 void Population::sort(){
-    int n = size();
-     for(int i=0; i<n; i++){
+    cout << "Population::sort()\n";
+    for(int i=0; i<int(size()); i++){
         (*this)[i].update_graphs();
     }
-     std::sort( begin(), end() );
+    cout << "\tstd::sort()" << endl;
+    std::sort( (*this).begin(), (*this).end()-1 );
+    cout << "Population::sort() : sorted\n";
 }
 void Population::selection_roulette( Population& pop, int nb_indiv){
     sort();
