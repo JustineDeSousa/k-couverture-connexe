@@ -10,7 +10,7 @@ ostream& Instance::print(ostream& stream) const{
     return stream;
 }
 /********* fonctions externes ***************************/ 
-ostream& operator<<(ostream& stream, const Instance& inst){
-    inst.print(stream);
-    return stream;
-}
+// ostream& operator<<(ostream& stream, const Instance& inst){
+//     inst.print(stream);
+//     return stream;
+// }

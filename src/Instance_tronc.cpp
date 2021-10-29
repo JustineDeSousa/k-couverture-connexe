@@ -74,17 +74,21 @@ void Instance_tronc::bit_mask(float x, float y, vector<int>& result) const {
 }
 /**************************************************************************/
 /******************************* AFFICHAGE ********************************/
-ostream& operator<<(ostream& stream, const Instance_tronc& inst){
-    inst.print(stream);
+ostream& Instance_tronc::print(ostream& stream) const{
     stream << "list of targets : [" << endl;
-    for(uint i=0; i<inst.cibles.size(); i++){
-        stream << "#" << i << "=("  << inst.cibles[i].first;
-        stream << ","               << inst.cibles[i].second << ")\t";
+    for(uint i=0; i<cibles.size(); i++){
+        stream << "#" << i << "=("  << cibles[i].first;
+        stream << ","               << cibles[i].second << ")\t";
         
-        if(i%inst.grid_size == 0) stream << endl;
+        if(i%grid_size == 9) stream << endl;
     }
     stream << "]" << endl;
 
+    return stream;
+}
+ostream& operator<<(ostream& stream, const Instance_tronc& inst){
+    inst.Instance::print(stream);
+    inst.print(stream);
     return stream;
 }
 /**************************************************************************/

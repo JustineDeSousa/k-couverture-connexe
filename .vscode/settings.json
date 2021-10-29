@@ -4,6 +4,7 @@
         "vector": "cpp",
         "algorithm": "cpp",
         "iostream": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "iosfwd": "cpp"
     }
 }

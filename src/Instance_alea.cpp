@@ -75,14 +75,20 @@ void Instance_alea::bit_mask(float x, float y, vector<int>& result)const {
 /**************************************************************************/
 
 /********* fonctions externes ***************************/ 
-ostream& operator<<(ostream& stream, const Instance_alea& inst){
-    inst.print(stream);
-        stream << "list of targets : [" << endl;
-    for(uint i=0; i<inst.cibles.size(); i++){
-        stream << "#" << i << "=(" << inst.cibles[i].first << "," << inst.cibles[i].second << ")\t";
-
-        if(i%inst.grid_size == 0) stream << endl;
+ostream& Instance_alea::print(ostream& stream) const{
+    stream << "list of targets : [" << endl;
+    for(uint i=0; i<cibles.size(); i++){
+        stream << "#" << i << "=("  << cibles[i].first;
+        stream << ","               << cibles[i].second << ")\t";
+        
+        if(i%grid_size == 9) stream << endl;
     }
     stream << "]" << endl;
-    return stream << "}";
+
+    return stream;
+}
+ostream& operator<<(ostream& stream, const Instance_alea& inst){
+    inst.Instance::print(stream);
+    inst.print(stream);
+    return stream;
 }

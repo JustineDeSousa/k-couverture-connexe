@@ -9,6 +9,7 @@ class Instance_alea : public virtual Instance
 private:
     vector< pair<float,float> > cibles; //position des cibles
 
+    ostream& print(ostream& stream) const;
     friend ostream& operator<<(ostream& stream, const Instance_alea& inst);
 public:
     /**************************************** CONSTRUCTORS ****************************************/

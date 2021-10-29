@@ -18,13 +18,10 @@ int main(){
     //cout << endl << "TEST INSTANCE TRONQUEE" << endl;
     string instance_name = "grille1010_1";
     Instance_tronc inst_tronc(instance_name);
-    //cout << "inst_tronc.size() = " << inst_tronc.size() << endl;
-    //cout << "inst_tronc : " << inst_tronc << endl;
-    //cout << "OK" << endl;
 
     Solution::instance = &inst_tronc;
     Solution solution;
-    cout << "Solution::instance = " << *(solution.instance) << endl;
+    cout << "Solution::instance = " << static_cast<const Instance_tronc&>(*solution.instance) << endl;
     cout << "solution.is_graph_com_connected() : "<< solution.is_graph_com_connected() << endl;
     cout << " solution.nb_connected_component : " << solution.nb_connected_component() << endl;
     cout << "solution.nb_capteurs() : " << solution.nb_capteurs() << endl;

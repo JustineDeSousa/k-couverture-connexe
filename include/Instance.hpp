@@ -31,8 +31,8 @@ protected:
     int const width_bit_mask; //pour le crossover
 
     /*************************** AFFICHAGE ***************************/
-    ostream& print(ostream&);
-    friend ostream& operator<<(ostream& stream, const Instance& inst);
+    ostream& print(ostream&) const;
+    // friend ostream& operator<<(ostream&,const Instance&);
     /*****************************************************************/
 public:
     /**************************************** CONSTRUCTORS ****************************************/
@@ -55,9 +55,6 @@ public:
     //coin supérieur gauche = (x,y)
     virtual void bit_mask(float x, float y, vector<int>& result) const = 0;
     /**************************************************************************/
-
-    //Affichage
-    ostream& print(ostream& stream) const;
 };
 /********* fonctions externes ***************************/
 template <typename number>

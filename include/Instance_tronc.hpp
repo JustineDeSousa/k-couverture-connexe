@@ -9,6 +9,7 @@ private:
     const int K=1;
     vector< pair<int,int> > cibles; //position des cibles
     
+    ostream& print(ostream&) const;
     friend ostream& operator<<(ostream& stream, const Instance_tronc& inst);
 
 public:
