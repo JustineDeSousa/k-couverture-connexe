@@ -37,7 +37,7 @@ protected:
 public:
     /**************************************** CONSTRUCTORS ****************************************/
     Instance(const int capt=1, const int com=1, const int k=1)
-            :grid_size(0), R_capt(capt), R_com(com), K(k), width_bit_mask(0.1*grid_size){};
+            :grid_size(0), R_capt(capt), R_com(com), K(k), width_bit_mask(0.5*grid_size){};
     Instance(const string instance_name, int const capt=1, int const com=1, int const k=1);
     template <typename number>
     void init_dist(const vector< pair<number,number> >& targets );
