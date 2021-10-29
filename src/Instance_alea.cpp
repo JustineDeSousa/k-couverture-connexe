@@ -77,11 +77,11 @@ void Instance_alea::bit_mask(float x, float y, vector<int>& result)const {
 /********* fonctions externes ***************************/ 
 ostream& Instance_alea::print(ostream& stream) const{
     stream << "list of targets : [" << endl;
-    for(uint i=0; i<cibles.size(); i++){
+    for(int i=0; i<int(cibles.size()); i++){
         stream << "#" << i << "=("  << cibles[i].first;
         stream << ","               << cibles[i].second << ")\t";
         
-        if(i%grid_size == grid_size) stream << endl;
+        if(i%grid_size == grid_size-1) stream << endl;
     }
     stream << "]" << endl;
 

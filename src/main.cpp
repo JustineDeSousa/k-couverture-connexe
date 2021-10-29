@@ -53,7 +53,7 @@ int main(){
     pop.sort();
     cout << "pop = " << pop << endl;
 
-    //genetic_algo(pop, 1,Selection::ROULETTE,0.5);
+    genetic_algo(pop, 1,Selection::ROULETTE,0.5);
      
     // cout << "TEST HEURICTIC" << endl;
     // Solution sol_heuristic;
