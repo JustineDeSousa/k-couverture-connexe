@@ -18,7 +18,7 @@ Solution::Solution(const Solution& solution, bool G)// : vector<bool>(solution.s
 
 Solution& Solution::operator=(const Solution& solution){
     if(this == &solution) return *this;
-    if(this->size() == 0 ) this->resize(solution.size());//  *this=vector<bool>(solution.size())
+    if(this->size() != solution.size() ) this->resize(solution.size());//  *this=vector<bool>(solution.size())
     for (int i = 0; i < int(solution.size()); i++)
     {
         (*this)[i] = solution[i];
