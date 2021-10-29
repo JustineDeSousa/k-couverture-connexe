@@ -79,22 +79,9 @@ int main(){
     Population pop(solutions);
     cout << "Population de taille " << pop.size() << endl;
 
-    for(int i=0; i<pop.size(); i++){
-        //pop[i].update_graphs();
-        cout << "sol " << i << " : " << pop[i].fitness() << endl;// ") : " << pop[i] << endl;
-        cout << pop[i]<< endl;
-    }
-
     cout << "pop.sort()" << endl;
     pop.sort();
-    for(int i=0; i<pop.size(); i++){
-        //pop[i].update_graphs();
-        cout << "sol " << i << " : " << pop[i].fitness() << endl;// ") : " << pop[i] << endl;
-        cout << pop[i]<< endl;
-    }
 
-
-    cout << "OKOKOKOKOKOK" << endl;  
 
     //genetic_algo(pop, 1,Selection::ROULETTE,0.5);
     
