@@ -14,8 +14,6 @@ Solution::Solution(const Solution& solution, bool G)// : vector<bool>(solution.s
     graph_com = Graph(solution.get_graph_com());
     }
 }
-
-
 Solution& Solution::operator=(const Solution& solution){
     if(this == &solution) return *this;
     if(this->size() != solution.size() ) this->resize(solution.size());//  *this=vector<bool>(solution.size())
@@ -27,7 +25,6 @@ Solution& Solution::operator=(const Solution& solution){
     this->graph_com = Graph(solution.get_graph_com());
     return *this;
 }
-
 /********************************************************************************/
 /******************************** OPERATIONS DE GRAPHE *******************/
 void Solution::update_graphs(int t){
@@ -45,18 +42,6 @@ void Solution::update_graphs(){
 }
 /*************************************************************************/
 /*********************** EVALUATION DE LA SOLUTION ***********************/
-
-void swap(Solution& sol1, Solution& sol2){
-    Solution sol3(sol1, false);
-    for(int i = 0; i < sol3.size(); i++){
-        sol1[i] = sol2[i];
-        sol2[i] = sol3[i];
-    }
-    sol1.update_graphs();
-    sol2.update_graphs();
-}
-
-
 bool Solution::operator<(const Solution& solution) const{
     return this->fitness() < solution.fitness();
 }
@@ -66,7 +51,6 @@ bool Solution::operator<=(const Solution& solution) const{
 bool Solution::operator==(const Solution& solution) const{
     return fitness() == solution.fitness();
 }
-
 /**
  * @brief Return the number of captors covering target i
  * 
@@ -76,7 +60,6 @@ bool Solution::operator==(const Solution& solution) const{
 int Solution::captation(int i) const{
     return graph_capt[i].size();
 }
-
 /**
  * @brief Return the total number of missed captors for each targets
  * 
@@ -92,7 +75,6 @@ int Solution::nb_captation_missed() const{
     }
     return missed;
 }
-
 /**
  * @brief Return true if every target is covered by at least K captors
  * 
@@ -107,7 +89,6 @@ bool Solution::is_k_covered() const{
 
     return true;
 }
-
 /**
  * @brief Return the fitness value
  * 
@@ -116,10 +97,17 @@ bool Solution::is_k_covered() const{
 int Solution::fitness() const{
     return nb_capteurs() + nb_connected_component()-1 + nb_captation_missed();
 }
-
-
 /**************************************************************************/
 /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
+void swap(Solution& sol1, Solution& sol2){
+    Solution sol3(sol1, false);
+    for(int i = 0; i < sol3.size(); i++){
+        sol1[i] = sol2[i];
+        sol2[i] = sol3[i];
+    }
+    sol1.update_graphs();
+    sol2.update_graphs();
+}
 /**
  * @brief if G=true, we update also the vertex i in two graphs
  * 
@@ -138,16 +126,12 @@ void Solution::mutation(float mut_rate){
         reverse(bit_to_reverse, true);
     }
 }
-
-
 void Solution::bit_mask(vector<int>& result) const{
     // a random float between 0.0 and grid_size
     float x = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/ Solution::instance->Grid_size()));
     float y = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/ Solution::instance->Grid_size()));
     Solution::instance->bit_mask(x, y, result);
 }
-
-
 // Renvoie les deux enfants E1 et E2 issus du cross_over de P1 et P2
 void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& E2){
     vector<int> bits_to_cross;
