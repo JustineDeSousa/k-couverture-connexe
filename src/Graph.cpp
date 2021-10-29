@@ -43,8 +43,7 @@ Graph::Graph(const Instance * inst, vector<bool>& sol, Network network) : vector
 }
 
 
-Graph::Graph(const Graph& graph) : vector< set<int> >(graph.size())
-{
+Graph::Graph(const Graph& graph) : vector< set<int> >(graph.size()){
     //this->resize(graph.size());
     for(int i=0; i<int(graph.size()); i++ ){
         (*this)[i] = graph[i];
