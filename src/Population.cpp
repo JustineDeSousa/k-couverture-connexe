@@ -3,11 +3,9 @@
 
 Population::Population( vector<Solution>& solutions) {
     this->resize(solutions.size());
-    for (int i = 0; i < solutions.size(); i++)
-    {
+    for (int i = 0; i < int(solutions.size()); i++){
         (*this)[i] = solutions[i];
-    }
-    
+    }   
 }
 
 /***************************** UPDATES *****************************/

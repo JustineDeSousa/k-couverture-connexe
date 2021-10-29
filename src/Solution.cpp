@@ -1,17 +1,16 @@
 #include "../include/Solution.hpp"
 
 /**************************************** CONSTRUCTORS *****************************/
-Solution::Solution(const Solution& solution, bool G)// : vector<bool>(solution.size())
+Solution::Solution(const Solution& solution, bool G) : vector<bool>(solution.size())
 {   
     this->resize(solution.size());
-
-    for (uint i = 0; i < solution.size(); i++)
+    for (int i = 0; i < int(solution.size()); i++)
     {
         (*this)[i] = solution[i];
     }
     if(G){
-    graph_capt = Graph(solution.get_graph_capt());
-    graph_com = Graph(solution.get_graph_com());
+    graph_capt = Graph(solution.graph_capt);
+    graph_com = Graph(solution.graph_com);
     }
 }
 Solution& Solution::operator=(const Solution& solution){
@@ -101,7 +100,7 @@ int Solution::fitness() const{
 /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
 void swap(Solution& sol1, Solution& sol2){
     Solution sol3(sol1, false);
-    for(int i = 0; i < sol3.size(); i++){
+    for(int i = 0; i < int(sol3.size()); i++){
         sol1[i] = sol2[i];
         sol2[i] = sol3[i];
     }
