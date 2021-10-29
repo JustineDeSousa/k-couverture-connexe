@@ -21,15 +21,15 @@ int main(){
 
     Solution::instance = &inst_tronc;
     Solution solution;
-    cout << "Solution::instance = " << static_cast<const Instance_tronc&>(*solution.instance) << endl;
-    cout << "solution.is_graph_com_connected() : "<< solution.is_graph_com_connected() << endl;
-    cout << " solution.nb_connected_component : " << solution.nb_connected_component() << endl;
-    cout << "solution.nb_capteurs() : " << solution.nb_capteurs() << endl;
-    cout << "solution.is_k_covered : " <<solution.is_k_covered() << endl;
-    cout << "solution.nb_captation_missed() : " << solution.nb_captation_missed() << endl;
+    //cout << "Solution::instance = " << static_cast<const Instance_tronc&>(*solution.instance) << endl;
+    //cout << "solution.is_graph_com_connected() : "<< solution.is_graph_com_connected() << endl;
+    //cout << " solution.nb_connected_component : " << solution.nb_connected_component() << endl;
+    //cout << "solution.nb_capteurs() : " << solution.nb_capteurs() << endl;
+    //cout << "solution.is_k_covered : " <<solution.is_k_covered() << endl;
+    //cout << "solution.nb_captation_missed() : " << solution.nb_captation_missed() << endl;
 
 
-    cout << "TEST CROSS OVER"<< endl;
+    //cout << "TEST CROSS OVER"<< endl;
     vector<bool> v1(solution.size(), 0);
     vector<bool> v2(solution.size(), 1);
     Solution P1(v1);
@@ -37,30 +37,28 @@ int main(){
 
     Solution E1(P1);
     Solution E2(P2);
-    cout << "P1 : fitness = " << P1.fitness() << " " << P1 << endl;
-    cout << "P2 : fitness = " << P2.fitness() << " " << P2 << endl;
+    //cout << "P1 : fitness = " << P1.fitness() << " " << P1 << endl;
+    //cout << "P2 : fitness = " << P2.fitness() << " " << P2 << endl;
 
     cross_over(P1, P2, E1, E2);
     E1.update_graphs();
-    cout << "E1 : fitness = " << E1.fitness() << " " << E1 << endl;
-    cout << "E2 : fitness = " << E2.fitness() << " " << E2 << endl;
+    //cout << "E1 : fitness = " << E1.fitness() << " " << E1 << endl;
+    //cout << "E2 : fitness = " << E2.fitness() << " " << E2 << endl;
 
     cout << "\n\n***************************************** TEST POPULATION *****************************************" << endl;
-    int N = 10;
+    int N = 10; //TODO : 100
     Population pop;
-    Solution sol_heuristic;
     for(int i=0; i<N; i++){
+        Solution sol_heuristic;
+
         heuristic(sol_heuristic);
         pop.push_back(sol_heuristic);
     }
-    
-    for(Solution sol : pop){
-        cout << sol.fitness() << " ";
-    }
+ 
     
     cout << "\nPopulation de taille " << pop.size() << endl;
-
-    genetic_algo(pop, 1,Selection::ROULETTE,0.5);
+    Solution best_sol = pop.best_individual();
+    genetic_algo(pop, best_sol, 1, Selection::ROULETTE, 0.5); //TODO : 3 min / ELITE
      
     // cout << "TEST HEURICTIC" << endl;
     

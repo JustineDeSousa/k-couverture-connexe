@@ -33,7 +33,7 @@ public:
     Population( vector<Solution>& solutions);
     /*************************************************************************/
     /***************************** GETTERS *****************************/
-    Solution best_individual() { update(); return best; };
+    Solution& best_individual() { update(); return best; }; //TODO : const
     /*******************************************************************/
     /***************************** UPDATES *****************************/
     // Mise à jour de best
@@ -43,7 +43,7 @@ public:
     void sort();
     void selection_roulette( Population& pop, int);
     void selection_elite( Population& pop, int);
-    void selection( Population& pop, int nb, Selection);
+    void selection( Population& pop, int nb, Selection select);
     /********************************************************************/
 
 };

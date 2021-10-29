@@ -12,7 +12,7 @@ Population::Population( vector<Solution>& solutions) {
 // TODO pop.update_best_solution()
 void Population::update(){
     sort();
-    Solution best((*this)[0]);
+    best = (*this)[0];
 }
 /*******************************************************************/
 /******************** FONCTIONS SELECTION *********************************/
@@ -32,17 +32,18 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
         partial_fit_sum.push_back( sum_fit );
     }
     
-
     // cout << "partial_fit_sum.size() = " << partial_fit_sum.size() << endl;
-
+    //cout << "out while" << endl;
+    cout << "sum_fit="<<sum_fit<<endl;
     int nb_ajout = 0;
     while( nb_ajout < nb_indiv ){
         int tirage = rand()%sum_fit; //int entre 0 et sum_fit
+        //cout << "in while" << endl;
         for(int i=0; i<int(size()); i++){
             if( tirage <= partial_fit_sum[i] ){
-            pop.push_back((*this)[0]);
-            nb_ajout ++;
-            break;
+                pop.push_back((*this)[i]);
+                nb_ajout ++;
+                break;
             }
         }
     }
@@ -54,7 +55,10 @@ void Population::selection_elite( Population& pop, int nb_indiv ){
         pop.push_back((*this)[i]);
     }
 }
+
+
 void Population::selection( Population& pop, int nb_indiv, Selection select){
+    if(nb_indiv <= 0 ) { cout << "selection nb_indiv <= 0 " << endl; }
     switch(select)
     {
     case Selection::ROULETTE:
