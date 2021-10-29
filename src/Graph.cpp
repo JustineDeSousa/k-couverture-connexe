@@ -10,22 +10,23 @@
  */
 
 Graph::Graph(const Instance * inst, vector<bool>& sol, Network network) : vector< set<int> >(sol.size()), graph_type(network) {
+    int n = size();
     switch (graph_type)
     {
     case Network::captation:
         // we don't consider the captation for the sink
-        for (int i=1; i<size(); i++) {
-            for(int j=1; j< size(); j++){
+        for (int i=1; i<n; i++) {
+            for(int j=1; j<n; j++){
                 if(!sol[j]) continue;
                 if(inst->capt_linked(i, j)) (*this)[i].insert(j);
             }
         }
         break;
     case Network::communication:
-        for (int i=0; i<size(); i++) {
+        for (int i=0; i<n; i++) {
             if(!sol[i] && i!=0) continue; // we only consider captors and the sink
 
-            for(int j=0; j<size(); j++){
+            for(int j=0; j<n; j++){
                 if( j == i ) continue;
                 if( !sol[j] ) continue;
                 if(inst->com_linked(i, j)) (*this)[i].insert(j);
@@ -40,9 +41,9 @@ Graph::Graph(const Instance * inst, vector<bool>& sol, Network network) : vector
 }
 Graph& Graph::operator=(const Graph& graph){
     if(this == &graph) return *this;
-
+    int n = graph.size();
     if(this->size() == 0 ) this->resize(graph.size());
-    for (int i = 0; i < graph.size(); i++)
+    for (int i = 0; i < n; i++)
     {
         (*this)[i] = graph[i];
     }
@@ -89,15 +90,16 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc) const{
  * @return int the number of connected components in graph communication
  */
  int Graph::nb_connected_components(vector<bool>& cap) const{
+    int n = cap.size();
     vector<bool> visited(size(), false);
-    for(int i=0; i < cap.size(); i++ ){
+    for(int i=0; i < n; i++ ){
         if(!cap[i]){
             visited[i]=true;
         } 
     }
     set<vector<int>> all_cc;
-
-    for (int i=0; i<size(); i++)
+    int m = size();
+    for (int i=0; i<m; i++)
     {
         if(!visited[i]) {
             vector<int> cc;
@@ -115,10 +117,11 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc) const{
 }
 
 void Graph::add_captor(const Instance * inst, vector<bool>& sol, int v){
+    int n = size();
     switch (graph_type)
     {
     case Network::captation:
-        for (uint i=1; i<size(); i++) // we dont consider the sink
+        for (int i=1; i<n; i++) // we dont consider the sink
         {
             if(inst->capt_linked(v, i)) {
                 // i is covered by captor v
@@ -129,7 +132,7 @@ void Graph::add_captor(const Instance * inst, vector<bool>& sol, int v){
         }
         break;
     case Network::communication:
-        for (uint i=0; i<size(); i++) {
+        for (int i=0; i<n; i++) {
             if(!sol[i] && i!=0) continue; // we only consider captors and the sink
             if( v == i) continue; // we don't add edge to itself
             if(inst->com_linked(v, i)) {
@@ -147,16 +150,17 @@ void Graph::add_captor(const Instance * inst, vector<bool>& sol, int v){
 
 
 void Graph::supprime_captor(int v){
+    int n = size();
     switch (graph_type)
     {
     case Network::captation:
-        for (int i=0; i<size(); i++) // we dont consider the sink
+        for (int i=0; i<n; i++) // we dont consider the sink
         {
             (*this)[i].erase(v);
         }
         break;
     case Network::communication:
-        for (int i=0; i<size(); i++) // we dont consider the sink
+        for (int i=0; i<n; i++) // we dont consider the sink
         {   
             if(i == v){
                 (*this)[i] = set<int>();

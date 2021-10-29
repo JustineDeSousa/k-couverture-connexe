@@ -85,8 +85,9 @@ int main(){
     }
     cout << "pop.sort()" << endl;
     pop.sort();
-    for(uint i=0; i<pop.size(); i++){
-        cout << "sol " << i << "(" << pop[i].fitness() << endl;
+    cout << "here\n";
+    for(int i=0; i<int(pop.size()); i++){
+        cout << "sol " << i << ":" << pop[i].fitness() << endl;
     }
     genetic_algo(pop, 1,Selection::ROULETTE,0.5);
     cout << "OK" << endl;  

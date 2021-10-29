@@ -2,8 +2,9 @@
 
 /**************************************** CONSTRUCTORS ****************************************/
 Solution::Solution(const Solution& solution, bool G)
-{   
-    this->resize(solution.size());
+{
+    *this=vector<bool>(solution.size());   
+    // this->resize(solution.size());
 
     for (uint i = 0; i < solution.size(); i++)
     {
@@ -18,8 +19,8 @@ Solution::Solution(const Solution& solution, bool G)
 
 Solution& Solution::operator=(const Solution& solution){
     if(this == &solution) return *this;
-    if(this->size() == 0 ) this->resize(solution.size());
-    for (uint i = 0; i < solution.size(); i++)
+    if(this->size() == 0 ) *this=vector<bool>(solution.size());//->resize(solution.size());
+    for (int i = 0; i < int(solution.size()); i++)
     {
         (*this)[i] = solution[i];
     }

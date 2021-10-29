@@ -19,7 +19,7 @@ public:
     /**************************************** CONSTRUCTORS ****************************************/
     Solution(): vector<bool>(Solution::instance->size(),1){ (*this)[0] = 0; };
     Solution(const vector<bool>& vec): vector<bool>(vec) {};
-    Solution(const Solution& solution, bool G);
+    Solution(const Solution& solution, bool G=false);
     Solution& operator=(const Solution& solution); //TODO tester
     /**********************************************************************************************/
     /**************************************** GETTERS *********************************************/

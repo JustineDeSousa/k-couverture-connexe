@@ -11,7 +11,8 @@ void Population::update(){
 /*******************************************************************/
 /******************** FONCTIONS SELECTION *********************************/
 void Population::sort(){
-     for(int i=0; i<size(); i++){
+    int n = size();
+     for(int i=0; i<n; i++){
         (*this)[i].update_graphs();
     }
      std::sort( begin(), end() );

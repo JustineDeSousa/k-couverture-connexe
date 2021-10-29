@@ -32,7 +32,6 @@ void new_generation(Population& pop, Selection selection, float rep_rate){
 
 void genetic_algo(Population& pop, float maximum_duration, Selection selection, float rep_rate){
     cout << "\n******************** Genetic algorithm ********************\n";
-    int N = pop.size();
     clock_t time_begin = clock();
     int nb_iter = 0;
     while( double(clock() - time_begin)/CLOCKS_PER_SEC < 60*maximum_duration ){ // while( durée < min_max min)
