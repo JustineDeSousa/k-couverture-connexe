@@ -39,6 +39,12 @@ Graph::Graph(const Instance * inst, vector<bool>& sol, Network network) : vector
         break;
     }
 }
+Graph::Graph(const Graph& graph) : vector< set<int> >(graph.size()){
+    for(int i=0; i<int(graph.size()); i++ ){
+        (*this)[i] = set<int>(graph[i]);
+    }
+
+}
 Graph& Graph::operator=(const Graph& graph){
     if(this == &graph) return *this;
     int n = graph.size();

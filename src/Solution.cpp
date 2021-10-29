@@ -1,9 +1,8 @@
 #include "../include/Solution.hpp"
 
 /**************************************** CONSTRUCTORS ****************************************/
-Solution::Solution(const Solution& solution, bool G)
-{
-    *this=vector<bool>(solution.size());   
+Solution::Solution(const Solution& solution, bool G) : vector<bool>(solution.size())
+{   
     // this->resize(solution.size());
 
     for (uint i = 0; i < solution.size(); i++)
