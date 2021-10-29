@@ -147,7 +147,7 @@ void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& 
 ostream& operator<<(ostream& stream, const Solution& solution){
     stream << "Solution (taille " << solution.size() << ")" << endl;
     stream << "{" << endl;
-    for(uint i=0; i<solution.size(); i++){
+    for(int i=0; i<int(solution.size()); i++){
         stream << solution[i] << "\t";
         if( i%Solution::instance->Grid_size() == Solution::instance->Grid_size()-1) stream << endl;
     }
