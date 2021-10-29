@@ -17,5 +17,8 @@ void genetic_algo(Population& pop, Solution& best_sol, float maximum_duration, S
 void heuristic(Solution& sol);
 
 
+void neighbour_solution(const Solution& sol, int n, set<vector<bool>>& neighbours_sol);
+
+
 
 #endif

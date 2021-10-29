@@ -20,14 +20,6 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     cout << "*****CROSS_OVER\n";
     Population enfants;
 
-/*
-    do
-    {
-       
-    } while (enfants.size() == 0);
-*/
-    
-
     for(Solution P1 : parents){
         for(Solution P2 : parents){
             if( P1 == P2) continue; 
@@ -40,15 +32,28 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
         }
     }
 
-
-    //TODO : mutation
-
-    pop = parents;
+    // When parents are homo, enfants is empty
+    // we search neighbour solutions
     if(enfants.size() == 0){ 
         cout << "PARENT IDENTIQUES" << endl; 
         //cerr << "ERROR : cas homogène ! " << endl;
         //exit(-1);
+        set<vector<bool>> neighbours_sol;
+        neighbour_solution(parents[0], parents.size()*2, neighbours_sol);
+        
+        set<vector<bool>>::const_iterator it = neighbours_sol.begin();
+        for(; it != neighbours_sol.end(); it++) {
+            enfants.push_back(Solution( (*it) ) );
+        }
     }
+
+    for (int i = 0; i < enfants.size(); i++)
+    {
+        enfants[i].mutation(0.05); //TODO : mute proba à voir
+    }
+    
+
+    pop = parents;
     
     cout << "enfants.best_individual() fit= " <<  enfants.best_individual().fitness() << endl;
 
@@ -94,11 +99,17 @@ void genetic_algo(Population& pop, Solution& best_sol, float maximum_duration, S
         new_generation(pop, best_sol, selection, rep_rate);
         nb_iter++;
     }
-    cout << double(clock()-time_begin)/CLOCKS_PER_SEC << "s -- BEST INDIVIDUAL : " << best_sol << endl;
+    cout << double(clock()-time_begin)/CLOCKS_PER_SEC << " (s) -- BEST INDIVIDUAL : " << best_sol << endl;
+    cout << "with fit = " << best_sol.fitness() << endl;
 }
 
 
 
+/**
+ * @brief Generate an heuristic solution by deleting captors randomly
+ * 
+ * @param sol 
+ */
 void heuristic(Solution& sol){// should be a default solution placing captors at every targets except the sink
 
     set<int> available_bits;
@@ -122,4 +133,42 @@ void heuristic(Solution& sol){// should be a default solution placing captors at
             sol.reverse(bit, true); // undo
         }
     }
+}
+
+
+/**
+ * @brief Given a solution, we return n different solutions but having the same number of captors as given
+ * Also called "Structure Voisinage"
+ * 
+ * @param sol 
+ * @param n 
+ * @param neighbours_sol 
+ */
+void neighbour_solution(const Solution& sol, int n, set<vector<bool>>& neighbours_sol){
+    vector<bool> sol_ = sol;
+    neighbours_sol = set<vector<bool>>(); // an empty set
+    int nb_capt = sol.nb_capteurs();
+
+    do
+    {
+        vector<bool> v(sol.size(), 0);
+
+        // select captors 
+        for (int i = 0; i < nb_capt; i++)
+        {
+            int r = rand()%(sol.size()); // a position between 0 and size()-1
+            if(v[r]) {i--; continue;} // if r already is captor
+
+            v[r] = 1;
+        }
+
+        if (accumulate(v.begin(),v.end(),0) != nb_capt) {
+            cerr << "neighbour_solution is wrongly generated ! "<< endl;
+            exit(-1);
+         }
+
+        if(v != sol_) { neighbours_sol.insert(neighbours_sol.end(), v); }
+        
+    } while (neighbours_sol.size() != n);
+    
 }

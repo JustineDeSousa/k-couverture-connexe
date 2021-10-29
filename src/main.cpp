@@ -45,6 +45,7 @@ int main(){
     //cout << "E1 : fitness = " << E1.fitness() << " " << E1 << endl;
     //cout << "E2 : fitness = " << E2.fitness() << " " << E2 << endl;
 
+
     cout << "\n\n***************************************** TEST POPULATION *****************************************" << endl;
     int N = 10; //TODO : 100
     Population pop;
@@ -57,8 +58,14 @@ int main(){
  
     
     cout << "\nPopulation de taille " << pop.size() << endl;
+
     Solution best_sol = pop.best_individual();
+    int v_fit = best_sol.fitness();
+
     genetic_algo(pop, best_sol, 1, Selection::ROULETTE, 0.5); //TODO : 3 min / ELITE
+
+
+    cout << "solution départ fit = " << v_fit << endl;
      
     // cout << "TEST HEURICTIC" << endl;
     
