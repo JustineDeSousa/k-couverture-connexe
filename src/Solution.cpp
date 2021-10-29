@@ -42,7 +42,7 @@ void Solution::update_graphs(int t){
     }
 }
 void Solution::update_graphs(){
-    graph_capt = Graph(Solution::instance, *this, Network::captation); 
+    graph_capt = Graph(Solution::instance, *this, Network::captation);
     graph_com = Graph(Solution::instance, *this, Network::communication);
 }
 /*************************************************************************/
@@ -97,12 +97,12 @@ int Solution::captation(int i) const{
  * @return int 
  */
 int Solution::nb_captation_missed() const{
-    cout << "\t\t\t\tSolution::nb_captation_missed()\n";
     int missed = 0;
     for (int i=1; i<int(size()); i++)// we don't consider the k-coverage for the sink
     {
+        /*
         if(graph_capt.size() == 0){
-            cout << "\t\t\t\t" << i << " : graph_capt.size() = " << graph_capt.size() << endl;
+            // << "\t\t\t\t" << i << " : graph_capt.size() = " << graph_capt.size() << endl;
             if(*this==vector<bool>(size(),0)){
                 cout << "\t\t\t\tsol == vecteur nul" << endl;
             }else if(*this == vector<bool>(size(),1)){
@@ -110,11 +110,11 @@ int Solution::nb_captation_missed() const{
                 //return 0;
             }
         } 
+        */
         if(graph_capt.degree(i) < Solution::instance->k()){
             missed += Solution::instance->k() - graph_capt.degree(i);
         }
     }
-    cout << "\t\t\t\tnb_captation_missed = " << missed <<endl;
     return missed;
 }
 
@@ -139,9 +139,7 @@ bool Solution::is_k_covered() const{
  * @return int 
  */
 int Solution::fitness() const{
-    int fit = nb_capteurs() + nb_connected_component()-1 + nb_captation_missed();
-    cout << "\t\t\tfitness = " << fit << endl;
-    return fit;
+    return nb_capteurs() + nb_connected_component()-1 + nb_captation_missed();
 }
 
 

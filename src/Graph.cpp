@@ -10,23 +10,24 @@
  */
 
 Graph::Graph(const Instance * inst, vector<bool>& sol, Network network) : vector< set<int> >(sol.size()), graph_type(network) {
-    int n = size();
     switch (graph_type)
     {
     case Network::captation:
+        cout << "Graph(const Instance*, vector<bool>&, Network) : \n";
+        cout << "graph size = " << size() << endl;
         // we don't consider the captation for the sink
-        for (int i=1; i<n; i++) {
-            for(int j=1; j<n; j++){
+        for (int i=1; i<int( size()); i++) {
+            for(int j=1; j<int( size()); j++){
                 if(!sol[j]) continue;
                 if(inst->capt_linked(i, j)) (*this)[i].insert(j);
             }
         }
         break;
     case Network::communication:
-        for (int i=0; i<n; i++) {
+        for (int i=0; i<int( size()); i++) {
             if(!sol[i] && i!=0) continue; // we only consider captors and the sink
 
-            for(int j=0; j<n; j++){
+            for(int j=0; j<int( size()); j++){
                 if( j == i ) continue;
                 if( !sol[j] ) continue;
                 if(inst->com_linked(i, j)) (*this)[i].insert(j);
@@ -42,9 +43,9 @@ Graph::Graph(const Instance * inst, vector<bool>& sol, Network network) : vector
 }
 
 
-Graph::Graph(const Graph& graph) //: vector< set<int> >(graph.size())
+Graph::Graph(const Graph& graph) : vector< set<int> >(graph.size())
 {
-    this->resize(graph.size());
+    //this->resize(graph.size());
     for(int i=0; i<int(graph.size()); i++ ){
         (*this)[i] = graph[i];
     }
@@ -55,9 +56,9 @@ Graph::Graph(const Graph& graph) //: vector< set<int> >(graph.size())
 
 Graph& Graph::operator=(const Graph& graph){
     if(this == &graph) return *this;
-    int n = graph.size();
+    graph_type = graph.type();
     if(this->size() == 0 ) this->resize(graph.size());
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < int(graph.size()); i++)
     {
         (*this)[i] = graph[i];
     }
@@ -82,7 +83,6 @@ void swap(Graph& g1, Graph& g2){
 /**
  * @brief Find a connected component (set of vertices) explored by BFS from the departure
  * 
- * @tparam number 
  * @param depart 
  * @param visited modified after the BFS
  */
@@ -116,6 +116,10 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc) const{
  * @return int the number of connected components in graph communication
  */
  int Graph::nb_connected_components(vector<bool>& cap) const{
+    // if( cap == vector<bool>(cap.size(),0) ){
+    //     cout << cap.size() << endl;
+    //     return cap.size();
+    // }
     vector<bool> visited(size(), false);
     for(int i=0; i < int(cap.size()); i++ ){
         if(!cap[i]){
@@ -139,16 +143,14 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc) const{
         exit(-1);
         }
     }
-    cout << "\t\t\t\tnb cc = " << all_cc.size() << endl;
     return all_cc.size();
 }
 
 void Graph::add_captor(const Instance * inst, vector<bool>& sol, int v){
-    int n = size();
     switch (graph_type)
     {
     case Network::captation:
-        for (int i=1; i<n; i++) // we dont consider the sink
+        for (int i=1; i<int(size()); i++) // we dont consider the sink
         {
             if(inst->capt_linked(v, i)) {
                 // i is covered by captor v
@@ -159,7 +161,7 @@ void Graph::add_captor(const Instance * inst, vector<bool>& sol, int v){
         }
         break;
     case Network::communication:
-        for (int i=0; i<n; i++) {
+        for (int i=0; i<int(size()); i++) {
             if(!sol[i] && i!=0) continue; // we only consider captors and the sink
             if( v == i) continue; // we don't add edge to itself
             if(inst->com_linked(v, i)) {
@@ -177,17 +179,16 @@ void Graph::add_captor(const Instance * inst, vector<bool>& sol, int v){
 
 
 void Graph::supprime_captor(int v){
-    int n = size();
     switch (graph_type)
     {
     case Network::captation:
-        for (int i=0; i<n; i++) // we dont consider the sink
+        for (int i=0; i<int(size()); i++) // we dont consider the sink
         {
             (*this)[i].erase(v);
         }
         break;
     case Network::communication:
-        for (int i=0; i<n; i++) // we dont consider the sink
+        for (int i=0; i<int(size()); i++) // we dont consider the sink
         {   
             if(i == v){
                 (*this)[i] = set<int>();

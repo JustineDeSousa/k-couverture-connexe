@@ -78,15 +78,25 @@ int main(){
     // cout << endl << "E1 : " << E1 << endl;
     // cout << endl << "E2 : " << E2 << endl;
 
-    vector<int> myvec = {1, 2, 3, 4};
-    std::sort(myvec.begin(), myvec.end(), myfunction);
-    for(int i:myvec){cout << i<<", ";}
-    cout <<endl;
+    cout << "\n\n***************************************** TEST Graph(Instance*,vector<bool>&,Network) *****************************************" << endl;
+    Graph G(Solution::instance,v2,Network::captation);
+    cout << "Graph G (taille " << G.size() << ") : " << G << endl;
+
+    cout << "P2.update_graphs() : \n"; 
+    P2.update_graphs();
+    cout << "P2.get_graph_capt() = " << P2.get_graph_capt() << endl;
+    cout << "P2.get_graph_com() = " << P2.get_graph_com() << endl;
+
     cout << "\n\n***************************************** TEST POPULATION *****************************************" << endl;
     vector<Solution> solutions = {P1, P2, E1, E2};
     Population pop(solutions);
     cout << "Population de taille " << pop.size() << endl;
 
+    for(int i=0; i<pop.size(); i++){
+        //pop[i].update_graphs();
+        cout << "sol " << i << " : " << pop[i].fitness() << endl;// ") : " << pop[i] << endl;
+        cout << pop[i]<< endl;
+    }
 
     cout << "pop.sort()" << endl;
     pop.sort();

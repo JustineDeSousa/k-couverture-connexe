@@ -73,7 +73,6 @@ void Population::selection( Population& pop, int nb_indiv, Selection select){
 }
 /*******************************************************************/
 /******************** AFFICHAGE ************************************/
-
 ostream& operator <<(ostream& stream, Population& pop){
     stream << "Population : (" << pop.size() << " individus) [ " << endl;
     for (Solution sol : pop){
@@ -82,3 +81,4 @@ ostream& operator <<(ostream& stream, Population& pop){
     stream << " ]" << endl;
     return stream;
 }
+/*******************************************************************/
