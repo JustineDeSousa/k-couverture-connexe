@@ -10,92 +10,62 @@ using namespace std;
 
 const Instance* Solution::instance;
 
-void test(){
-//    Solution solution;
-//     cout << "Solution::instance = " << static_cast<const Instance_tronc&>(*solution.instance) << endl;
-//     cout << "solution.is_graph_com_connected() : "<< solution.is_graph_com_connected() << endl;
-//     cout << " solution.nb_connected_component : " << solution.nb_connected_component() << endl;
-//     cout << "solution.nb_capteurs() : " << solution.nb_capteurs() << endl;
-//     cout << "solution.is_k_covered : " <<solution.is_k_covered() << endl;
-//     cout << "solution.nb_captation_missed() : " << solution.nb_captation_missed() << endl;
+
+int main(){
+    srand (static_cast <unsigned> (time(0)));
+
+    
+    //cout << endl << "TEST INSTANCE TRONQUEE" << endl;
+    string instance_name = "grille1010_1";
+    Instance_tronc inst_tronc(instance_name);
+
+    Solution::instance = &inst_tronc;
+    Solution solution;
+    //cout << "Solution::instance = " << static_cast<const Instance_tronc&>(*solution.instance) << endl;
+    //cout << "solution.is_graph_com_connected() : "<< solution.is_graph_com_connected() << endl;
+    //cout << " solution.nb_connected_component : " << solution.nb_connected_component() << endl;
+    //cout << "solution.nb_capteurs() : " << solution.nb_capteurs() << endl;
+    //cout << "solution.is_k_covered : " <<solution.is_k_covered() << endl;
+    //cout << "solution.nb_captation_missed() : " << solution.nb_captation_missed() << endl;
 
 
-//     cout << "TEST CROSS OVER"<< endl;
-//     vector<bool> v1(solution.size(), 0);
-//     vector<bool> v2(solution.size(), 1);
-//     Solution P1(v1);
-//     Solution P2(v2);
+    //cout << "TEST CROSS OVER"<< endl;
+    vector<bool> v1(solution.size(), 0);
+    vector<bool> v2(solution.size(), 1);
+    Solution P1(v1);
+    Solution P2(v2);
 
-//     Solution E1(P1, false);
-//     Solution E2(P2, false);
-//     cout << P1 << endl;
-//     cout << P2 << endl;
+    Solution E1(P1);
+    Solution E2(P2);
+    //cout << "P1 : fitness = " << P1.fitness() << " " << P1 << endl;
+    //cout << "P2 : fitness = " << P2.fitness() << " " << P2 << endl;
 
-//     cross_over(P1, P2, E1, E2);
-//     cout << endl << "E1 : " << E1 << endl;
-//     cout << endl << "E2 : " << E2 << endl;
+    cross_over(P1, P2, E1, E2);
+    E1.update_graphs();
+    //cout << "E1 : fitness = " << E1.fitness() << " " << E1 << endl;
+    //cout << "E2 : fitness = " << E2.fitness() << " " << E2 << endl;
 
     cout << "\n\n***************************************** TEST POPULATION *****************************************" << endl;
-    int N = 100;
+    int N = 10; //TODO : 100
     Population pop;
-    
     for(int i=0; i<N; i++){
         Solution sol_heuristic;
+
         heuristic(sol_heuristic);
         pop.push_back(sol_heuristic);
     }
+ 
+    
     cout << "\nPopulation de taille " << pop.size() << endl;
-    for(Solution sol : pop){
-        cout << sol.fitness() << " ";
-    }
-    Solution best_sol;
-    genetic_algo(pop, best_sol, 1,Selection::ELITE,0.5);
+    Solution best_sol = pop.best_individual();
+    genetic_algo(pop, best_sol, 1, Selection::ROULETTE, 0.5); //TODO : 3 min / ELITE
      
     // cout << "TEST HEURICTIC" << endl;
-    // Solution sol_heuristic;
+    
     // sol_heuristic.update_graphs();
     // cout << "AVANT sol_heuristic=" << sol_heuristic << endl <<"fit = " << sol_heuristic.fitness()<< endl;
-    // heuristic(sol_heuristic);
+    
     // cout <<"APRES sol_heuristic = " << sol_heuristic << endl <<"fit = " << sol_heuristic.fitness()<< endl;
     // cout << "is_realisable = " <<sol_heuristic.is_realisable() << endl;
-
-}
-
-
-
-int main(int argc, char** argv){
-    srand (static_cast <unsigned> (time(0)));
-
-    // Check the number of parameters
-    if (argc < 2) {
-        cerr<< "No input file" << endl;
-        exit(-1);
-    }
-    string fname = argv[1];
-    vector<string> seglist;
-    stringstream ss(fname);
-    string s;
-    
-    while(getline(ss, s, '/'))
-    {
-        seglist.push_back(s);
-    }
-
-    string instance_name = seglist[2].substr(0, seglist[2].size()-4);
-    cout << "Input file name : " <<instance_name << endl;
-
-
-    if(instance_name[0] == 'c'){
-        Instance_alea inst_alea(instance_name);
-        Solution::instance = &inst_alea;
-        test();
-
-    }else if(instance_name[0] == 'g'){
-        Instance_tronc inst_tronc(instance_name);
-        Solution::instance = &inst_tronc;
-        test();
-    }
-
-
 
 }

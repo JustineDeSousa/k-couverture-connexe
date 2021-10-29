@@ -31,6 +31,7 @@ Instance_alea::Instance_alea( const string instance_name, const int capt, const 
     vector<string> tab;
     tokenize(instance_name, '_', tab);
     grid_size = stoi(tab[1]);
+    width_bit_mask = (0.5*grid_size);
 
     string filename = "./instances/" + instance_name + ".dat";
     cout << "Instance_alea:: Lecture du fichier " << filename << endl;
@@ -64,8 +65,8 @@ void Instance_alea::bit_mask(float x, float y, vector<int>& result)const {
 
     for(uint i=0; i<cibles.size(); i++){
 
-        x_in = cibles[i].first >= x && cibles[i].first <= x+width_bit_mask;
-        y_in = cibles[i].second >= y && cibles[i].second <= y+width_bit_mask;
+        x_in = cibles[i].first >= x && cibles[i].first <= x+this->width_bit_mask;
+        y_in = cibles[i].second >= y && cibles[i].second <= y+this->width_bit_mask;
         if(x_in && y_in){
             result.push_back(i);
         }

@@ -28,7 +28,7 @@ protected:
     int const R_capt; // radius captation
     int const R_com; // radius communication
     int const K; // k couverture
-    int const width_bit_mask; //pour le crossover
+    int width_bit_mask; //pour le crossover
 
     /*************************** AFFICHAGE ***************************/
     ostream& print(ostream&) const;
