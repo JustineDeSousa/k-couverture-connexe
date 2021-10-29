@@ -13,8 +13,6 @@ Graph::Graph(const Instance * inst, vector<bool>& sol, Network network) : vector
     switch (graph_type)
     {
     case Network::captation:
-        cout << "Graph(const Instance*, vector<bool>&, Network) : \n";
-        cout << "graph size = " << size() << endl;
         // we don't consider the captation for the sink
         for (int i=1; i<int( size()); i++) {
             for(int j=1; j<int( size()); j++){
@@ -66,17 +64,7 @@ Graph& Graph::operator=(const Graph& graph){
     return *this;
 }
 
-void swap(Graph& g1, Graph& g2){
-    Graph g3(g1);
-    for (int i = 0; i < g3.size(); i++)
-    {
-        g1[i] = g2[i];
-        g2[i] = g3[i];
-        g1.graph_type = g2.graph_type;
-        g2.graph_type = g3.graph_type;
-    }
-    
-}
+
 /**********************************************************************************************/
 /******************************** OPERATIONS DE GRAPHE ****************************************/
 /**
@@ -115,10 +103,7 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc) const{
  * @return int the number of connected components in graph communication
  */
  int Graph::nb_connected_components(vector<bool>& cap) const{
-    // if( cap == vector<bool>(cap.size(),0) ){
-    //     cout << cap.size() << endl;
-    //     return cap.size();
-    // }
+
     vector<bool> visited(size(), false);
     for(int i=0; i < int(cap.size()); i++ ){
         if(!cap[i]){
