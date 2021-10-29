@@ -20,33 +20,46 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     cout << "*****CROSS_OVER\n";
     Population enfants;
 
+/*
+    do
+    {
+       
+    } while (enfants.size() == 0);
+*/
+    
+
     for(Solution P1 : parents){
         for(Solution P2 : parents){
             if( P1 == P2) continue; 
-            Solution E1; Solution E2;
+            Solution E1(P1); Solution E2(P2);
             cross_over(P1, P2, E1, E2);
-            cout << endl << "E1 : " << E1.fitness() << " " << "E2 : " << E2.fitness() << endl;
+            //cout << endl << "E1 : " << E1.fitness() << " " << "E2 : " << E2.fitness() << endl;
             enfants.push_back(E1);
             enfants.push_back(E2);
 
         }
     }
-    
-    //TODO : confused
-    Solution pop_best = pop.best_individual();
-    cout << pop_best << endl;
-    if( pop_best < best_sol ){
-        best_sol = pop_best;
-        cout << "best_sol_fitness() = " << best_sol.fitness() << endl;
+
+
+    //TODO : mutation
+
+    pop = parents;
+    if(enfants.size() == 0){ 
+        cout << "PARENT IDENTIQUES" << endl; 
+        //cerr << "ERROR : cas homogène ! " << endl;
+        //exit(-1);
     }
     
-    pop = parents;
     cout << "enfants.best_individual() fit= " <<  enfants.best_individual().fitness() << endl;
-    if( enfants.best_individual() < best_sol ){
-        best_sol = enfants.best_individual();
-        cout << "best_sol_fitness() = " << best_sol.fitness() << endl;
-        pop.push_back(best_sol); //TODO: ajouter vest sol dans nouvelle pop
 
+    if( enfants.best_individual() < best_sol ){ // Soit enfants évoluent 
+        best_sol = enfants.best_individual();
+        cout << "EVOLUÉ !!! best_sol_fitness() = " << best_sol.fitness() << endl;
+        pop.push_back(best_sol); 
+
+    }else if( best_sol < pop.best_individual()){ // soit ils s'améliore pas
+        pop.push_back(best_sol);
+        cout << "NON EVOLUE best_fit= "<< best_sol.fitness() << endl;
     }
 
     //Nouvelle génération de taille N = rep_rate*N parents + (1-rep_rate)*N enfants
