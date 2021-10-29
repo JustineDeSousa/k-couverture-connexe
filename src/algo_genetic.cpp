@@ -3,12 +3,13 @@
 void new_generation(Population& pop, Solution& best_sol, Selection selection, float rep_rate){
     //Population initiale de taille N
     int N = pop.size();
-    
-    //cout <<  pop.best_individual() << endl;
+    int nb_indiv_parents= rep_rate*N;
+    cout << "new_generation nb_indiv_parents: " <<nb_indiv_parents<<endl;
     
     //Population de reproducteurs de taille rep_rate*N
     Population parents;
-    pop.selection(parents,rep_rate*N,selection);
+    pop.selection(parents, nb_indiv_parents, selection);
+    cout << "parents.size() : " << parents.size() << endl;
 
     //Population enfant de taille (rep_rate*N)!
     cout << "*****CROSS_OVER\n";
@@ -16,30 +17,29 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     
     for(Solution P1 : parents){
         for(Solution P2 : parents){
-            if( P1 == P2){continue;} 
-            Solution E1;
-            Solution E2;
+            if( P1 == P2) continue; 
+            Solution E1(P1); Solution E2(P2);
             cross_over(P1, P2, E1, E2);
-            // cout << "E1 : " << E1.fitness() << " " << "E2 : " << E2.fitness() << endl;
+            cout << endl << "E1 : " << E1.fitness() << " " << "E2 : " << E2.fitness() << endl;
             enfants.push_back(E1);
             enfants.push_back(E2);
+
         }
     }
-    cout << "la fin du cross_over" << endl;
-
-    
-
     pop = parents;
-    enfants.selection(pop,(1-rep_rate)*N, selection); //Les meilleurs enfants vont dans pop (après les parents)
+    int nb_indiv_enfants = N - pop.size(); // (1-rep_rate)*N;
+    cout << "nb_indiv_enfants="<<nb_indiv_enfants<<endl;
+    enfants.selection(pop,nb_indiv_enfants, selection); //Les meilleurs enfants vont dans pop (après les parents)
 
     Solution pop_best = pop.best_individual();
-    cout << pop_best << endl;
+    cout << "pop.best_individual() fit= " <<  pop_best.fitness() << endl;
     if( pop_best < best_sol ){
         best_sol = pop_best;
         cout << "best_sol_fitness() = " << best_sol.fitness() << endl;
+        // pop.push_back(best_sol); //TODO: ajouter vest sol dans nouvelle pop
     }
-
     //Nouvelle génération de taille N = rep_rate*N parents + (1-rep_rate)*N enfants
+    cout <<"new population size=" << pop.size()<<endl;
     cout << "********************\n";
 }
 

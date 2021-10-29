@@ -143,8 +143,9 @@ void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& 
     vector<int> bits_to_cross;
     int nb_cross = P1.size() * 0.1; //TODO : A VOIR
     do
-    {
+    {   bits_to_cross = vector<int>();
         P1.bit_mask(bits_to_cross);
+        cout << "bits size  : " << bits_to_cross.size() << "nb_cross=" << nb_cross << endl;
     } while (bits_to_cross.size() < nb_cross);
     for (int bit : bits_to_cross){
         E1[bit] = P2[bit];
