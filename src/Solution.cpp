@@ -140,7 +140,7 @@ void Solution::bit_mask(vector<int>& result) const{
 }
 // Renvoie les deux enfants E1 et E2 issus du cross_over de P1 et P2
 void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& E2){
-    cout << "  do cross-over  ";
+    //cout << "  do cross-over  ";
     vector<int> bits_to_cross;
     int nb_cross = P1.size() * 0.05; //TODO : A VOIR
 
