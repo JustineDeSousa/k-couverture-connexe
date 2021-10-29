@@ -47,7 +47,7 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
             }
         }
     }
-    cout << "*****roulette OK" << endl;
+    //cout << "*****roulette OK" << endl;
 }
 void Population::selection_elite( Population& pop, int nb_indiv ){
     sort();

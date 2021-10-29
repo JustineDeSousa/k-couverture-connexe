@@ -7,7 +7,6 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     
     Population parents;
     pop.selection(parents, nb_indiv_parents, selection);
-    cout << "parents.size() : " << parents.size() << endl;
 
     cout << "APRES SELECT parents.size() = " << parents.size() << endl;
 
@@ -38,8 +37,8 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
         cout << "PARENT IDENTIQUES" << endl; 
         //cerr << "ERROR : cas homogène ! " << endl;
         //exit(-1);
-        set<vector<bool>> neighbours_sol;
-        neighbour_solution(parents[0], parents.size()*2, neighbours_sol);
+        set<vector<bool>> neighbours_sol; 
+        neighbour_solution(parents[0], ( N - parents.size()), neighbours_sol); //TODO : potential PB if N is too big
         
         set<vector<bool>>::const_iterator it = neighbours_sol.begin();
         for(; it != neighbours_sol.end(); it++) {
@@ -55,7 +54,7 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
 
     pop = parents;
     
-    cout << "enfants.best_individual() fit= " <<  enfants.best_individual().fitness() << endl;
+    //cout << "enfants.best_individual() fit= " <<  enfants.best_individual().fitness() << endl;
 
     if( enfants.best_individual() < best_sol ){ // Soit enfants évoluent 
         best_sol = enfants.best_individual();
