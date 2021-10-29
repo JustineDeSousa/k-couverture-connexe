@@ -79,15 +79,27 @@ int main(){
     vector<Solution> solutions = {P1, P2, E1, E2};
     Population pop(solutions);
     cout << "Population de taille " << pop.size() << endl;
-    for(uint i=0; i<pop.size(); i++){
+
+    for(int i=0; i<pop.size(); i++){
         pop[i].update_graphs();
-        cout << "sol " << i << " : " << pop[i].fitness() << " : " << pop[i] << endl;
+        cout << "sol " << i << " : " << pop[i].fitness() << endl;// ") : " << pop[i] << endl;
+        cout << pop[i]<< endl;
     }
     
     cout << "pop.sort()" << endl;
     pop.sort();
-    cout << "here\n";
+    for(int i=0; i<pop.size(); i++){
+        cout << "sol " << i << "(" << pop[i].fitness() << endl;
+        cout << pop[i]<<endl;
+    }
 
+cout << "OKOKOKOKOKOK" << endl;  
+
+    pop[0].update_graphs();
+    cout <<"pop[0] = " << pop[0].fitness()<<endl;
+    cout << pop[0]<<endl;
+    //genetic_algo(pop, 1,Selection::ROULETTE,0.5);
+    
 
     // for(int i=0; i<int(pop.size()); i++){
     //     cout << "sol " << i << ":" << pop[i].fitness() << endl;
