@@ -10,17 +10,8 @@ using namespace std;
 
 const Instance* Solution::instance;
 
-
-int main(){
-    srand (static_cast <unsigned> (time(0)));
-
-    
-    //cout << endl << "TEST INSTANCE TRONQUEE" << endl;
-    string instance_name = "grille1010_1";
-    Instance_tronc inst_tronc(instance_name);
-
-    Solution::instance = &inst_tronc;
-    Solution solution;
+void test(){
+   Solution solution;
     cout << "Solution::instance = " << static_cast<const Instance_tronc&>(*solution.instance) << endl;
     cout << "solution.is_graph_com_connected() : "<< solution.is_graph_com_connected() << endl;
     cout << " solution.nb_connected_component : " << solution.nb_connected_component() << endl;
@@ -62,5 +53,44 @@ int main(){
     // heuristic(sol_heuristic);
     // cout <<"APRES sol_heuristic = " << sol_heuristic << endl <<"fit = " << sol_heuristic.fitness()<< endl;
     // cout << "is_realisable = " <<sol_heuristic.is_realisable() << endl;
+
+}
+
+
+
+int main(int argc, char** argv){
+    srand (static_cast <unsigned> (time(0)));
+
+    // Check the number of parameters
+    if (argc < 2) {
+        cerr<< "No input file" << endl;
+        exit(-1);
+    }
+    string fname = argv[1];
+    vector<string> seglist;
+    stringstream ss(fname);
+    string s;
+    
+    while(getline(ss, s, '/'))
+    {
+        seglist.push_back(s);
+    }
+
+    string instance_name = seglist[2].substr(0, seglist[2].size()-4);
+    cout << "Input file name : " <<instance_name << endl;
+
+
+    if(instance_name[0] == 'c'){
+        Instance_alea inst_alea(instance_name);
+        Solution::instance = &inst_alea;
+        test();
+
+ }else if(instance_name[0] == 'g'){
+        Instance_tronc inst_tronc(instance_name);
+        Solution::instance = &inst_tronc;
+        test();
+}
+
+
 
 }
