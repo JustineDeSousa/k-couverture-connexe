@@ -81,7 +81,7 @@ ostream& Instance_alea::print(ostream& stream) const{
         stream << "#" << i << "=("  << cibles[i].first;
         stream << ","               << cibles[i].second << ")\t";
         
-        if(i%grid_size == 9) stream << endl;
+        if(i%grid_size == grid_size) stream << endl;
     }
     stream << "]" << endl;
 

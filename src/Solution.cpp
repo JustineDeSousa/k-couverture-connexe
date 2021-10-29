@@ -149,7 +149,7 @@ ostream& operator<<(ostream& stream, const Solution& solution){
     stream << "{" << endl;
     for(uint i=0; i<solution.size(); i++){
         stream << solution[i] << "\t";
-        if( i%Solution::instance->Grid_size()-1 == 0) stream << endl;
+        if( i%Solution::instance->Grid_size() == Solution::instance->Grid_size()-1) stream << endl;
     }
     return stream << "}" << endl;
 }
