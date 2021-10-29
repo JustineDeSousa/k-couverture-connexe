@@ -16,7 +16,7 @@ void Population::sort(){
         (*this)[i].update_graphs();
     }
     cout << "\tstd::sort()" << endl;
-    std::sort( (*this).begin(), (*this).end()-1 );
+    std::sort( (*this).begin(), (*this).end() );
     cout << "Population::sort() : sorted\n";
 }
 void Population::selection_roulette( Population& pop, int nb_indiv){
@@ -71,7 +71,6 @@ void Population::selection( Population& pop, int nb_indiv, Selection select){
 }
 /*******************************************************************/
 /******************** AFFICHAGE ************************************/
-
 ostream& operator <<(ostream& stream, Population& pop){
     stream << "Population : (" << pop.size() << " individus) [ " << endl;
     for (Solution sol : pop){
@@ -80,3 +79,4 @@ ostream& operator <<(ostream& stream, Population& pop){
     stream << " ]" << endl;
     return stream;
 }
+/*******************************************************************/
