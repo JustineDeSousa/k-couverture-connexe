@@ -38,11 +38,11 @@ int main(){
     std::cout << endl << "TEST SOLUTION" << endl;
     Solution solution;
     Solution solution_t;
-    cout << *(solution.instance) << endl;
-    cout << "OK" << endl;
+    //cout << *(solution.instance) << endl;
+    //cout << "OK" << endl;
 
     cout << endl << "TEST GRAPHS(Instance_tronc*)" << endl;
-    solution.update_graphs();
+    //solution.update_graphs();
     // cout << solution.get_graph_capt() << endl;
     // cout << solution.get_graph_com() << endl;
 
@@ -64,27 +64,15 @@ int main(){
     vector<bool> v2(solution.size(), 1);
     Solution P1(v1);
     Solution P2(v2);
-    P1.update_graphs();
-    //cout<< "P1.get_graph_capt()" << P1.get_graph_capt() << endl << endl;
-    //cout << " P1.get_graph_capt().type()=" << P1.get_graph_capt().type() << endl;
 
     Solution E1(P1, false);
     Solution E2(P2, false);
-    // cout << P1 << endl;
-    // cout << P2 << endl;
+    cout << P1 << endl;
+     cout << P2 << endl;
 
     cross_over(P1, P2, E1, E2);
-    // cout << endl << "E1 : " << E1 << endl;
-    // cout << endl << "E2 : " << E2 << endl;
-
-    cout << "\n\n***************************************** TEST Graph(Instance*,vector<bool>&,Network) *****************************************" << endl;
-    Graph G(Solution::instance,v2,Network::captation);
-    cout << "Graph G (taille " << G.size() << ") : " << G << endl;
-
-    cout << "P2.update_graphs() : \n"; 
-    P2.update_graphs();
-    cout << "P2.get_graph_capt() = " << P2.get_graph_capt() << endl;
-    cout << "P2.get_graph_com() = " << P2.get_graph_com() << endl;
+     cout << endl << "E1 : " << E1 << endl;
+     cout << endl << "E2 : " << E2 << endl;
 
     cout << "\n\n***************************************** TEST POPULATION *****************************************" << endl;
     vector<Solution> solutions = {P1, P2, E1, E2};
@@ -99,13 +87,15 @@ int main(){
 
     cout << "pop.sort()" << endl;
     pop.sort();
+    for(int i=0; i<pop.size(); i++){
+        //pop[i].update_graphs();
+        cout << "sol " << i << " : " << pop[i].fitness() << endl;// ") : " << pop[i] << endl;
+        cout << pop[i]<< endl;
+    }
 
 
     cout << "OKOKOKOKOKOK" << endl;  
 
-    pop[0].update_graphs();
-    cout <<"pop[0] = " << pop[0].fitness()<<endl;
-    cout << pop[0]<<endl;
     //genetic_algo(pop, 1,Selection::ROULETTE,0.5);
     
 
@@ -124,4 +114,5 @@ int main(){
     // heuristic(sol_heuristic);
     // cout <<"APRES sol_heuristic = " << sol_heuristic << endl <<"fit = " << sol_heuristic.fitness()<< endl;
     // cout << "is_realisable = " <<sol_heuristic.is_realisable() << endl;
+
 }

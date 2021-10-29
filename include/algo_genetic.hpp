@@ -18,6 +18,4 @@ void heuristic(Solution& sol);
 
 
 
-void heuristic(Solution& sol);
-
 #endif

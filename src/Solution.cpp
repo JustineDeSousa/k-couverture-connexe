@@ -3,7 +3,6 @@
 /**************************************** CONSTRUCTORS *****************************/
 Solution::Solution(const Solution& solution, bool G)// : vector<bool>(solution.size())
 {   
-    cout << "ctor3" << endl;
     this->resize(solution.size());
 
     for (uint i = 0; i < solution.size(); i++)
@@ -18,7 +17,6 @@ Solution::Solution(const Solution& solution, bool G)// : vector<bool>(solution.s
 
 
 Solution& Solution::operator=(const Solution& solution){
-    cout << "op=" << endl;
     if(this == &solution) return *this;
     if(this->size() == 0 ) this->resize(solution.size());//  *this=vector<bool>(solution.size())
     for (int i = 0; i < int(solution.size()); i++)
@@ -60,16 +58,7 @@ void swap(Solution& sol1, Solution& sol2){
 
 
 bool Solution::operator<(const Solution& solution) const{
-    cout << "\t\toperator<\n";
-    cout << "\t\t\tsol1 = ";
-    int a = fitness();
-    cout << a << endl;
-    cout << "\t\t\tsol2 = ";
-    int b = solution.fitness();
-    cout << b << endl;
-    bool resul = a < b;
-    cout << "\t\t< over\n";
-    return resul;
+    return this->fitness() < solution.fitness();
 }
 bool Solution::operator<=(const Solution& solution) const{
     return fitness() <= solution.fitness();
@@ -77,10 +66,7 @@ bool Solution::operator<=(const Solution& solution) const{
 bool Solution::operator==(const Solution& solution) const{
     return fitness() == solution.fitness();
 }
-int Solution::nb_connected_component() const {
-    vector<bool> v=(*this); 
-    return graph_com.nb_connected_components(v); 
-}
+
 /**
  * @brief Return the number of captors covering target i
  * 
@@ -100,17 +86,6 @@ int Solution::nb_captation_missed() const{
     int missed = 0;
     for (int i=1; i<int(size()); i++)// we don't consider the k-coverage for the sink
     {
-        /*
-        if(graph_capt.size() == 0){
-            // << "\t\t\t\t" << i << " : graph_capt.size() = " << graph_capt.size() << endl;
-            if(*this==vector<bool>(size(),0)){
-                cout << "\t\t\t\tsol == vecteur nul" << endl;
-            }else if(*this == vector<bool>(size(),1)){
-                cout << "\t\t\t\tsol == vecteur de 1" << endl;
-                //return 0;
-            }
-        } 
-        */
         if(graph_capt.degree(i) < Solution::instance->k()){
             missed += Solution::instance->k() - graph_capt.degree(i);
         }
