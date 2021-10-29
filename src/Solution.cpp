@@ -1,30 +1,32 @@
 #include "../include/Solution.hpp"
 
 /**************************************** CONSTRUCTORS *****************************/
-Solution::Solution(const Solution& solution, bool G) : vector<bool>(solution.size())
+Solution::Solution(const Solution& solution, bool G)// : vector<bool>(solution.size())
 {   
-    // this->resize(solution.size());
+    cout << "ctor3" << endl;
+    this->resize(solution.size());
 
     for (uint i = 0; i < solution.size(); i++)
     {
         (*this)[i] = solution[i];
     }
     if(G){
-    graph_capt = solution.graph_capt;
-    graph_com = solution.graph_com;
+    graph_capt = Graph(solution.get_graph_capt());
+    graph_com = Graph(solution.get_graph_com());
     }
 }
 
 
 Solution& Solution::operator=(const Solution& solution){
+    cout << "op=" << endl;
     if(this == &solution) return *this;
-    if(this->size() == 0 ) *this=vector<bool>(solution.size());//->resize(solution.size());
+    if(this->size() == 0 ) this->resize(solution.size());//  *this=vector<bool>(solution.size())
     for (int i = 0; i < int(solution.size()); i++)
     {
         (*this)[i] = solution[i];
     }
-    graph_capt = solution.graph_capt;
-    graph_com = solution.graph_com;
+    this->graph_capt = Graph(solution.get_graph_capt());
+    this->graph_com = Graph(solution.get_graph_com());
     return *this;
 }
 
@@ -45,12 +47,26 @@ void Solution::update_graphs(){
 }
 /*************************************************************************/
 /*********************** EVALUATION DE LA SOLUTION ***********************/
+
+void swap(Solution& sol1, Solution& sol2){
+    Solution sol3(sol1, false);
+    for(int i = 0; i < sol3.size(); i++){
+        sol1[i] = sol2[i];
+        sol2[i] = sol3[i];
+    }
+    sol1.update_graphs();
+    sol2.update_graphs();
+}
+
+
 bool Solution::operator<(const Solution& solution) const{
     cout << "\t\toperator<\n";
     cout << "\t\t\tsol1 = ";
     int a = fitness();
+    cout << a << endl;
     cout << "\t\t\tsol2 = ";
     int b = solution.fitness();
+    cout << b << endl;
     bool resul = a < b;
     cout << "\t\t< over\n";
     return resul;
@@ -91,7 +107,7 @@ int Solution::nb_captation_missed() const{
                 cout << "\t\t\t\tsol == vecteur nul" << endl;
             }else if(*this == vector<bool>(size(),1)){
                 cout << "\t\t\t\tsol == vecteur de 1" << endl;
-                return 0;
+                //return 0;
             }
         } 
         if(graph_capt.degree(i) < Solution::instance->k()){
@@ -146,7 +162,7 @@ void Solution::mutation(float mut_rate){
     if( p <= mut_rate ){
         int min_ = 0; int max_=size()-1;
         int bit_to_reverse =  rand()%(max_-min_ + 1) + min_; // a position between 0 and size()-1
-        reverse(bit_to_reverse, false);
+        reverse(bit_to_reverse, true);
     }
 }
 

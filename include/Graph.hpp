@@ -10,6 +10,7 @@ class Graph : public vector< set<int> >
 private:
     Network graph_type; //communication or captation network
     friend ostream& operator <<(ostream& stream, const Graph& graph);
+    friend void swap(Graph& g1, Graph& g2);
 
 public:
     /**************************************** CONSTRUCTORS ****************************************/

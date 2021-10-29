@@ -1,6 +1,14 @@
 #include "../include/Population.hpp"
 
 
+Population::Population( vector<Solution>& solutions) {
+    this->resize(solutions.size());
+    for (int i = 0; i < solutions.size(); i++)
+    {
+        (*this)[i] = solutions[i];
+    }
+    
+}
 
 /***************************** UPDATES *****************************/
 // TODO pop.update_best_solution()
@@ -11,13 +19,7 @@ void Population::update(){
 /*******************************************************************/
 /******************** FONCTIONS SELECTION *********************************/
 void Population::sort(){
-    cout << "Population::sort()\n";
-    for(int i=0; i<int(size()); i++){
-        (*this)[i].update_graphs();
-    }
-    cout << "\tstd::sort()" << endl;
-    std::sort( (*this).begin(), (*this).end()-1 );
-    cout << "Population::sort() : sorted\n";
+    std::sort( begin(), end() ); 
 }
 void Population::selection_roulette( Population& pop, int nb_indiv){
     sort();

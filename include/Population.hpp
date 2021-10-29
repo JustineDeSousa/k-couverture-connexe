@@ -30,7 +30,7 @@ public:
     /*****************************  CONSTRUCTORS *****************************/
     Population(){};
     // n = taille de la population = nbre d'individus
-    Population( vector<Solution>& solutions) : vector<Solution>(solutions){};
+    Population( vector<Solution>& solutions);
     /*************************************************************************/
     /***************************** GETTERS *****************************/
     Solution best_individual() { update(); return best; };

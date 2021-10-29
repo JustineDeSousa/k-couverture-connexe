@@ -44,7 +44,6 @@ void genetic_algo(Population& pop, float maximum_duration, Selection selection, 
 
 void heuristic(Solution& sol){// should be a default solution placing captors at every targets except the sink
     //vector<bool> visited(Solution::instance->size(), false);
-    sol.update_graphs(); // init graphs
 
     set<int> available_bits;
     for (int i = 0; i < Solution::instance->size(); i++) available_bits.insert(available_bits.end(), i);

@@ -40,12 +40,19 @@ Graph::Graph(const Instance * inst, vector<bool>& sol, Network network) : vector
         break;
     }
 }
-Graph::Graph(const Graph& graph) : vector< set<int> >(graph.size()){
+
+
+Graph::Graph(const Graph& graph) //: vector< set<int> >(graph.size())
+{
+    this->resize(graph.size());
     for(int i=0; i<int(graph.size()); i++ ){
-        (*this)[i] = set<int>(graph[i]);
+        (*this)[i] = graph[i];
     }
+    this->graph_type = graph.type();
 
 }
+
+
 Graph& Graph::operator=(const Graph& graph){
     if(this == &graph) return *this;
     int n = graph.size();
@@ -55,8 +62,20 @@ Graph& Graph::operator=(const Graph& graph){
         (*this)[i] = graph[i];
     }
 
-    graph_type = graph.type();
+    this->graph_type = graph.type();
     return *this;
+}
+
+void swap(Graph& g1, Graph& g2){
+    Graph g3(g1);
+    for (int i = 0; i < g3.size(); i++)
+    {
+        g1[i] = g2[i];
+        g2[i] = g3[i];
+        g1.graph_type = g2.graph_type;
+        g2.graph_type = g3.graph_type;
+    }
+    
 }
 /**********************************************************************************************/
 /******************************** OPERATIONS DE GRAPHE ****************************************/

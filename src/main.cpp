@@ -10,6 +10,7 @@ using namespace std;
 
 const Instance* Solution::instance;
 
+bool myfunction (int i,int j) { cout << "i=" << i << ", j="<<j<< endl; return (i<j); }
 
 int main(){
     srand (static_cast <unsigned> (time(0)));
@@ -64,6 +65,9 @@ int main(){
     vector<bool> v2(solution.size(), 1);
     Solution P1(v1);
     Solution P2(v2);
+    P1.update_graphs();
+    //cout<< "P1.get_graph_capt()" << P1.get_graph_capt() << endl << endl;
+    //cout << " P1.get_graph_capt().type()=" << P1.get_graph_capt().type() << endl;
 
     Solution E1(P1, false);
     Solution E2(P2, false);
@@ -74,26 +78,21 @@ int main(){
     // cout << endl << "E1 : " << E1 << endl;
     // cout << endl << "E2 : " << E2 << endl;
 
-    
+    vector<int> myvec = {1, 2, 3, 4};
+    std::sort(myvec.begin(), myvec.end(), myfunction);
+    for(int i:myvec){cout << i<<", ";}
+    cout <<endl;
     cout << "\n\n***************************************** TEST POPULATION *****************************************" << endl;
     vector<Solution> solutions = {P1, P2, E1, E2};
     Population pop(solutions);
     cout << "Population de taille " << pop.size() << endl;
 
-    for(int i=0; i<pop.size(); i++){
-        pop[i].update_graphs();
-        cout << "sol " << i << " : " << pop[i].fitness() << endl;// ") : " << pop[i] << endl;
-        cout << pop[i]<< endl;
-    }
-    
+
     cout << "pop.sort()" << endl;
     pop.sort();
-    for(int i=0; i<pop.size(); i++){
-        cout << "sol " << i << "(" << pop[i].fitness() << endl;
-        cout << pop[i]<<endl;
-    }
 
-cout << "OKOKOKOKOKOK" << endl;  
+
+    cout << "OKOKOKOKOKOK" << endl;  
 
     pop[0].update_graphs();
     cout <<"pop[0] = " << pop[0].fitness()<<endl;
