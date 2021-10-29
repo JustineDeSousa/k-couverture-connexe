@@ -35,31 +35,38 @@ int main(){
     Solution P1(v1);
     Solution P2(v2);
 
-    Solution E1(P1, false);
-    Solution E2(P2, false);
-    cout << P1 << endl;
-    cout << P2 << endl;
+    Solution E1(P1);
+    Solution E2(P2);
+    cout << "P1 : fitness = " << P1.fitness() << " " << P1 << endl;
+    cout << "P2 : fitness = " << P2.fitness() << " " << P2 << endl;
 
     cross_over(P1, P2, E1, E2);
-    cout << endl << "E1 : " << E1 << endl;
-    cout << endl << "E2 : " << E2 << endl;
+    E1.update_graphs();
+    cout << "E1 : fitness = " << E1.fitness() << " " << E1 << endl;
+    cout << "E2 : fitness = " << E2.fitness() << " " << E2 << endl;
 
     cout << "\n\n***************************************** TEST POPULATION *****************************************" << endl;
-    vector<Solution> solutions = {P1, P2, E1, E2};
-    Population pop(solutions);
-    cout << "Population de taille " << pop.size() << endl;
-
-    cout << "pop.sort()" << endl;
-    pop.sort();
-    cout << "pop = " << pop << endl;
+    int N = 10;
+    Population pop;
+    Solution sol_heuristic;
+    for(int i=0; i<N; i++){
+        heuristic(sol_heuristic);
+        pop.push_back(sol_heuristic);
+    }
+    
+    for(Solution sol : pop){
+        cout << sol.fitness() << " ";
+    }
+    
+    cout << "\nPopulation de taille " << pop.size() << endl;
 
     genetic_algo(pop, 1,Selection::ROULETTE,0.5);
      
     // cout << "TEST HEURICTIC" << endl;
-    // Solution sol_heuristic;
+    
     // sol_heuristic.update_graphs();
     // cout << "AVANT sol_heuristic=" << sol_heuristic << endl <<"fit = " << sol_heuristic.fitness()<< endl;
-    // heuristic(sol_heuristic);
+    
     // cout <<"APRES sol_heuristic = " << sol_heuristic << endl <<"fit = " << sol_heuristic.fitness()<< endl;
     // cout << "is_realisable = " <<sol_heuristic.is_realisable() << endl;
 

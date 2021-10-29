@@ -20,31 +20,33 @@ void Population::sort(){
     std::sort( begin(), end() ); 
 }
 void Population::selection_roulette( Population& pop, int nb_indiv){
+    // cout << "Population::selection_roulette : \n";
     sort();
-    vector<int> fit;
+    // for(int i=0; i<int(size()); i++){
+    //     cout << (*this)[i].fitness() << " ";
+    // }
+    vector<int> partial_fit_sum;
+    int sum_fit = 0;
     for( Solution sol : *this){
-        fit.push_back( sol.fitness() );
+        sum_fit += sol.fitness();
+        partial_fit_sum.push_back( sum_fit );
     }
-    int sum_fit = accumulate(fit.begin(), fit.end(), 0);
     
-    //TODO partial sum
-    vector<int> partial_sum_fit;
-    partial_sum(fit.begin(), fit.end(), partial_sum_fit.begin());
 
-    for(uint i=0; i<partial_sum_fit.size(); i++){
-        cout << partial_sum_fit[i] << " ";
-    }
+    // cout << "partial_fit_sum.size() = " << partial_fit_sum.size() << endl;
+
     int nb_ajout = 0;
     while( nb_ajout < nb_indiv ){
         int tirage = rand()%sum_fit; //int entre 0 et sum_fit
-        for(uint i=0; i<size(); i++){
-            if( tirage <= partial_sum_fit[i] ){
+        for(int i=0; i<int(size()); i++){
+            if( tirage <= partial_fit_sum[i] ){
             pop.push_back((*this)[0]);
             nb_ajout ++;
             break;
             }
         }
     }
+    cout << "*****roulette OK" << endl;
 }
 void Population::selection_elite( Population& pop, int nb_indiv ){
     sort();

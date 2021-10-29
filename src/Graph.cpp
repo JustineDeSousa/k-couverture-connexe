@@ -103,7 +103,6 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc) const{
  * @return int the number of connected components in graph communication
  */
  int Graph::nb_connected_components(vector<bool>& cap) const{
-
     vector<bool> visited(size(), false);
     for(int i=0; i < int(cap.size()); i++ ){
         if(!cap[i]){
@@ -111,8 +110,7 @@ void Graph::BFS(int depart, vector<bool>& visited, vector<int>& cc) const{
         } 
     }
     set<vector<int>> all_cc;
-    int m = size();
-    for (int i=0; i<m; i++)
+    for (int i=0; i<int(size()); i++)
     {
         if(!visited[i]) {
             vector<int> cc;

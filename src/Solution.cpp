@@ -47,17 +47,22 @@ bool Solution::operator<(const Solution& solution) const{
 bool Solution::operator<=(const Solution& solution) const{
     return fitness() <= solution.fitness();
 }
-bool Solution::operator==(const Solution& solution) const{
-    return fitness() == solution.fitness();
+int Solution::nb_capteurs() const{ 
+    int acc = accumulate((*this).begin(),(*this).end(),0);
+    // cout << "Solution::nb_capteurs() = " << acc << endl;
+    return acc;
 }
-/**
- * @brief Return the number of captors covering target i
- * 
- * @param i 
- * @return int 
- */
-int Solution::captation(int i) const{
-    return graph_capt[i].size();
+int Solution::nb_connected_component() const {
+    //cout << "Solution::nb_connected_component() = ";
+    vector<bool> v = (*this);
+    int nb_cc=0;
+    if( v == vector<bool>(size(), false) ){ // Si sol=(0,0,0,0,0), on pénalise la fct fitness
+        nb_cc = size();
+    }else{
+        nb_cc = graph_com.nb_connected_components(v);
+    }
+    // cout << nb_cc << endl;
+    return nb_cc;
 }
 /**
  * @brief Return the total number of missed captors for each targets
@@ -66,12 +71,14 @@ int Solution::captation(int i) const{
  */
 int Solution::nb_captation_missed() const{
     int missed = 0;
+    // cout << "Solution::nb_captation_missed() = ";
     for (int i=1; i<int(size()); i++)// we don't consider the k-coverage for the sink
     {
         if(graph_capt.degree(i) < Solution::instance->k()){
             missed += Solution::instance->k() - graph_capt.degree(i);
         }
     }
+    // cout << missed << endl;
     return missed;
 }
 /**
@@ -136,8 +143,7 @@ void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& 
     vector<int> bits_to_cross;
     P1.bit_mask(bits_to_cross);
 
-    for (int bit : bits_to_cross)
-    {   cout << bit << ", " ;
+    for (int bit : bits_to_cross){
         E1[bit] = P2[bit];
         E2[bit] = P1[bit];
     }
