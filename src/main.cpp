@@ -85,11 +85,11 @@ int main(int argc, char** argv){
         Solution::instance = &inst_alea;
         test();
 
- }else if(instance_name[0] == 'g'){
+    }else if(instance_name[0] == 'g'){
         Instance_tronc inst_tronc(instance_name);
         Solution::instance = &inst_tronc;
         test();
-}
+    }
 
 
 
