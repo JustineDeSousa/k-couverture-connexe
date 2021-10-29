@@ -18,6 +18,8 @@ Instance_tronc::Instance_tronc( const string instance_name, const int capt, cons
         
         file >> token >> token >> token >> token >> token >> token;
         grid_size = sqrt( stoi(token.substr(2,token.size()-3)) );
+        width_bit_mask = (0.5*grid_size);
+
 
         file >> token >> token >> token >> token >> token;
         int nb_lines = stoi( token.substr(2,token.size()-3) );
@@ -61,12 +63,12 @@ Instance_tronc::Instance_tronc( const string instance_name, const int capt, cons
 
 /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
 void Instance_tronc::bit_mask(float x, float y, vector<int>& result) const {
-    float width = 0.5*grid_size;
+    float width = 0.5 * this->grid_size;
     bool x_in = false;
     bool y_in = false;
     for(uint i=0; i<cibles.size(); i++){
-        x_in = cibles[i].first >= x && cibles[i].first <= x+width;
-        y_in = cibles[i].second >= y && cibles[i].second <= y+width;
+        x_in = cibles[i].first >= x && cibles[i].first <= x+this->width_bit_mask;
+        y_in = cibles[i].second >= y && cibles[i].second <= y+this->width_bit_mask;
         if(x_in && y_in){
             result.push_back(i);
         }
