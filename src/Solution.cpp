@@ -1,40 +1,37 @@
 #include "../include/Solution.hpp"
 
-/**************************************** CONSTRUCTORS ****************************************/
-Solution::Solution(const Solution& solution, bool G)
+/**************************************** CONSTRUCTORS *****************************/
+Solution::Solution(const Solution& solution, bool G)// : vector<bool>(solution.size())
 {   
+    cout << "ctor3" << endl;
     this->resize(solution.size());
 
-    for (int i = 0; i < solution.size(); i++)
+    for (uint i = 0; i < solution.size(); i++)
     {
         (*this)[i] = solution[i];
     }
     if(G){
-    graph_capt = solution.graph_capt;
-    graph_com = solution.graph_com;
+    graph_capt = Graph(solution.get_graph_capt());
+    graph_com = Graph(solution.get_graph_com());
     }
 }
 
 
 Solution& Solution::operator=(const Solution& solution){
+    cout << "op=" << endl;
     if(this == &solution) return *this;
-
-    if(this->size() == 0 ) this->resize(solution.size());
-    for (int i = 0; i < solution.size(); i++)
+    if(this->size() == 0 ) this->resize(solution.size());//  *this=vector<bool>(solution.size())
+    for (int i = 0; i < int(solution.size()); i++)
     {
         (*this)[i] = solution[i];
     }
-    
-    graph_capt = solution.graph_capt;
-    graph_com = solution.graph_com;
+    this->graph_capt = Graph(solution.get_graph_capt());
+    this->graph_com = Graph(solution.get_graph_com());
     return *this;
 }
 
-/**********************************************************************************************/
-/**************************************** GETTERS *********************************************/
-
-/**********************************************************************************************/
-/******************************** OPERATIONS DE GRAPHE ****************************************/
+/********************************************************************************/
+/******************************** OPERATIONS DE GRAPHE *******************/
 void Solution::update_graphs(int t){
     if((*this)[t]){ // we add a captor
         graph_com.add_captor(Solution::instance, *this, t);
@@ -45,15 +42,45 @@ void Solution::update_graphs(int t){
     }
 }
 void Solution::update_graphs(){
-    graph_capt = Graph(Solution::instance, *this, Network::captation); 
+    graph_capt = Graph(Solution::instance, *this, Network::captation);
     graph_com = Graph(Solution::instance, *this, Network::communication);
 }
-/**********************************************************************************************/
+/*************************************************************************/
 /*********************** EVALUATION DE LA SOLUTION ***********************/
-bool Solution::operator<(const Solution& solution) const{
-    return fitness() < solution.fitness();
+
+void swap(Solution& sol1, Solution& sol2){
+    Solution sol3(sol1, false);
+    for(int i = 0; i < sol3.size(); i++){
+        sol1[i] = sol2[i];
+        sol2[i] = sol3[i];
+    }
+    sol1.update_graphs();
+    sol2.update_graphs();
 }
 
+
+bool Solution::operator<(const Solution& solution) const{
+    cout << "\t\toperator<\n";
+    cout << "\t\t\tsol1 = ";
+    int a = fitness();
+    cout << a << endl;
+    cout << "\t\t\tsol2 = ";
+    int b = solution.fitness();
+    cout << b << endl;
+    bool resul = a < b;
+    cout << "\t\t< over\n";
+    return resul;
+}
+bool Solution::operator<=(const Solution& solution) const{
+    return fitness() <= solution.fitness();
+}
+bool Solution::operator==(const Solution& solution) const{
+    return fitness() == solution.fitness();
+}
+int Solution::nb_connected_component() const {
+    vector<bool> v=(*this); 
+    return graph_com.nb_connected_components(v); 
+}
 /**
  * @brief Return the number of captors covering target i
  * 
@@ -71,8 +98,19 @@ int Solution::captation(int i) const{
  */
 int Solution::nb_captation_missed() const{
     int missed = 0;
-    for (int i=1; i<size(); i++)// we don't consider the k-coverage for the sink
+    for (int i=1; i<int(size()); i++)// we don't consider the k-coverage for the sink
     {
+        /*
+        if(graph_capt.size() == 0){
+            // << "\t\t\t\t" << i << " : graph_capt.size() = " << graph_capt.size() << endl;
+            if(*this==vector<bool>(size(),0)){
+                cout << "\t\t\t\tsol == vecteur nul" << endl;
+            }else if(*this == vector<bool>(size(),1)){
+                cout << "\t\t\t\tsol == vecteur de 1" << endl;
+                //return 0;
+            }
+        } 
+        */
         if(graph_capt.degree(i) < Solution::instance->k()){
             missed += Solution::instance->k() - graph_capt.degree(i);
         }
@@ -87,7 +125,7 @@ int Solution::nb_captation_missed() const{
  * @return false 
  */
 bool Solution::is_k_covered() const{
-    for (int i = 1; i < size(); i++){
+    for (uint i = 1; i < size(); i++){
 
         if(graph_capt.degree(i) < Solution::instance->k()) return false;
     }
@@ -100,8 +138,8 @@ bool Solution::is_k_covered() const{
  * 
  * @return int 
  */
-int Solution::fitness() const{ 
-    return nb_capteurs() + nb_connected_component()-1 + nb_captation_missed(); 
+int Solution::fitness() const{
+    return nb_capteurs() + nb_connected_component()-1 + nb_captation_missed();
 }
 
 
@@ -122,7 +160,7 @@ void Solution::mutation(float mut_rate){
     if( p <= mut_rate ){
         int min_ = 0; int max_=size()-1;
         int bit_to_reverse =  rand()%(max_-min_ + 1) + min_; // a position between 0 and size()-1
-        reverse(bit_to_reverse, false);
+        reverse(bit_to_reverse, true);
     }
 }
 

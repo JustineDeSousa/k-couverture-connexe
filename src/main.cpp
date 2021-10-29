@@ -5,13 +5,12 @@
 #include "../include/Solution.hpp"
 #include "../include/Population.hpp"
 #include "../include/algo_genetic.hpp"
-#include <cstdlib>
-#include <ctime>
 
 using namespace std;
 
 const Instance* Solution::instance;
 
+bool myfunction (int i,int j) { cout << "i=" << i << ", j="<<j<< endl; return (i<j); }
 
 int main(){
     srand (static_cast <unsigned> (time(0)));
@@ -37,22 +36,22 @@ int main(){
     //cout << "OK" << endl;
 
     Solution::instance = &inst_tronc;
-    cout << endl << "TEST SOLUTION(Instance_tronc*)" << endl;
+    std::cout << endl << "TEST SOLUTION" << endl;
     Solution solution;
     Solution solution_t;
-    cout << solution << endl;
+    cout << *(solution.instance) << endl;
     cout << "OK" << endl;
 
     cout << endl << "TEST GRAPHS(Instance_tronc*)" << endl;
     solution.update_graphs();
-    cout << solution.get_graph_capt() << endl;
-    cout << solution.get_graph_com() << endl;
+    // cout << solution.get_graph_capt() << endl;
+    // cout << solution.get_graph_com() << endl;
 
 
     cout<<endl <<" TEST solution.reverse(5, true) "<< endl;
     solution.reverse(5, true);
-    cout << solution.get_graph_capt() << endl;
-    cout << solution.get_graph_com() << endl;
+    // cout << solution.get_graph_capt() << endl;
+    // cout << solution.get_graph_com() << endl;
 
     cout << "solution.is_graph_com_connected() : "<< solution.is_graph_com_connected() << endl;
     cout << " solution.nb_connected_component : " << solution.nb_connected_component() << endl;
@@ -66,33 +65,64 @@ int main(){
     vector<bool> v2(solution.size(), 1);
     Solution P1(v1);
     Solution P2(v2);
+    P1.update_graphs();
+    //cout<< "P1.get_graph_capt()" << P1.get_graph_capt() << endl << endl;
+    //cout << " P1.get_graph_capt().type()=" << P1.get_graph_capt().type() << endl;
 
     Solution E1(P1, false);
     Solution E2(P2, false);
-    cout << P1 << endl;
-    cout << P2 << endl;
+    // cout << P1 << endl;
+    // cout << P2 << endl;
 
     cross_over(P1, P2, E1, E2);
-    cout << endl << "E1 : " << E1 << endl;
-    cout << endl << "E2 : " << E2 << endl;
+    // cout << endl << "E1 : " << E1 << endl;
+    // cout << endl << "E2 : " << E2 << endl;
+
+    cout << "\n\n***************************************** TEST Graph(Instance*,vector<bool>&,Network) *****************************************" << endl;
+    Graph G(Solution::instance,v2,Network::captation);
+    cout << "Graph G (taille " << G.size() << ") : " << G << endl;
+
+    cout << "P2.update_graphs() : \n"; 
+    P2.update_graphs();
+    cout << "P2.get_graph_capt() = " << P2.get_graph_capt() << endl;
+    cout << "P2.get_graph_com() = " << P2.get_graph_com() << endl;
+
+    cout << "\n\n***************************************** TEST POPULATION *****************************************" << endl;
+    vector<Solution> solutions = {P1, P2, E1, E2};
+    Population pop(solutions);
+    cout << "Population de taille " << pop.size() << endl;
+
+    for(int i=0; i<pop.size(); i++){
+        //pop[i].update_graphs();
+        cout << "sol " << i << " : " << pop[i].fitness() << endl;// ") : " << pop[i] << endl;
+        cout << pop[i]<< endl;
+    }
+
+    cout << "pop.sort()" << endl;
+    pop.sort();
+
+
+    cout << "OKOKOKOKOKOK" << endl;  
+
+    pop[0].update_graphs();
+    cout <<"pop[0] = " << pop[0].fitness()<<endl;
+    cout << pop[0]<<endl;
+    //genetic_algo(pop, 1,Selection::ROULETTE,0.5);
+    
+
+    // for(int i=0; i<int(pop.size()); i++){
+    //     cout << "sol " << i << ":" << pop[i].fitness() << endl;
+    // }
+    // genetic_algo(pop, 1,Selection::ROULETTE,0.5);
+    // cout << "OK" << endl;  
 
     
-    cout << "TEST POPULATION" << endl;
-    vector<Solution> solutions = {P1, P2, E1, E2};
-    Population parents(solutions, Selection::ELITE);
-    cout << parents << endl;
-    Population enfants;
-    parents.selection(enfants);
-    cout << "OK" << endl;  
-
-    cout << "TEST HEURICTIC" << endl;
-    Solution sol_heuristic;
-    sol_heuristic.update_graphs();
-    cout << "AVANT sol_heuristic=" << sol_heuristic << endl <<"fit = " << sol_heuristic.fitness()<< endl;
-    heuristic(sol_heuristic);
-    cout <<"APRES sol_heuristic = " << sol_heuristic << endl <<"fit = " << sol_heuristic.fitness()<< endl;
-    cout << "is_realisable = " <<sol_heuristic.is_realisable() << endl;
-
-
-  
+    
+    // cout << "TEST HEURICTIC" << endl;
+    // Solution sol_heuristic;
+    // sol_heuristic.update_graphs();
+    // cout << "AVANT sol_heuristic=" << sol_heuristic << endl <<"fit = " << sol_heuristic.fitness()<< endl;
+    // heuristic(sol_heuristic);
+    // cout <<"APRES sol_heuristic = " << sol_heuristic << endl <<"fit = " << sol_heuristic.fitness()<< endl;
+    // cout << "is_realisable = " <<sol_heuristic.is_realisable() << endl;
 }

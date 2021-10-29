@@ -12,7 +12,7 @@ void tokenize(std::string const &str, const char delim, vector<std::string> &out
     } 
 }
 /**************************************** CONSTRUCTORS ****************************************/
-Instance_alea::Instance_alea(const int capt, const int com, const int k)
+Instance_alea::Instance_alea(const int capt, const int com, const int k) : Instance(capt,com,k)
 {
     cibles = vector< pair<float,float> >();
     init_dist(cibles);
