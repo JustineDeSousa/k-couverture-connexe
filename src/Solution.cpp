@@ -5,7 +5,7 @@ Solution::Solution(const Solution& solution, bool G)
 {   
     this->resize(solution.size());
 
-    for (int i = 0; i < solution.size(); i++)
+    for (uint i = 0; i < solution.size(); i++)
     {
         (*this)[i] = solution[i];
     }
@@ -19,7 +19,7 @@ Solution::Solution(const Solution& solution, bool G)
 Solution& Solution::operator=(const Solution& solution){
     if(this == &solution) return *this;
     if(this->size() == 0 ) this->resize(solution.size());
-    for (int i = 0; i < solution.size(); i++)
+    for (uint i = 0; i < solution.size(); i++)
     {
         (*this)[i] = solution[i];
     }
@@ -69,7 +69,7 @@ int Solution::captation(int i) const{
  */
 int Solution::nb_captation_missed() const{
     int missed = 0;
-    for (int i=1; i<size(); i++)// we don't consider the k-coverage for the sink
+    for (uint i=1; i<size(); i++)// we don't consider the k-coverage for the sink
     {
         if(graph_capt.degree(i) < Solution::instance->k()){
             missed += Solution::instance->k() - graph_capt.degree(i);
@@ -85,7 +85,7 @@ int Solution::nb_captation_missed() const{
  * @return false 
  */
 bool Solution::is_k_covered() const{
-    for (int i = 1; i < size(); i++){
+    for (uint i = 1; i < size(); i++){
 
         if(graph_capt.degree(i) < Solution::instance->k()) return false;
     }
