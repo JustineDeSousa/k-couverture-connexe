@@ -17,7 +17,7 @@ int main(){
     string instance_name = "grille1010_1";
     Instance_tronc inst_tronc(instance_name);
     Solution::instance = &inst_tronc;
-    
+
     // Solution solution;
     // cout << "Solution::instance = " << static_cast<const Instance_tronc&>(*solution.instance) << endl;
     // cout << "solution.is_graph_com_connected() : "<< solution.is_graph_com_connected() << endl;
@@ -56,7 +56,8 @@ int main(){
     for(Solution sol : pop){
         cout << sol.fitness() << " ";
     }
-    genetic_algo(pop, 3,Selection::ROULETTE,0.5);
+    Solution best_sol;
+    genetic_algo(pop, best_sol, 1,Selection::ROULETTE,0.5);
      
     // cout << "TEST HEURICTIC" << endl;
     

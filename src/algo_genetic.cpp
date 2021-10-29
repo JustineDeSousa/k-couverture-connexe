@@ -1,17 +1,12 @@
 #include "../include/algo_genetic.hpp"
 
-void new_generation(Population& pop, Selection selection, float rep_rate){
-    int N = pop.size();
-    //TODO garder le meilleur individu
+void new_generation(Population& pop, Solution& best_sol, Selection selection, float rep_rate){
     //Population initiale de taille N
-
+    int N = pop.size();
+    
     //Population de reproducteurs de taille rep_rate*N
-    cout << "*****SELECTION DES REPRODUCTEURS\n";
     Population parents;
     pop.selection(parents,rep_rate*N,selection);
-    // for(int i=0; i<parents.size(); i++){
-    //     cout << "parents[" << i << "] = " << parents[i].fitness() << " ";
-    // }cout << endl;
 
     //Population enfant de taille (rep_rate*N)!
     cout << "*****CROSS_OVER\n";
@@ -19,7 +14,7 @@ void new_generation(Population& pop, Selection selection, float rep_rate){
     
     for(Solution P1 : parents){
         for(Solution P2 : parents){
-            // if( P1 == P2){continue;} 
+            if( P1 == P2){continue;} 
             Solution E1;
             Solution E2;
             cross_over(P1, P2, E1, E2);
@@ -28,31 +23,29 @@ void new_generation(Population& pop, Selection selection, float rep_rate){
             enfants.push_back(E2);
         }
     }
+    cout <<  enfants.best_individual() << endl;
+    if( enfants.best_individual() < best_sol ){
+        best_sol = enfants.best_individual();
+        cout << "best_sol_fitness() = " << best_sol.fitness() << endl;
+    }
 
     //Nouvelle génération de taille N = rep_rate*N parents + (1-rep_rate)*N enfants
-    cout << "\n*****SELECTION DES PARENTS\n";
     pop = parents;
-    // for(int i=0; i<pop.size(); i++){
-    //     cout << "pop[" << i << "] = " << pop[i].fitness() << " ";
-    // }
-    cout << "\n*****SELECTION DES ENFANTS\n";
-    // for(int i=0; i<enfants.size(); i++){
-    //     cout << "enfants[" << i << "] = " << enfants[i].fitness() << " ";
-    // }cout << endl;
-    enfants.selection(pop,(1-rep_rate)*N, selection);
+    enfants.selection(pop,(1-rep_rate)*N, selection); //Les meilleurs enfants vont dans pop (après les parents)
     cout << "********************\n";
 }
 
-void genetic_algo(Population& pop, float maximum_duration, Selection selection, float rep_rate){
+void genetic_algo(Population& pop, Solution& best_sol, float maximum_duration, Selection selection, float rep_rate){
+    best_sol = pop.best_individual();
     cout << "\n******************** Genetic algorithm ********************\n";
     clock_t time_begin = clock();
     int nb_iter = 0;
     while( double(clock() - time_begin)/CLOCKS_PER_SEC < 60*maximum_duration ){ // while( durée < min_max min)
         cout << "********** Iteration " << nb_iter << endl;
-        new_generation(pop, selection, rep_rate);
+        new_generation(pop, best_sol, selection, rep_rate);
         nb_iter++;
     }
-    cout << double(clock()-time_begin)/CLOCKS_PER_SEC << "s -- BEST INDIVIDUAL : " << pop.best_individual() << endl;
+    cout << double(clock()-time_begin)/CLOCKS_PER_SEC << "s -- BEST INDIVIDUAL : " << best_sol << endl;
 }
 
 void heuristic(Solution& sol){// should be a default solution placing captors at every targets except the sink
