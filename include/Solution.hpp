@@ -12,7 +12,6 @@ private:
     Graph graph_com;
 
     friend ostream& operator<<(ostream& stream, const Solution &solution);
-    friend void swap(Solution& sol1, Solution& sol2);
 
 public:
     static const Instance* instance; 
@@ -41,8 +40,8 @@ public:
     //renvoie le nombre de capteurs
     int nb_capteurs() const{ return accumulate((*this).begin(),(*this).end(),0); };
     // return the number of connected component in the communication network 
-    int nb_connected_component() const;
-    bool is_graph_com_connected() const {vector<bool> v=(*this); return graph_com.nb_connected_components(v)==1;}
+    int nb_connected_component() const {vector<bool> v=(*this); return graph_com.nb_connected_components(v);}
+    bool is_graph_com_connected() const {return nb_connected_component()==1;}
     int captation(int i) const;
     int nb_captation_missed() const;
     bool is_k_covered() const;
