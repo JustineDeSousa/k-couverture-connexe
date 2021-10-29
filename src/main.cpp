@@ -10,7 +10,6 @@ using namespace std;
 
 const Instance* Solution::instance;
 
-bool myfunction (int i,int j) { cout << "i=" << i << ", j="<<j<< endl; return (i<j); }
 
 int main(){
     srand (static_cast <unsigned> (time(0)));
