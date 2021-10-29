@@ -16,12 +16,14 @@ void new_generation(Population& pop, Selection selection, float rep_rate){
     //Population enfant de taille (rep_rate*N)!
     cout << "*****CROSS_OVER\n";
     Population enfants;
-    Solution E1, E2;
+    
     for(Solution P1 : parents){
         for(Solution P2 : parents){
-            if( P1 == P2) continue;
+            // if( P1 == P2){continue;} 
+            Solution E1;
+            Solution E2;
             cross_over(P1, P2, E1, E2);
-            // cout << "E1 : " << E1.fitness() << " " << "E2 : " << E2.fitness() << endl;
+            cout << "E1 : " << E1.fitness() << " " << "E2 : " << E2.fitness() << endl;
             enfants.push_back(E1);
             enfants.push_back(E2);
         }
