@@ -4,6 +4,8 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     //Population initiale de taille N
     int N = pop.size();
     
+    //cout <<  pop.best_individual() << endl;
+    
     //Population de reproducteurs de taille rep_rate*N
     Population parents;
     pop.selection(parents,rep_rate*N,selection);
@@ -18,20 +20,26 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
             Solution E1;
             Solution E2;
             cross_over(P1, P2, E1, E2);
-            cout << "E1 : " << E1.fitness() << " " << "E2 : " << E2.fitness() << endl;
+            // cout << "E1 : " << E1.fitness() << " " << "E2 : " << E2.fitness() << endl;
             enfants.push_back(E1);
             enfants.push_back(E2);
         }
     }
-    cout <<  enfants.best_individual() << endl;
-    if( enfants.best_individual() < best_sol ){
-        best_sol = enfants.best_individual();
+    cout << "la fin du cross_over" << endl;
+
+    
+
+    pop = parents;
+    enfants.selection(pop,(1-rep_rate)*N, selection); //Les meilleurs enfants vont dans pop (après les parents)
+
+    Solution pop_best = pop.best_individual();
+    cout << pop_best << endl;
+    if( pop_best < best_sol ){
+        best_sol = pop_best;
         cout << "best_sol_fitness() = " << best_sol.fitness() << endl;
     }
 
     //Nouvelle génération de taille N = rep_rate*N parents + (1-rep_rate)*N enfants
-    pop = parents;
-    enfants.selection(pop,(1-rep_rate)*N, selection); //Les meilleurs enfants vont dans pop (après les parents)
     cout << "********************\n";
 }
 
@@ -43,6 +51,7 @@ void genetic_algo(Population& pop, Solution& best_sol, float maximum_duration, S
     while( double(clock() - time_begin)/CLOCKS_PER_SEC < 60*maximum_duration ){ // while( durée < min_max min)
         cout << "********** Iteration " << nb_iter << endl;
         new_generation(pop, best_sol, selection, rep_rate);
+        cout << "taille de pop = " << pop.size() << endl;
         nb_iter++;
     }
     cout << double(clock()-time_begin)/CLOCKS_PER_SEC << "s -- BEST INDIVIDUAL : " << best_sol << endl;

@@ -33,7 +33,7 @@ public:
     Population( vector<Solution>& solutions);
     /*************************************************************************/
     /***************************** GETTERS *****************************/
-    Solution best_individual() { update(); return best; };
+    Solution& best_individual() { update(); return best; };
     /*******************************************************************/
     /***************************** UPDATES *****************************/
     // Mise à jour de best

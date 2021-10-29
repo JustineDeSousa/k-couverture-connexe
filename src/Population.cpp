@@ -12,7 +12,7 @@ Population::Population( vector<Solution>& solutions) {
 // TODO pop.update_best_solution()
 void Population::update(){
     sort();
-    Solution best((*this)[0]);
+    best = (*this)[0];
 }
 /*******************************************************************/
 /******************** FONCTIONS SELECTION *********************************/

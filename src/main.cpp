@@ -57,7 +57,7 @@ int main(){
         cout << sol.fitness() << " ";
     }
     Solution best_sol;
-    genetic_algo(pop, best_sol, 1,Selection::ROULETTE,0.5);
+    genetic_algo(pop, best_sol, 1,Selection::ELITE,0.5);
      
     // cout << "TEST HEURICTIC" << endl;
     
