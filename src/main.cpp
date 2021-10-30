@@ -4,12 +4,13 @@
 #include "../include/Instance_alea.hpp"
 #include "../include/Solution.hpp"
 #include "../include/algo_genetic.hpp"
-#include "../include/file_manager.hpp"
+#include <algorithm> 
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
 const Instance* Solution::instance;
-int MAX_VIE = 5;
 
 int MAX_VIE = 5; //TODO : à changer var global => DECLARE " extern int MAX_VIE; " anywhere you use
 
@@ -17,7 +18,8 @@ int main(){
     srand (static_cast <unsigned> (time(0)));
 
     
-    const string instance_name = "grille1010_1";
+    //cout << endl << "TEST INSTANCE TRONQUEE" << endl;
+    string instance_name = "grille1010_1";
     Instance_tronc inst_tronc(instance_name);
     Solution::instance = &inst_tronc;
 
@@ -39,11 +41,10 @@ int main(){
         pop.push_back(Solution(*it));
     }
     Solution best_sol = pop.best_individual();
+    int fit_init = best_sol.fitness();
 
-    genetic_algo(pop, best_sol, 3, Selection::ELITE, 0.5); //TODO : 3 min / ELITE, ROULETTE
-
-    write_solution(best_sol, instance_name);
-
+    genetic_algo(pop, best_sol, 3, Selection::ROULETTE, 0.5); //TODO : 3 min / ELITE, ROULETTE
+    cout << "fit au départ = " << fit_init << endl;
     // cout << "TEST HEURICTIC" << endl;
     
     // sol_heuristic.update_graphs();
