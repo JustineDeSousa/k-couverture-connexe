@@ -49,7 +49,11 @@ void run(string full_name){
         // run the genetic algo
         genetic_algo(pop, best_sol, minitues, Selection::ROULETTE, percentage_parents); //TODO : 3 min / ELITE, ROULETTE
 
-        recorder_sol.push_back(best_sol);
+        if(best_sol.is_realisable()) {recorder_sol.push_back(best_sol); }
+    }
+    if(recorder_sol.size() == 0){
+        cout << "No feasible solution found :(" << endl;
+        return;
     }
 
     Solution best_sol_ever = recorder_sol.best_individual();
@@ -93,8 +97,8 @@ int main(int argc, char** argv){
                 {   
                     Instance_alea inst_alea(instance_name, Rcapt, Rcom, K);
                     Solution::instance = &inst_alea;
-                    stringstream full_name(instance_name);
-                    full_name << "_K" << K << "_" << Rcapt << "/" + Rcom;
+                    stringstream full_name;
+                    full_name << instance_name << "_K" << K << "_" << Rcapt << "/" + Rcom;
                     run(full_name.str());
                 }  
             }
