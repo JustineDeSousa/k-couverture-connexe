@@ -25,21 +25,41 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
 
         }
     }
+    
+    // When parents are homogene, enfants is empty
+    // we search neighbour solutions
+    if(enfants.size() == 0){ 
+        cout << "PARENT IDENTIQUES" << endl;
+        set<vector<bool>> neighbours_sol; 
+        neighbour_solution(parents[0], ( N - parents.size()), neighbours_sol); //TODO : potential PB if N is too big
+        
+        set<vector<bool>>::const_iterator it = neighbours_sol.begin();
+        for(; it != neighbours_sol.end(); it++) {
+            enfants.push_back(Solution( (*it) ) );
+        }
+    }
     cout << "********************\n"; //fin du cross_over
-    mutation()
+    cout << "*****MUTATION\n";
+    for (int i = 0; i < enfants.size(); i++)
+    {
+        enfants[i].mutation(0.05); //TODO : mute proba à voir
+    }
+    cout << "********************\n"; //fin MUTATION
     cout << "POPULATION ENFANTS: " << enfants.size() << " individus : " << endl;
 
     pop = parents;
+    Solution best_child = enfants.best_individual();
+    if( best_child < best_sol ){ // Soit enfants évoluent 
+        best_sol = enfants.best_individual();
+        cout << "EVOLUÉ !!! best_sol_fitness() = " << best_sol.fitness() << endl;
+        pop.push_back(best_sol); 
+
+    }else if( best_sol < pop.best_individual()){ // soit ils s'améliore pas
+        pop.push_back(best_sol);
+        cout << "NON EVOLUE best_fit= "<< best_sol.fitness() << endl;
+    }
     int nb_indiv_enfants = N - pop.size(); // (1-rep_rate)*N;
     enfants.selection(pop,nb_indiv_enfants, selection); //Les meilleurs enfants vont dans pop (après les parents)
-
-    Solution pop_best = pop.best_individual();
-    if( pop_best < best_sol ){
-        best_sol = pop_best;
-        cout << "BEST_SOL : FITNESS = " << best_sol.fitness() << endl;
-        cout << "        NB_CAPTORS = " << best_sol.nb_capteurs() << endl;
-        // pop.push_back(best_sol); //TODO: ajouter vest sol dans nouvelle pop
-    }
     //Nouvelle génération de taille N = rep_rate*N parents + (1-rep_rate)*N enfants
 }
 
@@ -95,4 +115,40 @@ void heuristic(Solution& sol){// should be a default solution placing captors at
             sol.reverse(bit, true); // undo
         }
     }
+}
+/**
+ * @brief Given a solution, we return n different solutions but having the same number of captors as given
+ * Also called "Structure Voisinage"
+ * 
+ * @param sol 
+ * @param n 
+ * @param neighbours_sol 
+ */
+void neighbour_solution(const Solution& sol, int n, set<vector<bool>>& neighbours_sol){
+    vector<bool> sol_ = sol;
+    neighbours_sol = set<vector<bool>>(); // an empty set
+    int nb_capt = sol.nb_capteurs();
+
+    do
+    {
+        vector<bool> v(sol.size(), 0);
+
+        // select captors 
+        for (int i = 0; i < nb_capt; i++)
+        {
+            int r = rand()%(sol.size()); // a position between 0 and size()-1
+            if(v[r]) {i--; continue;} // if r already is captor
+
+            v[r] = 1;
+        }
+
+        if (accumulate(v.begin(),v.end(),0) != nb_capt) {
+            cerr << "neighbour_solution is wrongly generated ! "<< endl;
+            exit(-1);
+         }
+
+        if(v != sol_) { neighbours_sol.insert(neighbours_sol.end(), v); }
+        
+    } while (neighbours_sol.size() != n);
+    
 }

@@ -20,10 +20,6 @@ void Population::sort(){
     std::sort( begin(), end() ); 
 }
 void Population::selection_roulette( Population& pop, int nb_indiv){
-    sort();
-    cout << "BEST INDIVIDUAL : FITNESS = " << (*this)[0].fitness() << endl;
-    cout << "               NB_CAPTORS = " << (*this)[0].nb_capteurs() << endl;
-
     vector<int> partial_fit_sum;
     int sum_fit = 0;
     for( Solution sol : *this){
@@ -43,9 +39,6 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
     }
 }
 void Population::selection_elite( Population& pop, int nb_indiv ){
-    sort();
-    cout << "BEST INDIVIDUAL : FITNESS = " << (*this)[0].fitness() << endl;
-    cout << "               NB_CAPTORS = " << (*this)[0].nb_capteurs() << endl;
     for(int i=0; i<nb_indiv; i++){
         pop.push_back((*this)[i]);
     }
@@ -54,6 +47,7 @@ void Population::selection_elite( Population& pop, int nb_indiv ){
 
 void Population::selection( Population& pop, int nb_indiv, Selection select){
     if(nb_indiv <= 0 ) { cout << "selection nb_indiv <= 0 " << endl; }
+    sort();
     switch(select)
     {
     case Selection::ROULETTE:
