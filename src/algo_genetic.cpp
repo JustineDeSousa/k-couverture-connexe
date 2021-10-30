@@ -30,7 +30,6 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
             E1.reset_vie(); E2.reset_vie(); // new babies born and reset vie=0
             enfants.push_back(E1);
             enfants.push_back(E2);
-
         }
     }
 
@@ -54,23 +53,10 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     }
     
     pop = parents;
-    
-    //cout << "enfants.best_individual() fit= " <<  enfants.best_individual().fitness() << endl;
-
-    if( enfants.best_individual() < best_sol ){ // Soit enfants évoluent 
-        best_sol = enfants.best_individual();
-        cout << "EVOLUÉ !!! best_sol_fitness() = " << best_sol.fitness() << endl;
-        pop.push_back(best_sol); 
-
-    }
-
-    cout << "\n*****SELECTION DES ENFANTS\n";
 
     int nb_indiv_enfants = N - pop.size(); // (1-rep_rate)*N;
-    cout << "nb_indiv_enfants="<<nb_indiv_enfants<<endl;
-    enfants.selection(pop, nb_indiv_enfants, selection);
-    cout <<"new population size=" << pop.size()<<endl;
-
+    enfants.selection(pop,nb_indiv_enfants, selection); //Les meilleurs enfants vont dans pop (après les parents)
+    //Nouvelle génération de taille N = rep_rate*N parents + (1-rep_rate)*N enfants
 
     // delete solutions too old
     pop.delete_old_sols();

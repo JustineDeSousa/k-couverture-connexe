@@ -9,8 +9,3 @@ ostream& Instance::print(ostream& stream) const{
     stream << "{" << endl;
     return stream;
 }
-/********* fonctions externes ***************************/ 
-// ostream& operator<<(ostream& stream, const Instance& inst){
-//     inst.print(stream);
-//     return stream;
-// }
