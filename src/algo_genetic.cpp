@@ -19,7 +19,7 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
             if( P1 == P2) continue; 
             Solution E1(P1); Solution E2(P2);
             cross_over(P1, P2, E1, E2);
-            // cout << endl << "E1 : " << E1.fitness() << " " << "E2 : " << E2.fitness() << endl;
+            E1.reset_vie(); E2.reset_vie(); 
             enfants.push_back(E1);
             enfants.push_back(E2);
 
@@ -59,6 +59,7 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     enfants.selection(pop,nb_indiv_enfants, selection); //Les meilleurs enfants vont dans pop (après les parents)
     //Nouvelle génération de taille N = rep_rate*N parents + (1-rep_rate)*N enfants
 
+    cout << "\n*****SELECTION DES ENFANTS\n";
 
 
 }
