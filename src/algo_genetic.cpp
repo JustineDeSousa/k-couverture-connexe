@@ -92,6 +92,11 @@ void genetic_algo(Population& pop, Solution& best_sol, float maximum_duration, S
 
 
 
+/**
+ * @brief Generate an heuristic solution by deleting captors randomly
+ * 
+ * @param sol 
+ */
 void heuristic(Solution& sol){// should be a default solution placing captors at every targets except the sink
 
     set<int> available_bits;

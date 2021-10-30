@@ -23,13 +23,23 @@ int main(){
     Instance_tronc inst_tronc(instance_name);
     Solution::instance = &inst_tronc;
 
+
     cout << "\n\n***************************************** TEST GENETIC *****************************************" << endl;
     int N = 100; //TODO : 100
     Population pop;
     for(int i=0; i<N; i++){
+    set<vector<bool>> vec;
+    while (vec.size() < N)
+    {
         Solution sol_heuristic;
         heuristic(sol_heuristic);
-        pop.push_back(sol_heuristic);
+        vec.insert( vec.end(), sol_heuristic);
+    }
+    set<vector<bool>>::const_iterator it = vec.begin();
+
+    for(; it != vec.end(); it++){
+
+        pop.push_back(Solution(*it));
     }
     Solution best_sol = pop.best_individual();
 
