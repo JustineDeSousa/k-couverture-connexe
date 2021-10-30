@@ -8,7 +8,6 @@ Solution::Solution(const Solution& solution, bool G) : vector<bool>(solution.siz
     {
         (*this)[i] = solution[i];
     }
-    //cout << "this->vie = "<< vie <<", sol.vie = "<<solution.vie<<endl;
 
     this->vie = solution.vie;
 
@@ -24,7 +23,6 @@ Solution& Solution::operator=(const Solution& solution){
     {
         (*this)[i] = solution[i];
     }
-    //cout << "this->vie = "<< vie <<", sol.vie = "<<solution.vie<<endl;
 
     this->vie = solution.vie;
     this->graph_capt = Graph(solution.get_graph_capt());
@@ -58,11 +56,9 @@ bool Solution::operator<=(const Solution& solution) const{
 
 int Solution::nb_capteurs() const{ 
     int acc = accumulate((*this).begin(),(*this).end(),0);
-    // cout << "Solution::nb_capteurs() = " << acc << endl;
     return acc;
 }
 int Solution::nb_connected_component() const {
-    //cout << "Solution::nb_connected_component() = ";
     vector<bool> v = (*this);
     return graph_com.nb_connected_components(v);
 }
@@ -73,14 +69,12 @@ int Solution::nb_connected_component() const {
  */
 int Solution::nb_captation_missed() const{
     int missed = 0;
-    // cout << "Solution::nb_captation_missed() = ";
     for (int i=1; i<int(size()); i++)// we don't consider the k-coverage for the sink
     {
         if(graph_capt.degree(i) < Solution::instance->k()){
             missed += Solution::instance->k() - graph_capt.degree(i);
         }
     }
-    // cout << missed << endl;
     return missed;
 }
 /**
@@ -148,19 +142,15 @@ void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& 
     do
     {   bits_to_cross = vector<int>();
         P1.bit_mask(bits_to_cross);
-        // cout << "bits size  : " << bits_to_cross.size() << "nb_cross=" << nb_cross << endl;
     } while (bits_to_cross.size() < nb_cross);
     
     
-    //cout << "bits : ";
     for (int bit : bits_to_cross){
-        //cout <<bit<<", ";
         E1[bit] = P2[bit];
         E2[bit] = P1[bit];
     }
     E1.update_graphs();
     E2.update_graphs();
-    // cout<< endl;
 }
 /**************************************************************************/
 /******************************** AFFICHAGE *******************************/

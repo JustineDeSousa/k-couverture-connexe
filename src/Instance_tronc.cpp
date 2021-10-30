@@ -9,7 +9,7 @@ Instance_tronc::Instance_tronc(const int capt, const int com) : Instance(capt,co
 Instance_tronc::Instance_tronc( const string instance_name, const int capt, const int com) : Instance(capt,com)
 {
     string filename = "./instances/" + instance_name + ".dat";
-    cout << "Instance_tronc:: Lecture du fichier " << filename << endl;
+    //cout << "Instance_tronc:: Lecture du fichier " << filename << endl;
     ifstream file(filename, ios::in);
     
     vector<int> x,y;
@@ -63,7 +63,6 @@ Instance_tronc::Instance_tronc( const string instance_name, const int capt, cons
 
 /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
 void Instance_tronc::bit_mask(float x, float y, vector<int>& result) const {
-    float width = 0.5 * this->grid_size;
     bool x_in = false;
     bool y_in = false;
     for(uint i=0; i<cibles.size(); i++){

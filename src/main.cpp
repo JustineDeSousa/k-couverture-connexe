@@ -16,11 +16,11 @@ int MAX_VIE = 5;//TODO : A changer
 
 void run(string instance_name){
 
-    // we run 10 times and we compare the best sol ever, and the average sol
+    // we run 5 times and we compare the best sol ever, and the average sol
     Population recorder_sol;
     int sum_v = 0;
 
-    for (int i = 1; i <= 10; i++) //TODO : à changer
+    for (int i = 1; i <= 5; i++) //TODO : à changer
     {
         int N = 100; // size of one generation
         int minitues = 3;
@@ -109,6 +109,7 @@ int main(int argc, char** argv){
         }
     }
 
+/*
     
     //cout << endl << "TEST INSTANCE TRONQUEE" << endl;
     string instance_name = "captANOR150_7_4"; // grille1010_1
@@ -142,5 +143,5 @@ int main(int argc, char** argv){
     genetic_algo(pop, best_sol, 3, Selection::ELITE, 0.5); //TODO : 3 min / ELITE, ROULETTE
     cout << "fit au départ = " << fit_init << endl;
 
-
+*/
 }

@@ -91,7 +91,6 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
             counter++;
         }
     }
-    cout << "out roulette" << endl;
 }
 
 
@@ -109,11 +108,11 @@ void Population::selection( Population& pop, int nb_indiv, Selection select){
     switch(select)
     {
     case Selection::ROULETTE:
-        cout << "*****Selection ROULETTE\n";
+        //cout << "*****Selection ROULETTE\n";
         selection_roulette(pop, nb_indiv);
         break;
     case Selection::ELITE:
-        cout << "*****Selection ELITE\n";
+        //cout << "*****Selection ELITE\n";
         selection_elite(pop, nb_indiv);
         break;
     default:
@@ -121,7 +120,6 @@ void Population::selection( Population& pop, int nb_indiv, Selection select){
         exit(-1);
         break;    
     }
-    cout << "*************************\n";
 }
 
 
