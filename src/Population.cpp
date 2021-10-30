@@ -30,8 +30,9 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
     set<vector<bool>> vec;
     set<int> indic = {best_indic};
 
-    while( vec.size() < nb_indiv ){
+    while( indic.size() < nb_indiv ){
         int tirage = rand()%sum_fit; //int entre 0 et sum_fit
+
         for(int i=0; i<int(size()); i++){
             if( tirage <= partial_fit_sum[i] ){
                 int t = vec.size();
@@ -59,12 +60,13 @@ void Population::selection_elite( Population& pop, int nb_indiv ){
 
 void Population::selection( Population& pop, int nb_indiv, Selection select){
     sort();
-    pop.push_back((*this)[0]);
+    pop.push_back((*this)[best_indic]);
+
     switch(select)
     {
     case Selection::ROULETTE:
         cout << "*****Selection ROULETTE\n";
-        selection_roulette(pop, nb_indiv-1);
+        selection_roulette(pop, nb_indiv);
         break;
     case Selection::ELITE:
         cout << "*****Selection ELITE\n";
@@ -80,14 +82,16 @@ void Population::selection( Population& pop, int nb_indiv, Selection select){
 
 
 void Population::delete_old_sols(){
+    update();
     (*this)[best_indic].reset_vie(); // vie = 0
 
     vector<Solution>::iterator it = begin();
+    int i=0;
 
     for (; it != end(); it++)
     {
-        if (it->get_vie() >= MAX_VIE)
-        {
+        if ((*it).get_vie() >= MAX_VIE)
+        {   
             this->erase(it);
             it--;
         }

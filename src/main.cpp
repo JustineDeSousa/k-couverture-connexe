@@ -3,7 +3,6 @@
 #include "../include/Instance_tronc.hpp"
 #include "../include/Instance_alea.hpp"
 #include "../include/Solution.hpp"
-#include "../include/Population.hpp"
 #include "../include/algo_genetic.hpp"
 #include "../include/file_manager.hpp"
 
@@ -12,6 +11,7 @@ using namespace std;
 const Instance* Solution::instance;
 int MAX_VIE = 5;
 
+int MAX_VIE = 5; //TODO : à changer var global => DECLARE " extern int MAX_VIE; " anywhere you use
 
 int main(){
     srand (static_cast <unsigned> (time(0)));
