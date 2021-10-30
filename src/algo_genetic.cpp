@@ -99,6 +99,7 @@ void genetic_algo(Population& pop, Solution& best_sol, float maximum_duration, S
         nb_iter++;
     }
     cout << double(clock()-time_begin)/CLOCKS_PER_SEC << " (s) -- BEST INDIVIDUAL : " << best_sol << endl;
+    cout << "best_sol.is_realisable : " << best_sol.is_realisable() << endl;
     cout << "with fit = " << best_sol.fitness() << endl;
 }
 

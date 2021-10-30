@@ -47,6 +47,7 @@ bool Solution::operator<(const Solution& solution) const{
 bool Solution::operator<=(const Solution& solution) const{
     return fitness() <= solution.fitness();
 }
+
 int Solution::nb_capteurs() const{ 
     int acc = accumulate((*this).begin(),(*this).end(),0);
     // cout << "Solution::nb_capteurs() = " << acc << endl;
@@ -101,7 +102,7 @@ bool Solution::is_k_covered() const{
  * @return int 
  */
 int Solution::fitness() const{
-    return nb_capteurs() + nb_connected_component()-1 + nb_captation_missed();
+    return nb_capteurs() + 2 * (nb_connected_component()-1) + 2*nb_captation_missed();
 }
 /**************************************************************************/
 /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
