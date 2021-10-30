@@ -2,3 +2,4 @@
 bin/main.exe
 bin/main
 *.o
+CppProperties.json
