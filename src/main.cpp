@@ -42,7 +42,7 @@ int main(){
     Solution best_sol = pop.best_individual();
     int fit_init = best_sol.fitness();
 
-    genetic_algo(pop, best_sol, 1, Selection::ROULETTE, 0.5); //TODO : 3 min / ELITE, ROULETTE
+    genetic_algo(pop, best_sol, 3, Selection::ROULETTE, 0.5); //TODO : 3 min / ELITE, ROULETTE
     cout << "fit au départ = " << fit_init << endl;
 
     //write_solution(best_sol, instance_name);

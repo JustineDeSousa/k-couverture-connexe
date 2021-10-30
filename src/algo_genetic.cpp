@@ -20,7 +20,7 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     Population enfants;
 
     for(Solution P1 : parents){
-        for(int i=parents.size()-1; i>=0; i--){
+        for(int i=0; i < parents.size(); i++){
             Solution P2 = parents[i];
             if( P1 == P2) continue; 
             Solution E1(P1); Solution E2(P2);
