@@ -17,6 +17,7 @@ void Population::update(){
 /*******************************************************************/
 /******************** FONCTIONS SELECTION *********************************/
 void Population::sort(){
+    cout << "Population::sort()\n";
     std::sort( begin(), end() ); 
 }
 void Population::selection_roulette( Population& pop, int nb_indiv){
@@ -64,14 +65,13 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
     cout << "out roulette" << endl;
 }
 void Population::selection_elite( Population& pop, int nb_indiv ){
-    for(int i= 1; i<nb_indiv; i++){
+    for(int i=1; i<nb_indiv; i++){
         pop.push_back((*this)[i]);
     }
 }
 
 
 void Population::selection( Population& pop, int nb_indiv, Selection select){
-    if(nb_indiv <= 0 ) { cout << "selection nb_indiv <= 0 " << endl; }
     sort();
     pop.push_back((*this)[best_indic]);
 

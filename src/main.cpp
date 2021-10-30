@@ -4,15 +4,11 @@
 #include "../include/Instance_alea.hpp"
 #include "../include/Solution.hpp"
 #include "../include/algo_genetic.hpp"
-#include <algorithm> 
-#include <cstdlib>
-#include <ctime>
-
+#include "../include/file_manager.hpp"
 using namespace std;
 
 const Instance* Solution::instance;
-
-int MAX_VIE = 5; //TODO : à changer var global => DECLARE " extern int MAX_VIE; " anywhere you use
+int MAX_VIE = 100;
 
 int main(){
     srand (static_cast <unsigned> (time(0)));
@@ -44,7 +40,9 @@ int main(){
     int fit_init = best_sol.fitness();
 
     genetic_algo(pop, best_sol, 3, Selection::ROULETTE, 0.5); //TODO : 3 min / ELITE, ROULETTE
-    cout << "fit au départ = " << fit_init << endl;
+
+    write_solution(best_sol, instance_name);
+
     // cout << "TEST HEURICTIC" << endl;
     
     // sol_heuristic.update_graphs();
