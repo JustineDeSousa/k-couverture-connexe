@@ -8,7 +8,7 @@
 using namespace std;
 
 const Instance* Solution::instance;
-
+int MAX_VIE = 100;
 
 int main(){
     srand (static_cast <unsigned> (time(0)));
