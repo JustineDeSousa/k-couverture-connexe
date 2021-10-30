@@ -52,11 +52,20 @@ int main(){
     cout << "\n\n***************************************** TEST POPULATION *****************************************" << endl;
     int N = 100; //TODO : 100
     Population pop;
-    for(int i=0; i<N; i++){
-        Solution sol_heuristic;
+    set<vector<bool>> vec;
 
+
+    while (vec.size() < N)
+    {
+        Solution sol_heuristic;
         heuristic(sol_heuristic);
-        pop.push_back(sol_heuristic);
+        vec.insert( vec.end(), sol_heuristic);
+    }
+    set<vector<bool>>::const_iterator it = vec.begin();
+
+    for(; it != vec.end(); it++){
+
+        pop.push_back(Solution(*it));
     }
  
     
@@ -65,7 +74,7 @@ int main(){
     Solution best_sol = pop.best_individual();
     int v_fit = best_sol.fitness();
 
-    genetic_algo(pop, best_sol, 3, Selection::ELITE, 0.5); //TODO : 3 min / ELITE, ROULETTE
+    genetic_algo(pop, best_sol, 3, Selection::ROULETTE, 0.5); //TODO : 3 min / ELITE, ROULETTE
 
 
     cout << "solution départ fit = " << v_fit << endl;

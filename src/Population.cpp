@@ -35,18 +35,26 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
     // cout << "partial_fit_sum.size() = " << partial_fit_sum.size() << endl;
     //cout << "out while" << endl;
     cout << "sum_fit="<<sum_fit<<endl;
-    int nb_ajout = 0;
-    while( nb_ajout < nb_indiv ){
+    //int nb_ajout = 0;
+    set<vector<bool>> vec;
+    while( vec.size() < nb_indiv ){
         int tirage = rand()%sum_fit; //int entre 0 et sum_fit
         //cout << "in while" << endl;
         for(int i=0; i<int(size()); i++){
             if( tirage <= partial_fit_sum[i] ){
-                pop.push_back((*this)[i]);
-                nb_ajout ++;
+                //pop.push_back((*this)[i]);
+                vec.insert(vec.end(), (*this)[i]);
+                //nb_ajout ++;
                 break;
             }
         }
     }
+    set<vector<bool>>::const_iterator it=vec.begin();
+    for(; it != vec.end(); it ++){
+        pop.push_back(Solution( (*it))); // updates graphs already done in constructor
+    }
+
+    
     //cout << "*****roulette OK" << endl;
 }
 void Population::selection_elite( Population& pop, int nb_indiv ){

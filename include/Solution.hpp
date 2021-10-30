@@ -36,7 +36,7 @@ public:
     /*********************** EVALUATION DE LA SOLUTION ***********************/
     bool operator<(const Solution& solution) const;
     bool operator<=(const Solution& solution) const;
-    // bool operator==(const Solution& solution) const;
+    //bool operator==(const Solution& solution) const;
     //renvoie le nombre de capteurs
     int nb_capteurs() const;
     // return the number of connected component in the communication network 
