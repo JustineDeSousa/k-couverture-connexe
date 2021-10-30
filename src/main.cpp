@@ -12,6 +12,7 @@
 using namespace std;
 
 const Instance* Solution::instance;
+int MAX_VIE = 5;
 
 
 int main(){

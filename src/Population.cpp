@@ -26,11 +26,6 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
         sum_fit += sol.fitness();
         partial_fit_sum.push_back( sum_fit );
     }
-    
-    // cout << "partial_fit_sum.size() = " << partial_fit_sum.size() << endl;
-    //cout << "out while" << endl;
-    // cout << "sum_fit="<<sum_fit<<endl;
-    //int nb_ajout = 0;
     set<vector<bool>> vec;
     set<int> indic = {best_indic};
 

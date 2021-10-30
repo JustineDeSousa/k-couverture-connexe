@@ -5,7 +5,8 @@
 
 enum class Selection{ ROULETTE, ELITE };
 
-int MAX_VIE = 5; //TODO : à changer var global => DECLARE " extern int MAX_VIE; " anywhere you use
+extern int MAX_VIE;
+ //TODO : à changer var global => DECLARE "  " anywhere you use
 
 static const string to_str (const Selection s){
     switch (s) 

@@ -22,7 +22,6 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
             E1.reset_vie(); E2.reset_vie(); 
             enfants.push_back(E1);
             enfants.push_back(E2);
-
         }
     }
     
@@ -58,10 +57,6 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     int nb_indiv_enfants = N - pop.size(); // (1-rep_rate)*N;
     enfants.selection(pop,nb_indiv_enfants, selection); //Les meilleurs enfants vont dans pop (après les parents)
     //Nouvelle génération de taille N = rep_rate*N parents + (1-rep_rate)*N enfants
-
-    cout << "\n*****SELECTION DES ENFANTS\n";
-
-
 }
 
 
