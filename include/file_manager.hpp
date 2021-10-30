@@ -3,6 +3,6 @@
 
 #include "Solution.hpp"
 
-void write_solution(Solution& solution);
+void write_solution(Solution& solution, const string instance_name);
 
 #endif

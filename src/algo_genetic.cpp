@@ -4,6 +4,7 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     //Population initiale de taille N
     int N = pop.size();
     int nb_indiv_parents= rep_rate*N;
+    cout << "nb_indiv_parents\n";
     
     //Population de reproducteurs de taille rep_rate*N
     Population parents;
@@ -47,13 +48,7 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     cout << "POPULATION ENFANTS: " << enfants.size() << " individus : " << endl;
 
     pop = parents;
-    // Solution best_child = enfants.best_individual();
-    // if( best_child < best_sol ){ // Soit enfants évoluent 
-    //     best_sol = best_child;
-    //     cout << "EVOLUÉ !!! best_sol_fitness() = " << best_sol.fitness() << endl;
-    //     pop.push_back(best_sol); 
 
-    // }
     int nb_indiv_enfants = N - pop.size(); // (1-rep_rate)*N;
     enfants.selection(pop,nb_indiv_enfants, selection); //Les meilleurs enfants vont dans pop (après les parents)
     //Nouvelle génération de taille N = rep_rate*N parents + (1-rep_rate)*N enfants
