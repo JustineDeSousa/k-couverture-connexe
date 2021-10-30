@@ -1,0 +1,17 @@
+
+Input file name : captANOR150_7_4  test with K=1, Rcapt=1, Rcom=1
+
+run i : 1, sol heuristic = 35
+ite=116; sol algo genetic = 33 is feasible : 1
+
+run i : 2, sol heuristic = 36
+ite=109; sol algo genetic = 34 is feasible : 1
+
+run i : 3, sol heuristic = 34
+ite=101; sol algo genetic = 31 is feasible : 1
+
+run i : 4, sol heuristic = 35
+ite=113; sol algo genetic = 34 is feasible : 1
+
+run i : 5, sol heuristic = 35
+ite=116; sol algo genetic = 32 is feasible : 1
