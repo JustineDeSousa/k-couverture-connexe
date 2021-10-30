@@ -22,7 +22,7 @@ void run(string full_name){
 
     for (int i = 1; i <= 5; i++) //TODO : à changer
     {
-        cout << "run i : " << i<< endl;
+        cout << endl << "run i : " << i;
         int N = 100; // size of one generation
         int minitues = 3;
         float percentage_parents = 0.5;
@@ -44,13 +44,18 @@ void run(string full_name){
         }
 
         Solution best_sol = pop.best_individual();
-        int fit_init = best_sol.fitness();
+
+        cout << ", sol heuristic = " << best_sol.fitness() << endl;
 
         // run the genetic algo
         genetic_algo(pop, best_sol, minitues, Selection::ROULETTE, percentage_parents); //TODO : 3 min / ELITE, ROULETTE
 
-        if(best_sol.is_realisable()) {recorder_sol.push_back(best_sol); }
+        cout << "; sol algo genetic = " << best_sol.fitness() << " is feasible : " << best_sol.is_realisable() << endl;
+        if(best_sol.is_realisable()) {
+            recorder_sol.push_back(best_sol);
+        }
     }
+
     if(recorder_sol.size() == 0){
         cout << "No feasible solution found :(" << endl;
         return;
@@ -85,7 +90,7 @@ int main(int argc, char** argv){
     }
 
     string instance_name = seglist[2].substr(0, seglist[2].size()-4);
-    cout << "Input file name : " <<instance_name << endl;
+    cout << endl << "Input file name : " <<instance_name;
 
 
     if(instance_name[0] == 'c'){ // instances aléatoires
@@ -93,12 +98,14 @@ int main(int argc, char** argv){
         {
             for (int Rcapt = 1; Rcapt <= 2; Rcapt++)
             {
-                for (int Rcom = Rcapt; Rcom <= 3; Rcom++)
+                for (int Rcom = Rcapt; Rcom <= Rcapt+1; Rcom++)
                 {   
                     Instance_alea inst_alea(instance_name, Rcapt, Rcom, K);
                     Solution::instance = &inst_alea;
                     stringstream full_name;
-                    full_name << instance_name << "_K" << K << "_" << Rcapt << "/" + Rcom;
+                    full_name << instance_name << "_K" << K << "_" << Rcapt << "_" << Rcom;
+
+                    cout << "  test with " << "K=" << K << ", Rcapt=" << Rcapt << ", Rcom=" << Rcom << endl;
                     run(full_name.str());
                 }  
             }
@@ -107,7 +114,7 @@ int main(int argc, char** argv){
     }else if(instance_name[0] == 'g'){ // grilles tronquées
         for (int Rcapt = 1; Rcapt <= 2; Rcapt++)
         {
-            for (int Rcom = Rcapt; Rcom <= 3; Rcom++)
+            for (int Rcom = Rcapt; Rcom <= Rcapt+1; Rcom++)
             {
                 Instance_tronc inst_tronc(instance_name, Rcapt, Rcom);
                 Solution::instance = &inst_tronc;
