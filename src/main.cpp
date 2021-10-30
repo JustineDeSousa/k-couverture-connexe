@@ -27,7 +27,6 @@ int main(){
     cout << "\n\n***************************************** TEST GENETIC *****************************************" << endl;
     int N = 100; //TODO : 100
     Population pop;
-    for(int i=0; i<N; i++){
     set<vector<bool>> vec;
     while (vec.size() < N)
     {

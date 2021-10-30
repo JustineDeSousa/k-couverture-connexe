@@ -48,19 +48,19 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     cout << "POPULATION ENFANTS: " << enfants.size() << " individus : " << endl;
 
     pop = parents;
-    Solution best_child = enfants.best_individual();
-    if( best_child < best_sol ){ // Soit enfants évoluent 
-        best_sol = enfants.best_individual();
-        cout << "EVOLUÉ !!! best_sol_fitness() = " << best_sol.fitness() << endl;
-        pop.push_back(best_sol); 
+    // Solution best_child = enfants.best_individual();
+    // if( best_child < best_sol ){ // Soit enfants évoluent 
+    //     best_sol = best_child;
+    //     cout << "EVOLUÉ !!! best_sol_fitness() = " << best_sol.fitness() << endl;
+    //     pop.push_back(best_sol); 
 
-    }else if( best_sol < pop.best_individual()){ // soit ils s'améliore pas
-        pop.push_back(best_sol);
-        cout << "NON EVOLUE best_fit= "<< best_sol.fitness() << endl;
-    }
+    // }
     int nb_indiv_enfants = N - pop.size(); // (1-rep_rate)*N;
     enfants.selection(pop,nb_indiv_enfants, selection); //Les meilleurs enfants vont dans pop (après les parents)
     //Nouvelle génération de taille N = rep_rate*N parents + (1-rep_rate)*N enfants
+
+
+
 }
 
 
@@ -73,16 +73,22 @@ void genetic_algo(Population& pop, Solution& best_sol, float maximum_duration, S
 
     clock_t time_begin = clock();
     int nb_iter = 0;
+    
+    
     while( double(clock() - time_begin)/CLOCKS_PER_SEC < 60*maximum_duration ){ // while( durée < min_max min)
         cout << "*********************** Iteration " << nb_iter << " ***********************\n";
         cout << "POP : " << pop.size() << " INDIVIDUS -- BEST FIT = " << best_sol.fitness() << endl;
         cout << "\t\t   NB_CAPTORS = " << best_sol.nb_capteurs() << endl;
+
         new_generation(pop, best_sol, selection, rep_rate);
         
         cout << "***********************************************************\n";
         nb_iter++;
     }
     cout << double(clock()-time_begin)/CLOCKS_PER_SEC << "s";
+    
+    
+    
     cout << " -- BEST INDIVIDUAL : FITNESS = " << best_sol.fitness() << endl;
     cout << "                   NB_CAPTORS = " << best_sol.nb_capteurs() << endl;
     cout << best_sol;

@@ -95,11 +95,7 @@ bool Solution::is_k_covered() const{
  * @return int 
  */
 int Solution::fitness() const{
-<<<<<<< HEAD
     return nb_capteurs() + 2*(nb_connected_component()-1) + 2*nb_captation_missed();
-=======
-    return nb_capteurs() + 2 * (nb_connected_component()-1) + 2*nb_captation_missed();
->>>>>>> main
 }
 /**************************************************************************/
 /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/

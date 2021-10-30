@@ -61,6 +61,7 @@ void Population::selection_elite( Population& pop, int nb_indiv ){
 void Population::selection( Population& pop, int nb_indiv, Selection select){
     if(nb_indiv <= 0 ) { cout << "selection nb_indiv <= 0 " << endl; }
     sort();
+    pop.push_back((*this)[0]);
     switch(select)
     {
     case Selection::ROULETTE:
