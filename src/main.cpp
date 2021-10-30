@@ -14,7 +14,7 @@ const Instance* Solution::instance;
 int MAX_VIE = 5;//TODO : A changer
 
 
-void run(string instance_name){
+void run(string full_name){
 
     // we run 5 times and we compare the best sol ever, and the average sol
     Population recorder_sol;
@@ -22,6 +22,7 @@ void run(string instance_name){
 
     for (int i = 1; i <= 5; i++) //TODO : à changer
     {
+        cout << "run i : " << i<< endl;
         int N = 100; // size of one generation
         int minitues = 3;
         float percentage_parents = 0.5;
@@ -55,7 +56,7 @@ void run(string instance_name){
     for(int i = 0; i< recorder_sol.size(); i++) { sum_v += recorder_sol[i].fitness(); }
     float average = sum_v / recorder_sol.size();
 
-    write_solution(best_sol_ever, instance_name, average);
+    write_solution(best_sol_ever, full_name, average);
 }
 
 
@@ -89,10 +90,12 @@ int main(int argc, char** argv){
             for (int Rcapt = 1; Rcapt <= 2; Rcapt++)
             {
                 for (int Rcom = Rcapt; Rcom <= 3; Rcom++)
-                {
+                {   
                     Instance_alea inst_alea(instance_name, Rcapt, Rcom, K);
                     Solution::instance = &inst_alea;
-                    run(instance_name);
+                    stringstream full_name(instance_name);
+                    full_name << "_K" << K << "_" << Rcapt << "/" + Rcom;
+                    run(full_name.str());
                 }  
             }
         }
@@ -104,7 +107,9 @@ int main(int argc, char** argv){
             {
                 Instance_tronc inst_tronc(instance_name, Rcapt, Rcom);
                 Solution::instance = &inst_tronc;
-                run(instance_name);
+                stringstream full_name(instance_name);
+                full_name << "_K1" << "_" << Rcapt << "/" + Rcom;
+                run(full_name.str());
             }  
         }
     }
