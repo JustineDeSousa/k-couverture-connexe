@@ -22,7 +22,8 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     Population enfants;
 
     for(Solution P1 : parents){
-        for(Solution P2 : parents){
+        for(int i=parents.size()-1; i>=0; i--){
+            Solution P2 = parents[i];
             if( P1 == P2) continue; 
             Solution E1(P1); Solution E2(P2);
             cross_over(P1, P2, E1, E2);
@@ -31,6 +32,7 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
             enfants.push_back(E1);
             enfants.push_back(E2);
 
+            if(enfants.size() >= N) {break;}
         }
     }
 
@@ -87,6 +89,8 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
         }
         
     }
+    best_sol.reset_vie();
+    cout << "Fin itération pop size = " << pop.size() << endl;
     cout << "*******************************************\n";
 }
 
