@@ -3,7 +3,6 @@
 #include "../include/Instance_tronc.hpp"
 #include "../include/Instance_alea.hpp"
 #include "../include/Solution.hpp"
-#include "../include/Population.hpp"
 #include "../include/algo_genetic.hpp"
 #include <algorithm> 
 #include <cstdlib>

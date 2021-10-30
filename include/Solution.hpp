@@ -10,7 +10,7 @@ class Solution : public vector<bool>
 private:
     Graph graph_capt;
     Graph graph_com;
-    int vie;
+    int vie=0;
 
     friend ostream& operator<<(ostream& stream, const Solution &solution);
 
@@ -20,7 +20,7 @@ public:
     /**************************************** CONSTRUCTORS ****************************************/
     Solution(): vector<bool>(Solution::instance->size(),1){ (*this)[0] = 0; update_graphs(); vie=0; };
     Solution(const vector<bool>& vec): vector<bool>(vec) { update_graphs(); vie=0;};
-    
+
     Solution(const Solution& solution, bool G=true); // also copy vie
     Solution& operator=(const Solution& solution);  // also copy vie
     /**********************************************************************************************/
