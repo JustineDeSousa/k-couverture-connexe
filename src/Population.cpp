@@ -32,7 +32,7 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
     // cout << "sum_fit="<<sum_fit<<endl;
     //int nb_ajout = 0;
     set<vector<bool>> vec;
-    set<int> indic = {best_indic};
+    vector<int> indic = {best_indic};
 
     while( indic.size() < nb_indiv ){
         int tirage = rand()%sum_fit; //int entre 0 et sum_fit
@@ -42,16 +42,15 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
                 int t = vec.size();
                 vec.insert(vec.end(), (*this)[i]); // éviter doublons
                 
-                if( t != vec.size()) indic.insert(indic.end(), i); // sert à utiliset constructor par copie
+                if( t != vec.size()) indic.push_back(i); // sert à utiliset constructor par copie
                 break;
             }
         }
     }
 
-    set<int>::const_iterator it=indic.begin();
-    it++; 
-    for(; it != indic.end(); it ++){
-        pop.push_back((*this)[*it]); // constructor by copy, vie also copied !!!
+
+    for(int i = 1; i < indic.size(); i++){
+        pop.push_back((*this)[i]); // constructor by copy, vie also copied !!!
     }
 
 }
