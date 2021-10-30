@@ -87,7 +87,7 @@ void Population::selection( Population& pop, int nb_indiv, Selection select){
 
 
 void Population::delete_old_sols(){
-    cout << " in pop delete" << endl;
+    update();
     (*this)[best_indic].reset_vie(); // vie = 0
 
     vector<Solution>::iterator it = begin();
@@ -96,13 +96,12 @@ void Population::delete_old_sols(){
     for (; it != end(); it++)
     {
         if ((*it).get_vie() >= MAX_VIE)
-        {   cout <<"sol "<< i++ <<" vie = "<<(*it).get_vie()<<", MAX_VIE = " << MAX_VIE << endl;
+        {   
             this->erase(it);
             it--;
         }
         
     }
-    cout << "out pop delete" << endl;
 }
 
 
