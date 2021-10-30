@@ -5,17 +5,9 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
 
     int N = pop.size();     //Population initiale de taille N
     int nb_indiv_parents= rep_rate*N;
-    cout << "new_generation nb_indiv_parents: " <<nb_indiv_parents<<endl;
     
     Population parents;
     pop.selection(parents, nb_indiv_parents, selection);
-
-    cout << "APRES SELECT parents.size() = " << parents.size() << endl;
-
-    for(int i=0; i<parents.size(); i++){
-        cout << "parents[" << i << "] fit = " << parents[i].fitness() << " ";
-    }cout << endl;
-
 
     //Population enfant de taille (rep_rate*N)!
     cout << "*****CROSS_OVER\n";
@@ -26,13 +18,12 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
             if( P1 == P2) continue; 
             Solution E1(P1); Solution E2(P2);
             cross_over(P1, P2, E1, E2);
-
             E1.reset_vie(); E2.reset_vie(); // new babies born and reset vie=0
             enfants.push_back(E1);
             enfants.push_back(E2);
         }
     }
-
+    cout << "*************************\n";
     // When parents are homo, enfants is empty
     // we search neighbour solutions
     if(enfants.size() == 0){ 
@@ -46,22 +37,24 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
             enfants.push_back(Solution( (*it) ) ); // constructor by vector<bool>, vie=0
         }
     }
-
+    cout << "*****MUTATION\n";
     for (int i = 0; i < enfants.size(); i++)
     {
         enfants[i].mutation(0.05); //TODO : mute proba à voir
     }
-    
+    cout << "*************************\n";
     pop = parents;
 
     int nb_indiv_enfants = N - pop.size(); // (1-rep_rate)*N;
     enfants.selection(pop,nb_indiv_enfants, selection); //Les meilleurs enfants vont dans pop (après les parents)
     //Nouvelle génération de taille N = rep_rate*N parents + (1-rep_rate)*N enfants
 
+    cout << "*****FIN DE VIE\n";
     // delete solutions too old
     pop.delete_old_sols();
-    cout << "APRES delete olds pop size = " << pop.size() << endl;
+    cout << "*************************\n";
 
+    cout << "*****FIN DE VIE\n";
     if(pop.size() != N){
         int nb_new = N - pop.size();
         set<vector<bool>> neighbours_sol;

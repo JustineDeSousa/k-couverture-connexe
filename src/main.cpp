@@ -11,7 +11,6 @@ using namespace std;
 const Instance* Solution::instance;
 int MAX_VIE = 5;
 
-int MAX_VIE = 5; //TODO : à changer var global => DECLARE " extern int MAX_VIE; " anywhere you use
 
 int main(){
     srand (static_cast <unsigned> (time(0)));
@@ -40,7 +39,7 @@ int main(){
     }
     Solution best_sol = pop.best_individual();
 
-    genetic_algo(pop, best_sol, 3, Selection::ELITE, 0.5); //TODO : 3 min / ELITE, ROULETTE
+    genetic_algo(pop, best_sol, 3, Selection::ROULETTE, 0.5); //TODO : 3 min / ELITE, ROULETTE
 
     write_solution(best_sol, instance_name);
 
