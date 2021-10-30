@@ -1,7 +1,7 @@
 #!/bin/bash
-#make clean
+make clean
 make
-#make clean
+make clean
 chmod u+x ./bin/main
 
 
