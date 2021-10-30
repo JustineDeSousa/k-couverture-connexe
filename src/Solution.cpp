@@ -8,7 +8,8 @@ Solution::Solution(const Solution& solution, bool G) : vector<bool>(solution.siz
     {
         (*this)[i] = solution[i];
     }
-    this->vie = solution.get_vie();
+    this->vie = solution.vie;
+
     if(G){
     graph_capt = Graph(solution.graph_capt);
     graph_com = Graph(solution.graph_com);
@@ -21,7 +22,7 @@ Solution& Solution::operator=(const Solution& solution){
     {
         (*this)[i] = solution[i];
     }
-    this->vie = solution.get_vie();
+    this->vie = solution.vie;
     this->graph_capt = Graph(solution.get_graph_capt());
     this->graph_com = Graph(solution.get_graph_com());
     return *this;

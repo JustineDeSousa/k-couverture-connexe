@@ -21,7 +21,7 @@ void Population::sort(){
 }
 void Population::selection_roulette( Population& pop, int nb_indiv){
     // cout << "Population::selection_roulette : \n";
-    sort();
+    //sort();
     // for(int i=0; i<int(size()); i++){
     //     cout << (*this)[i].fitness() << " ";
     // }
@@ -37,43 +37,48 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
     cout << "sum_fit="<<sum_fit<<endl;
     //int nb_ajout = 0;
     set<vector<bool>> vec;
-    set<int> indic;
+    set<int> indic = {best_indic};
+
     while( vec.size() < nb_indiv ){
         int tirage = rand()%sum_fit; //int entre 0 et sum_fit
-        //cout << "in while" << endl;
+
         for(int i=0; i<int(size()); i++){
             if( tirage <= partial_fit_sum[i] ){
-                //pop.push_back((*this)[i]);
-                vec.insert(vec.end(), (*this)[i]);
-                indic.insert(indic.end(), i);
-                //nb_ajout ++;
+                int t = vec.size();
+                vec.insert(vec.end(), (*this)[i]); // éviter doublons
+                
+                if( t != vec.size()) indic.insert(indic.end(), i); // sert à utiliset constructor par copie
                 break;
             }
         }
     }
-    set<vector<bool>>::const_iterator it=vec.begin();
-    for(; it != vec.end(); it ++){
-        pop.push_back(Solution( (*it))); // updates graphs already done in constructor
+
+    set<int>::const_iterator it=indic.begin();
+    it++; 
+    for(; it != indic.end(); it ++){
+        pop.push_back((*this)[*it]); // constructor by copy, vie also copied !!!
     }
 
-    
-    //cout << "*****roulette OK" << endl;
 }
 void Population::selection_elite( Population& pop, int nb_indiv ){
-    sort();
-    for(int i=0; i<nb_indiv; i++){
-        pop.push_back((*this)[i]);
+    //sort();
+    for(int i=1; i<nb_indiv; i++){
+        pop.push_back((*this)[i]);  // constructor by copy, vie also copied !!!
     }
 }
 
 
 void Population::selection( Population& pop, int nb_indiv, Selection select){
     if(nb_indiv <= 0 ) { cout << "selection nb_indiv <= 0 " << endl; }
+
+    sort();
+    pop.push_back((*this)[best_indic]);
+
     switch(select)
     {
     case Selection::ROULETTE:
         cout << "*****Selection ROULETTE\n";
-        selection_roulette(pop, nb_indiv);
+        selection_roulette(pop, nb_indiv-1);
         break;
     case Selection::ELITE:
         cout << "*****Selection ELITE\n";
@@ -89,6 +94,7 @@ void Population::selection( Population& pop, int nb_indiv, Selection select){
 
 void Population::delete_old_sols(){
     (*this)[best_indic].reset_vie(); // vie = 0
+
     vector<Solution>::iterator it = begin();
 
     for (; it != end(); it++)
