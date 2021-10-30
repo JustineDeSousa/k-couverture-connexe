@@ -12,7 +12,7 @@ Population::Population( vector<Solution>& solutions) {
 // TODO pop.update_best_solution()
 void Population::update(){
     sort();
-    best = (*this)[0];
+    best_indic =0;
 }
 /*******************************************************************/
 /******************** FONCTIONS SELECTION *********************************/
@@ -37,6 +37,7 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
     cout << "sum_fit="<<sum_fit<<endl;
     //int nb_ajout = 0;
     set<vector<bool>> vec;
+    set<int> indic;
     while( vec.size() < nb_indiv ){
         int tirage = rand()%sum_fit; //int entre 0 et sum_fit
         //cout << "in while" << endl;
@@ -44,6 +45,7 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
             if( tirage <= partial_fit_sum[i] ){
                 //pop.push_back((*this)[i]);
                 vec.insert(vec.end(), (*this)[i]);
+                indic.insert(indic.end(), i);
                 //nb_ajout ++;
                 break;
             }
@@ -82,6 +84,34 @@ void Population::selection( Population& pop, int nb_indiv, Selection select){
         exit(-1);
         break;    
     }
+}
+
+
+void Population::delete_old_sols(){
+    (*this)[best_indic].reset_vie(); // vie = 0
+    vector<Solution>::iterator it = begin();
+
+    for (; it != end(); it++)
+    {
+        if (it->get_vie() >= MAX_VIE)
+        {
+            this->erase(it);
+            it--;
+        }
+        
+    }
+}
+
+
+void Population::generation_older(){
+
+    for (int i = 0; i < size(); i++)
+    {
+    (*this)[i].older();
+    }
+
+    (*this)[best_indic].reset_vie();
+     
 }
 /*******************************************************************/
 /******************** AFFICHAGE ************************************/
