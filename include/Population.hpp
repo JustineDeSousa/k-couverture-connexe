@@ -5,6 +5,8 @@
 
 enum class Selection{ ROULETTE, ELITE };
 
+int MAX_VIE = 5; //TODO : à changer var global => DECLARE " extern int MAX_VIE; " anywhere you use
+
 static const string to_str (const Selection s){
     switch (s) 
     {
@@ -22,7 +24,7 @@ static const string to_str (const Selection s){
 class Population : public vector<Solution>
 {
 private:
-    Solution best;
+    int best_indic;
     
     friend ostream& operator<<(ostream& stream, Population& pop);
 
@@ -33,7 +35,7 @@ public:
     Population( vector<Solution>& solutions);
     /*************************************************************************/
     /***************************** GETTERS *****************************/
-    Solution& best_individual() { update(); return best; }; //TODO : const
+    Solution& best_individual() { update(); return (*this)[best_indic]; }; 
     /*******************************************************************/
     /***************************** UPDATES *****************************/
     // Mise à jour de best
@@ -44,6 +46,9 @@ public:
     void selection_roulette( Population& pop, int);
     void selection_elite( Population& pop, int);
     void selection( Population& pop, int nb, Selection select);
+
+    void delete_old_sols();
+    void generation_older();
     /********************************************************************/
 
 };

@@ -24,7 +24,7 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
             if( P1 == P2) continue; 
             Solution E1(P1); Solution E2(P2);
             cross_over(P1, P2, E1, E2);
-            //cout << endl << "E1 : " << E1.fitness() << " " << "E2 : " << E2.fitness() << endl;
+            E1.reset_vie(); E2.reset_vie(); 
             enfants.push_back(E1);
             enfants.push_back(E2);
 
@@ -35,8 +35,7 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     // we search neighbour solutions
     if(enfants.size() == 0){ 
         cout << "PARENT IDENTIQUES" << endl; 
-        //cerr << "ERROR : cas homogène ! " << endl;
-        //exit(-1);
+
         set<vector<bool>> neighbours_sol; 
         neighbour_solution(parents[0], ( N - parents.size()), neighbours_sol); //TODO : potential PB if N is too big
         
@@ -51,7 +50,6 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
         enfants[i].mutation(0.05); //TODO : mute proba à voir
     }
     
-
     pop = parents;
     
     //cout << "enfants.best_individual() fit= " <<  enfants.best_individual().fitness() << endl;
@@ -66,21 +64,13 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
         cout << "NON EVOLUE best_fit= "<< best_sol.fitness() << endl;
     }
 
-    //Nouvelle génération de taille N = rep_rate*N parents + (1-rep_rate)*N enfants
-    //cout << "\n*****SELECTION DES PARENTS\n";
-
-    // for(int i=0; i<pop.size(); i++){
-    //     cout << "pop[" << i << "] = " << pop[i].fitness() << " ";
-    // }
     cout << "\n*****SELECTION DES ENFANTS\n";
-    // for(int i=0; i<enfants.size(); i++){
-    //     cout << "enfants[" << i << "] = " << enfants[i].fitness() << " ";
-    // }cout << endl;
 
     int nb_indiv_enfants = N - pop.size(); // (1-rep_rate)*N;
     cout << "nb_indiv_enfants="<<nb_indiv_enfants<<endl;
 
     enfants.selection(pop, nb_indiv_enfants, selection);
+
     cout <<"new population size=" << pop.size()<<endl;
     cout << "*******************************************\n";
 }

@@ -10,6 +10,7 @@ class Solution : public vector<bool>
 private:
     Graph graph_capt;
     Graph graph_com;
+    int vie;
 
     friend ostream& operator<<(ostream& stream, const Solution &solution);
 
@@ -17,21 +18,25 @@ public:
     static const Instance* instance; 
 
     /**************************************** CONSTRUCTORS ****************************************/
-    Solution(): vector<bool>(Solution::instance->size(),1){ (*this)[0] = 0; update_graphs(); };
-    Solution(const vector<bool>& vec): vector<bool>(vec) { update_graphs(); };
-    Solution(const Solution& solution, bool G=true);
-    Solution& operator=(const Solution& solution); //TODO tester
+    Solution(): vector<bool>(Solution::instance->size(),1){ (*this)[0] = 0; update_graphs(); vie=0; };
+    Solution(const vector<bool>& vec): vector<bool>(vec) { update_graphs(); vie=0;};
+    
+    Solution(const Solution& solution, bool G=true); // also copy vie
+    Solution& operator=(const Solution& solution);  // also copy vie
     /**********************************************************************************************/
     /**************************************** GETTERS *********************************************/
     void bit_mask(vector<int>& result) const;
     Graph get_graph_capt() const {return graph_capt; };
     Graph get_graph_com() const {return graph_com; };
-
+    int get_vie() const {return vie;}
     /**********************************************************************************************/
     /******************************** OPERATIONS DE GRAPHE ****************************************/
     // update the neighbourhood of target t
     void update_graphs(int t);
     void update_graphs();
+    void reset_vie() {vie = 0;}
+    void set_vie(int v) {vie = v;};
+    void older() {vie++;}
     /**********************************************************************************************/
     /*********************** EVALUATION DE LA SOLUTION ***********************/
     bool operator<(const Solution& solution) const;
