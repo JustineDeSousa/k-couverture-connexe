@@ -20,9 +20,8 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     Population enfants;
 
     for(Solution P1 : parents){
-        for(int i=0; i < parents.size(); i++){
-            Solution P2 = parents[i];
-            if( P1 == P2) continue; 
+        for(Solution P2 : parents){ 
+            if( vector<bool>(P1) == vector<bool>(P2)) continue; 
             Solution E1(P1); Solution E2(P2);
             cross_over(P1, P2, E1, E2);
             E1.reset_vie(); E2.reset_vie(); // new babies born and reset vie=0

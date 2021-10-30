@@ -55,6 +55,7 @@ bool Solution::operator<=(const Solution& solution) const{
     return fitness() <= solution.fitness();
 }
 
+
 int Solution::nb_capteurs() const{ 
     int acc = accumulate((*this).begin(),(*this).end(),0);
     // cout << "Solution::nb_capteurs() = " << acc << endl;
