@@ -68,10 +68,25 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
 
     int nb_indiv_enfants = N - pop.size(); // (1-rep_rate)*N;
     cout << "nb_indiv_enfants="<<nb_indiv_enfants<<endl;
-
     enfants.selection(pop, nb_indiv_enfants, selection);
-
     cout <<"new population size=" << pop.size()<<endl;
+
+
+    // delete solutions too old
+    pop.delete_old_sols();
+    cout << "APRES delete olds pop size = " << pop.size() << endl;
+
+    if(pop.size() != N){
+        int nb_new = N - pop.size();
+        set<vector<bool>> neighbours_sol;
+        neighbour_solution(best_sol, nb_new , neighbours_sol);
+
+        for (set<vector<bool>>::const_iterator it = neighbours_sol.begin(); it!=neighbours_sol.end(); it++)
+        {
+            pop.push_back(Solution( (*it)));
+        }
+        
+    }
     cout << "*******************************************\n";
 }
 
@@ -84,7 +99,7 @@ void genetic_algo(Population& pop, Solution& best_sol, float maximum_duration, S
     clock_t time_begin = clock();
     int nb_iter = 0;
     while( double(clock() - time_begin)/CLOCKS_PER_SEC < 60*maximum_duration ){ // while( durée < min_max min)
-        cout << "*********************** Iteration " << nb_iter << endl;
+        cout << "*************************** Iteration " << nb_iter << endl;
         new_generation(pop, best_sol, selection, rep_rate);
         nb_iter++;
     }
