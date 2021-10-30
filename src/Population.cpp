@@ -20,11 +20,6 @@ void Population::sort(){
     std::sort( begin(), end() ); 
 }
 void Population::selection_roulette( Population& pop, int nb_indiv){
-    // cout << "Population::selection_roulette : \n";
-    //sort();
-    // for(int i=0; i<int(size()); i++){
-    //     cout << (*this)[i].fitness() << " ";
-    // }
     vector<int> partial_fit_sum;
     int sum_fit = 0;
     for( Solution sol : *this){
@@ -34,14 +29,13 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
     
     // cout << "partial_fit_sum.size() = " << partial_fit_sum.size() << endl;
     //cout << "out while" << endl;
-    cout << "sum_fit="<<sum_fit<<endl;
+    // cout << "sum_fit="<<sum_fit<<endl;
     //int nb_ajout = 0;
     set<vector<bool>> vec;
     set<int> indic = {best_indic};
 
     while( vec.size() < nb_indiv ){
         int tirage = rand()%sum_fit; //int entre 0 et sum_fit
-
         for(int i=0; i<int(size()); i++){
             if( tirage <= partial_fit_sum[i] ){
                 int t = vec.size();
@@ -61,19 +55,16 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
 
 }
 void Population::selection_elite( Population& pop, int nb_indiv ){
-    //sort();
-    for(int i=1; i<nb_indiv; i++){
-        pop.push_back((*this)[i]);  // constructor by copy, vie also copied !!!
+    for(int i=0; i<nb_indiv; i++){
+        pop.push_back((*this)[i]);
     }
 }
 
 
 void Population::selection( Population& pop, int nb_indiv, Selection select){
     if(nb_indiv <= 0 ) { cout << "selection nb_indiv <= 0 " << endl; }
-
     sort();
-    pop.push_back((*this)[best_indic]);
-
+    pop.push_back((*this)[0]);
     switch(select)
     {
     case Selection::ROULETTE:
@@ -89,6 +80,7 @@ void Population::selection( Population& pop, int nb_indiv, Selection select){
         exit(-1);
         break;    
     }
+    cout << "*************************\n";
 }
 
 

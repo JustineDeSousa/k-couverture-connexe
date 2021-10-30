@@ -15,7 +15,7 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection=Sel
 // sortie: pop = population generation finale 
 void genetic_algo(Population& pop, Solution& best_sol, float maximum_duration, Selection selection=Selection::ROULETTE, float rep_rate=0.1);
 void heuristic(Solution& sol);
-
+void neighbour_solution(const Solution& sol, int n, set<vector<bool>>& neighbours_sol);
 
 void neighbour_solution(const Solution& sol, int n, set<vector<bool>>& neighbours_sol);
 

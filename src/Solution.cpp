@@ -59,14 +59,7 @@ int Solution::nb_capteurs() const{
 int Solution::nb_connected_component() const {
     //cout << "Solution::nb_connected_component() = ";
     vector<bool> v = (*this);
-    int nb_cc=0;
-    if( v == vector<bool>(size(), false) ){ // Si sol=(0,0,0,0,0), on pénalise la fct fitness
-        nb_cc = size();
-    }else{
-        nb_cc = graph_com.nb_connected_components(v);
-    }
-    // cout << nb_cc << endl;
-    return nb_cc;
+    return graph_com.nb_connected_components(v);
 }
 /**
  * @brief Return the total number of missed captors for each targets
@@ -105,7 +98,7 @@ bool Solution::is_k_covered() const{
  * @return int 
  */
 int Solution::fitness() const{
-    return nb_capteurs() + 2 * (nb_connected_component()-1) + 2*nb_captation_missed();
+    return nb_capteurs() + 2*(nb_connected_component()-1) + 2*nb_captation_missed();
 }
 /**************************************************************************/
 /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
@@ -144,14 +137,13 @@ void Solution::bit_mask(vector<int>& result) const{
 }
 // Renvoie les deux enfants E1 et E2 issus du cross_over de P1 et P2
 void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& E2){
-    //cout << "  do cross-over  ";
     vector<int> bits_to_cross;
     int nb_cross = P1.size() * 0.05; //TODO : A VOIR
 
     do
     {   bits_to_cross = vector<int>();
         P1.bit_mask(bits_to_cross);
-        //cout << "bits size  : " << bits_to_cross.size() << ", nb_cross=" << nb_cross << endl;
+        // cout << "bits size  : " << bits_to_cross.size() << "nb_cross=" << nb_cross << endl;
     } while (bits_to_cross.size() < nb_cross);
     
     
@@ -163,7 +155,7 @@ void cross_over(const Solution& P1, const Solution& P2, Solution& E1, Solution& 
     }
     E1.update_graphs();
     E2.update_graphs();
-    //cout<< endl;
+    // cout<< endl;
 }
 /**************************************************************************/
 /******************************** AFFICHAGE *******************************/
