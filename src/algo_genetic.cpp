@@ -1,6 +1,8 @@
 #include "../include/algo_genetic.hpp"
 
 void new_generation(Population& pop, Solution& best_sol, Selection selection, float rep_rate){
+    pop.generation_older();
+
     int N = pop.size();     //Population initiale de taille N
     int nb_indiv_parents= rep_rate*N;
     cout << "new_generation nb_indiv_parents: " <<nb_indiv_parents<<endl;
@@ -24,7 +26,8 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
             if( P1 == P2) continue; 
             Solution E1(P1); Solution E2(P2);
             cross_over(P1, P2, E1, E2);
-            E1.reset_vie(); E2.reset_vie(); 
+
+            E1.reset_vie(); E2.reset_vie(); // new babies born and reset vie=0
             enfants.push_back(E1);
             enfants.push_back(E2);
 
@@ -37,11 +40,11 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
         cout << "PARENT IDENTIQUES" << endl; 
 
         set<vector<bool>> neighbours_sol; 
-        neighbour_solution(parents[0], ( N - parents.size()), neighbours_sol); //TODO : potential PB if N is too big
+        neighbour_solution(parents[0], ( N - parents.size())*2, neighbours_sol); //TODO : potential PB if N is too big
         
         set<vector<bool>>::const_iterator it = neighbours_sol.begin();
         for(; it != neighbours_sol.end(); it++) {
-            enfants.push_back(Solution( (*it) ) );
+            enfants.push_back(Solution( (*it) ) ); // constructor by vector<bool>, vie=0
         }
     }
 
@@ -59,9 +62,6 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
         cout << "EVOLUÉ !!! best_sol_fitness() = " << best_sol.fitness() << endl;
         pop.push_back(best_sol); 
 
-    }else if( best_sol < pop.best_individual()){ // soit ils s'améliore pas
-        pop.push_back(best_sol);
-        cout << "NON EVOLUE best_fit= "<< best_sol.fitness() << endl;
     }
 
     cout << "\n*****SELECTION DES ENFANTS\n";
@@ -78,9 +78,9 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
 
 void genetic_algo(Population& pop, Solution& best_sol, float maximum_duration, Selection selection, float rep_rate){
     cout << "\n******************** Genetic algorithm ********************\n";
-    //best_sol = pop.best_individual();
     cout<<"pop best_individual fit = "<<pop.best_individual().fitness() << endl;
     cout << "best_sol fit= " << best_sol.fitness() << endl;
+
     clock_t time_begin = clock();
     int nb_iter = 0;
     while( double(clock() - time_begin)/CLOCKS_PER_SEC < 60*maximum_duration ){ // while( durée < min_max min)
@@ -88,6 +88,7 @@ void genetic_algo(Population& pop, Solution& best_sol, float maximum_duration, S
         new_generation(pop, best_sol, selection, rep_rate);
         nb_iter++;
     }
+
     cout << double(clock()-time_begin)/CLOCKS_PER_SEC << " (s) -- BEST INDIVIDUAL : " << best_sol << endl;
     cout << "best_sol.is_realisable : " << best_sol.is_realisable() << endl;
     cout << "with fit = " << best_sol.fitness() << endl;

@@ -13,6 +13,7 @@ using namespace std;
 
 const Instance* Solution::instance;
 
+int MAX_VIE = 5; //TODO : à changer var global => DECLARE " extern int MAX_VIE; " anywhere you use
 
 int main(){
     srand (static_cast <unsigned> (time(0)));
