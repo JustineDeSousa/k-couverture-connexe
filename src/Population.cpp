@@ -20,25 +20,19 @@ void Population::sort(){
     std::sort( begin(), end() ); 
 }
 void Population::selection_roulette( Population& pop, int nb_indiv){
-    // cout << "Population::selection_roulette : \n";
     sort();
-    // for(int i=0; i<int(size()); i++){
-    //     cout << (*this)[i].fitness() << " ";
-    // }
+    cout << "BEST INDIVIDUAL : FITNESS = " << (*this)[0].fitness() << endl;
+    cout << "               NB_CAPTORS = " << (*this)[0].nb_capteurs() << endl;
+
     vector<int> partial_fit_sum;
     int sum_fit = 0;
     for( Solution sol : *this){
         sum_fit += sol.fitness();
         partial_fit_sum.push_back( sum_fit );
     }
-    
-    // cout << "partial_fit_sum.size() = " << partial_fit_sum.size() << endl;
-    //cout << "out while" << endl;
-    cout << "sum_fit="<<sum_fit<<endl;
     int nb_ajout = 0;
     while( nb_ajout < nb_indiv ){
         int tirage = rand()%sum_fit; //int entre 0 et sum_fit
-        //cout << "in while" << endl;
         for(int i=0; i<int(size()); i++){
             if( tirage <= partial_fit_sum[i] ){
                 pop.push_back((*this)[i]);
@@ -47,10 +41,11 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
             }
         }
     }
-    cout << "*****roulette OK" << endl;
 }
 void Population::selection_elite( Population& pop, int nb_indiv ){
     sort();
+    cout << "BEST INDIVIDUAL : FITNESS = " << (*this)[0].fitness() << endl;
+    cout << "               NB_CAPTORS = " << (*this)[0].nb_capteurs() << endl;
     for(int i=0; i<nb_indiv; i++){
         pop.push_back((*this)[i]);
     }
@@ -74,6 +69,7 @@ void Population::selection( Population& pop, int nb_indiv, Selection select){
         exit(-1);
         break;    
     }
+    cout << "*************************\n";
 }
 /*******************************************************************/
 /******************** AFFICHAGE ************************************/

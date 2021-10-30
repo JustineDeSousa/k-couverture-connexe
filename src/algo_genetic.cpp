@@ -4,12 +4,11 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     //Population initiale de taille N
     int N = pop.size();
     int nb_indiv_parents= rep_rate*N;
-    cout << "new_generation nb_indiv_parents: " <<nb_indiv_parents<<endl;
     
     //Population de reproducteurs de taille rep_rate*N
     Population parents;
     pop.selection(parents, nb_indiv_parents, selection);
-    cout << "parents.size() : " << parents.size() << endl;
+    cout << "POPULATION PARENTS: " << parents.size() << " INDIVIDUS : " << endl;
 
     //Population enfant de taille (rep_rate*N)!
     cout << "*****CROSS_OVER\n";
@@ -20,43 +19,55 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
             if( P1 == P2) continue; 
             Solution E1(P1); Solution E2(P2);
             cross_over(P1, P2, E1, E2);
-            cout << endl << "E1 : " << E1.fitness() << " " << "E2 : " << E2.fitness() << endl;
+            // cout << endl << "E1 : " << E1.fitness() << " " << "E2 : " << E2.fitness() << endl;
             enfants.push_back(E1);
             enfants.push_back(E2);
 
         }
     }
+    cout << "********************\n"; //fin du cross_over
+    mutation()
+    cout << "POPULATION ENFANTS: " << enfants.size() << " individus : " << endl;
+
     pop = parents;
     int nb_indiv_enfants = N - pop.size(); // (1-rep_rate)*N;
-    cout << "nb_indiv_enfants="<<nb_indiv_enfants<<endl;
     enfants.selection(pop,nb_indiv_enfants, selection); //Les meilleurs enfants vont dans pop (après les parents)
 
     Solution pop_best = pop.best_individual();
-    cout << "pop.best_individual() fit= " <<  pop_best.fitness() << endl;
     if( pop_best < best_sol ){
         best_sol = pop_best;
-        cout << "best_sol_fitness() = " << best_sol.fitness() << endl;
+        cout << "BEST_SOL : FITNESS = " << best_sol.fitness() << endl;
+        cout << "        NB_CAPTORS = " << best_sol.nb_capteurs() << endl;
         // pop.push_back(best_sol); //TODO: ajouter vest sol dans nouvelle pop
     }
     //Nouvelle génération de taille N = rep_rate*N parents + (1-rep_rate)*N enfants
-    cout <<"new population size=" << pop.size()<<endl;
-    cout << "********************\n";
 }
 
 
 void genetic_algo(Population& pop, Solution& best_sol, float maximum_duration, Selection selection, float rep_rate){
     cout << "\n******************** Genetic algorithm ********************\n";
-    //best_sol = pop.best_individual();
-    cout<<"pop best_individual fit = "<<pop.best_individual().fitness() << endl;
-    cout << "best_sol fit= " << best_sol.fitness() << endl;
+    
+    cout << "BEST SOL : FITNESS = " << best_sol.fitness() << endl;
+    cout << "        NB_CAPTORS = " << best_sol.nb_capteurs() << endl;
+    cout << best_sol << endl;
+
     clock_t time_begin = clock();
     int nb_iter = 0;
     while( double(clock() - time_begin)/CLOCKS_PER_SEC < 60*maximum_duration ){ // while( durée < min_max min)
-        cout << "*********************** Iteration " << nb_iter << endl;
+        cout << "*********************** Iteration " << nb_iter << " ***********************\n";
+        cout << "POP : " << pop.size() << " INDIVIDUS -- BEST FIT = " << best_sol.fitness() << endl;
+        cout << "\t\t   NB_CAPTORS = " << best_sol.nb_capteurs() << endl;
         new_generation(pop, best_sol, selection, rep_rate);
+        
+        cout << "***********************************************************\n";
         nb_iter++;
     }
-    cout << double(clock()-time_begin)/CLOCKS_PER_SEC << "s -- BEST INDIVIDUAL : " << best_sol << endl;
+    cout << double(clock()-time_begin)/CLOCKS_PER_SEC << "s";
+    cout << " -- BEST INDIVIDUAL : FITNESS = " << best_sol.fitness() << endl;
+    cout << "                   NB_CAPTORS = " << best_sol.nb_capteurs() << endl;
+    cout << best_sol;
+    cout << "SOLUTION REALISABLE  : " << boolalpha << best_sol.is_realisable() << endl;
+    //TODO : heuristique de réparation
 }
 
 
