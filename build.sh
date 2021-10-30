@@ -4,7 +4,7 @@ make
 make clean
 chmod u+x ./bin/main
 
-sudo rm ./solutions/*
+rm -f ./solutions/*
 
 
 for file in ./instances/*.dat; do
