@@ -19,6 +19,7 @@ void run(string full_name){
     // we run 5 times and we compare the best sol ever, and the average sol
     Population recorder_sol;
     int sum_v = 0;
+    int total_nb_ite = 0;
 
     for (int i = 1; i <= 5; i++) //TODO : à changer
     {
@@ -45,14 +46,16 @@ void run(string full_name){
 
         Solution best_sol = pop.best_individual();
 
-        cout << ", sol heuristic = " << best_sol.fitness() << endl;
+        cout << ", sol heuristic = " << best_sol.nb_capteurs() << endl;
 
         // run the genetic algo
-        genetic_algo(pop, best_sol, minitues, Selection::ROULETTE, percentage_parents); //TODO : 3 min / ELITE, ROULETTE
+        int ite = 0;
+        ite = genetic_algo(pop, best_sol, minitues, Selection::ROULETTE, percentage_parents); //TODO : 3 min / ELITE, ROULETTE
 
-        cout << "; sol algo genetic = " << best_sol.fitness() << " is feasible : " << best_sol.is_realisable() << endl;
+        cout << "; sol algo genetic = " << best_sol.nb_capteurs() << " is feasible : " << best_sol.is_realisable() << endl;
         if(best_sol.is_realisable()) {
             recorder_sol.push_back(best_sol);
+            total_nb_ite += ite;
         }
     }
 
@@ -62,10 +65,11 @@ void run(string full_name){
     }
 
     Solution best_sol_ever = recorder_sol.best_individual();
-    for(int i = 0; i< recorder_sol.size(); i++) { sum_v += recorder_sol[i].fitness(); }
+    for(int i = 0; i< recorder_sol.size(); i++) { sum_v += recorder_sol[i].nb_capteurs(); }
     float average = sum_v / recorder_sol.size();
+    float average_ite = total_nb_ite/recorder_sol.size();
 
-    write_solution(best_sol_ever, full_name, average);
+    write_solution(best_sol_ever, full_name, average, average_ite);
 }
 
 
@@ -118,46 +122,11 @@ int main(int argc, char** argv){
             {
                 Instance_tronc inst_tronc(instance_name, Rcapt, Rcom);
                 Solution::instance = &inst_tronc;
-                stringstream full_name(instance_name);
-                full_name << "_K1" << "_" << Rcapt << "/" + Rcom;
+                stringstream full_name;
+                full_name << instance_name << "_K1"<< "_" << Rcapt << "_" << Rcom;
                 run(full_name.str());
             }  
         }
     }
 
-/*
-    
-    //cout << endl << "TEST INSTANCE TRONQUEE" << endl;
-    string instance_name = "captANOR150_7_4"; // grille1010_1
-    Instance_alea inst_alea(instance_name);
-    Solution::instance = &inst_alea;
-
-    //Instance_tronc inst_tronc(instance_name);
-    //Solution::instance = &inst_tronc;
-
-
-    cout << "\n\n***************************************** TEST GENETIC *****************************************" << endl;
-    int N = 100; //TODO : 100
-    Population pop;
-    set<vector<bool>> vec;
-    while (vec.size() < N)
-    {
-        Solution sol_heuristic;
-        heuristic(sol_heuristic);
-        vec.insert( vec.end(), sol_heuristic);
-    }
-    set<vector<bool>>::const_iterator it = vec.begin();
-
-    for(; it != vec.end(); it++){
-
-        pop.push_back(Solution(*it));
-    }
-    Solution best_sol = pop.best_individual();
-    int fit_init = best_sol.fitness();
-
-
-    genetic_algo(pop, best_sol, 3, Selection::ELITE, 0.5); //TODO : 3 min / ELITE, ROULETTE
-    cout << "fit au départ = " << fit_init << endl;
-
-*/
 }
