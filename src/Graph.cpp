@@ -54,7 +54,7 @@ Graph::Graph(const Graph& graph) : vector< set<int> >(graph.size()){
 Graph& Graph::operator=(const Graph& graph){
     if(this == &graph) return *this;
     graph_type = graph.type();
-    if(this->size() == 0 ) this->resize(graph.size());
+    if(this->size() != graph.size() ) this->resize(graph.size());
     for (int i = 0; i < int(graph.size()); i++)
     {
         (*this)[i] = graph[i];

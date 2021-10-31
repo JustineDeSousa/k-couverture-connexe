@@ -10,27 +10,26 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     Population parents;
     pop.selection(parents, nb_indiv_parents, selection);
     //cout << "APRES SELECT parents.size() = " << parents.size() << endl;
-
+/*
     for(int i=0; i<parents.size(); i++){
-        //cout << "parents[" << i << "] fit = " << parents[i].fitness() << " ";
+        cout << "parents[" << i << "] fit = " << parents[i].fitness() << " ";
     }
-    //cout << endl;
+    cout << endl;
+    */
 
-    //Population enfant de taille (rep_rate*N)!
     //cout << "*****CROSS_OVER\n";
     Population enfants;
     int middle = parents.size()/2;
     for (uint i = 0; i < middle; i++){
-        Solution P1(parents[i ]); Solution P2(parents[middle + i]);
+        Solution P1(parents[i]); 
+        Solution P2(parents[middle + i]);
+
         if( vector<bool>(P1) == vector<bool>(P2)) continue; 
         Solution E1(P1); Solution E2(P2);
         cross_over(P1, P2, E1, E2);
         E1.reset_vie(); E2.reset_vie(); // new babies born and reset vie=0
         enfants.push_back(E1);
-        enfants.push_back(E2);
-
-        if(enfants.size() >= N) {break;}
-        
+        enfants.push_back(E2);        
     }
 
     // When parents are homo, enfants is empty
@@ -39,30 +38,21 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
         //cout << "PARENT IDENTIQUES" << endl; 
 
         set<vector<bool>> neighbours_sol; 
-        neighbour_solution(parents[0], ( N - parents.size())*2, neighbours_sol); //TODO : potential PB if N is too big
+        neighbour_solution(parents[0], ( N - parents.size()), neighbours_sol); //TODO : potential PB if N is too big
         
         set<vector<bool>>::const_iterator it = neighbours_sol.begin();
         for(; it != neighbours_sol.end(); it++) {
             enfants.push_back(Solution( (*it) ) ); // constructor by vector<bool>, vie=0
         }
     }
+    pop = parents;
 
     //cout << "*****MUTATION\n";
     for (int i = 0; i < enfants.size(); i++)
     {
         enfants[i].mutation(0.05); //TODO : mute proba à voir
+        pop.push_back(enfants[i]);
     }
-
-
-    pop = parents;
-
-    int nb_indiv_enfants = N - pop.size(); // (1-rep_rate)*N;
-    enfants.selection(pop,nb_indiv_enfants, selection); //Les meilleurs enfants vont dans pop (après les parents)
-
-    if( enfants[0] < best_sol ){ // Soit enfants évoluent 
-        best_sol = enfants[0];
-    }
-
 
     // delete solutions too old
     pop.delete_old_sols();
@@ -73,13 +63,18 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
         set<vector<bool>> neighbours_sol;
         neighbour_solution(best_sol, nb_new , neighbours_sol);
 
+        //Solution neighbour;
         for (set<vector<bool>>::const_iterator it = neighbours_sol.begin(); it!=neighbours_sol.end(); it++)
         {
+            //neighbour = Solution( (*it));
+            //if(neighbour < best_sol) {best_sol = neighbour;}    
             pop.push_back(Solution( (*it)));
         }
-        Solution best_neighbour = pop.best_individual();
-        if( best_neighbour < best_sol) {best_sol = best_neighbour;}
-        
+    }
+
+    Solution sol = pop.best_individual();
+    if( sol < best_sol ){ // Soit enfants évoluent 
+        best_sol = sol;
     }
     best_sol.reset_vie();
     //cout << "Fin itération pop size = " << pop.size() << endl;
