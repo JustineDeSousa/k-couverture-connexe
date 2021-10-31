@@ -16,3 +16,25 @@ void write_solution(Solution& solution, const string nom_instance, float average
     stream << "average solution = " << average << endl;
 
 }
+
+/*
+void write_sol_inst_alea(Solution& solution, const string nom_instance, float average){
+    string filename = "./instances_alea.txt";
+
+
+    std::ofstream out_file(filename);
+    if (!out_file) {
+        std::cerr << "Could not create output file\n";
+        exit(-1);
+    }
+
+    std::string str;
+    while (std::getline(in_file, str)) {
+        out_file << str <<  " & " << solution.nb_capteurs() << " & " << average<< " & PL" << "\n";
+    }
+
+
+}
+*/
+
+
