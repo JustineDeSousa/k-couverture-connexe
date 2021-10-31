@@ -77,8 +77,8 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
         {
             pop.push_back(Solution( (*it)));
         }
-
-        if(pop.best_individual() < best_sol) {best_sol = pop.best_individual();}
+        Solution best_neighbour = pop.best_individual();
+        if( best_neighbour < best_sol) {best_sol = best_neighbour;}
         
     }
     best_sol.reset_vie();
