@@ -17,9 +17,11 @@ void Population::update(){
 /*******************************************************************/
 /******************** FONCTIONS SELECTION *********************************/
 void Population::sort(){
-    cout << "Population::sort()\n";
+    //cout << "Population::sort()\n";
     std::sort( begin(), end() ); 
 }
+
+
 void Population::selection_roulette( Population& pop, int nb_indiv){
     vector<int> partial_fit_sum;
     int sum_fit = 0;
@@ -27,29 +29,71 @@ void Population::selection_roulette( Population& pop, int nb_indiv){
         sum_fit += sol.fitness();
         partial_fit_sum.push_back( sum_fit );
     }
-    set<vector<bool>> vec;
-    vector<int> indic = {best_indic};
 
-    while( indic.size() < nb_indiv ){
-        int tirage = rand()%sum_fit; //int entre 0 et sum_fit
+    set<vector<bool>> vec={(*this)[best_indic]};
+    vector<bool> indic(size(), false);
+    indic[best_indic] = true;
+    int parcours = 0;
+    int counter = 1;
+
+    do
+    {
+        parcours++; 
+        
+        //int tirage = rand()%sum_fit; //int entre 0 et sum_fit
+        // best fit <= tirage <= sum_fit
+        int tirage = rand()%(sum_fit-(*this)[best_indic].fitness() + 1) + (*this)[best_indic].fitness();
 
         for(int i=0; i<int(size()); i++){
             if( tirage <= partial_fit_sum[i] ){
                 int t = vec.size();
                 vec.insert(vec.end(), (*this)[i]); // éviter doublons
                 
-                if( t != vec.size()) indic.push_back(i); // sert à utiliset constructor par copie
+                if( t != vec.size()) {
+                    indic[i] = true; // sert à utiliset constructor par copie
+                    pop.push_back((*this)[i]); 
+                    counter++;
+                }
                 break;
             }
+
+        }
+
+        if(parcours == this->size()) {break;}  // éviter rester dans loop
+    } while ( counter < nb_indiv);
+
+
+    // push distinct sol
+    for (int i = 1; i < size(); i++)
+    {   
+        if(counter == nb_indiv){ break;}
+
+        if( !indic[i]){ // i not added
+
+            int t = vec.size();
+            vec.insert(vec.end(), (*this)[i]);
+            if( t != vec.size()) { // find distinc
+                indic[i] = true;
+                pop.push_back((*this)[i]); 
+                counter++;
+            }
+        }
+
+    }
+    
+    // if pop still is not full, add randomly
+    if(counter < nb_indiv) {
+        int nb_missed = (nb_indiv - counter);
+
+        for(int i=0; i <  nb_missed; i++){
+            int r = rand()%(this->size()); // a position between 0 and size()-1
+            pop.push_back((*this)[r]);
+            counter++;
         }
     }
-
-
-    for(int i = 1; i < indic.size(); i++){
-        pop.push_back((*this)[i]); // constructor by copy, vie also copied !!!
-    }
-
 }
+
+
 void Population::selection_elite( Population& pop, int nb_indiv ){
     for(int i=1; i<nb_indiv; i++){
         pop.push_back((*this)[i]);
@@ -64,11 +108,11 @@ void Population::selection( Population& pop, int nb_indiv, Selection select){
     switch(select)
     {
     case Selection::ROULETTE:
-        cout << "*****Selection ROULETTE\n";
+        //cout << "*****Selection ROULETTE\n";
         selection_roulette(pop, nb_indiv);
         break;
     case Selection::ELITE:
-        cout << "*****Selection ELITE\n";
+        //cout << "*****Selection ELITE\n";
         selection_elite(pop, nb_indiv);
         break;
     default:
@@ -76,7 +120,6 @@ void Population::selection( Population& pop, int nb_indiv, Selection select){
         exit(-1);
         break;    
     }
-    cout << "*************************\n";
 }
 
 

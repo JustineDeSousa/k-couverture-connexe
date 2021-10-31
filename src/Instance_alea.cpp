@@ -34,10 +34,12 @@ Instance_alea::Instance_alea( const string instance_name, const int capt, const 
     width_bit_mask = (0.5*grid_size);
 
     string filename = "./instances/" + instance_name + ".dat";
-    cout << "Instance_alea:: Lecture du fichier " << filename << endl;
+    //cout << "Instance_alea:: Lecture du fichier " << filename << endl;
     ifstream file(filename, ios::in);
+    string a;
 
     if(file.is_open()){
+        getline(file, a); // skip the first line
         float x,y;
         while( file >> x){
             file >> x >> y;
