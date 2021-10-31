@@ -8,7 +8,7 @@
 using namespace std;
 
 const Instance* Solution::instance;
-int MAX_VIE = 5;//TODO : A changer
+int MAX_VIE = 30 ;//TODO : A changer
 
 
 void run(string full_name){
@@ -21,7 +21,7 @@ void run(string full_name){
     for (int i = 1; i <= 5; i++) //TODO : à changer
     {
         cout << endl << "run i : " << i;
-        int N = 100; // size of one generation
+        int N = 100; // size of one generation 50, 100, 150
         int minitues = 3;
         float percentage_parents = 0.5;
 
@@ -47,7 +47,7 @@ void run(string full_name){
 
         // run the genetic algo
         int ite = 0;
-        ite = genetic_algo(pop, best_sol, minitues, Selection::ROULETTE, percentage_parents); //TODO : 3 min / ELITE, ROULETTE
+        ite = genetic_algo(pop, best_sol, minitues, Selection::ELITE, percentage_parents); //TODO : 3 min / ELITE, ROULETTE
 
         cout << "; sol algo genetic = " << best_sol.nb_capteurs() << " is feasible : " << best_sol.is_realisable() << endl;
         if(best_sol.is_realisable()) {
@@ -67,6 +67,7 @@ void run(string full_name){
     float average_ite = total_nb_ite/recorder_sol.size();
 
     write_solution(best_sol_ever, full_name, average, average_ite);
+    cout << endl;
 }
 
 
@@ -121,9 +122,30 @@ int main(int argc, char** argv){
                 Solution::instance = &inst_tronc;
                 stringstream full_name;
                 full_name << instance_name << "_K1"<< "_" << Rcapt << "_" << Rcom;
+                cout << "  test with " << "K=1"<< ", Rcapt=" << Rcapt << ", Rcom=" << Rcom << endl;
+
                 run(full_name.str());
             }  
         }
     }
+
+}
+
+
+
+void repare(Solution & sol){
+    // reparation pour k-couvertur
+    vector<int> cibles_notfully_capted; // identifiant
+
+    map<int, vector<int>> candidates; //cible => l'ensemble de cible peut être ajouter
+
+
+    vector<int> candidates_required; // each cible => nombre demandé par candidates
+
+    // ajouter les captors de l'ordre décroissant du candidates_required
+    // jusqu'a k couverture safisfied
+
+    // si n'est pas connexe  
+
 
 }
