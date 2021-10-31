@@ -11,12 +11,13 @@ const Instance* Solution::instance;
 int MAX_VIE = 50 ;
 
 
-bool run(string full_name, float& best, float& average, float& average_ite){
+bool run(string full_name, float& best, float& average, float& average_ite, float& average_heuristic){
 
     // we run 5 times and we compare the best sol ever, and the average sol
     Population recorder_sol;
     int sum_v = 0;
     int total_nb_ite = 0;
+    int sum_heuristic = 0;
 
     for (int i = 1; i <= 5; i++) //TODO : à changer
     {
@@ -42,6 +43,7 @@ bool run(string full_name, float& best, float& average, float& average_ite){
         }
 
         Solution best_sol = pop.best_individual();
+        sum_heuristic += best_sol.nb_capteurs();
 
         cout << ", sol heuristic = " << best_sol.nb_capteurs() << endl;
 
@@ -55,6 +57,8 @@ bool run(string full_name, float& best, float& average, float& average_ite){
             total_nb_ite += ite;
         }
     }
+
+    average_heuristic = sum_heuristic/5;
 
     if(recorder_sol.size() == 0){
         cout << "No feasible solution found :(" << endl;
@@ -122,10 +126,10 @@ int main(int argc, char** argv){
                         out << s_ << "\\_" ;
                     }
 
-                    float best; float average; float average_ite;
-                    bool success = run(full_name.str(), best, average, average_ite);
+                    float best; float average; float average_ite; float average_heuristic;
+                    bool success = run(full_name.str(), best, average, average_ite, average_heuristic);
 
-                    out << " & " << K << " & " << Rcapt << " & " << Rcom;
+                    out << " & " << K << " & " << Rcapt << " & " << Rcom << " & " << average_heuristic;
 
                     if(success){
                         out << " & " << best << " & " << average << " & " << average_ite << " \\\\ " << endl;
@@ -159,10 +163,10 @@ int main(int argc, char** argv){
                     out << s_ << "\\_" ;
                 }
 
-                float best; float average; float average_ite;
-                bool success = run(full_name.str(), best, average, average_ite);
+                float best; float average; float average_ite; float average_heuristic;
+                bool success = run(full_name.str(), best, average, average_ite, average_heuristic);
 
-                out << " & " << Rcapt << " & " << Rcom;
+                out << " & " << Rcapt << " & " << Rcom << " & " << average_heuristic;
 
                 if(success){
                     out << " & " << best << " & " << average << " & " << average_ite << " \\\\ " << endl;
