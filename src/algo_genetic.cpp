@@ -46,7 +46,7 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     // MUTATION
     for (int i = 0; i < enfants.size(); i++)
     {
-        enfants[i].mutation(0.05); //TODO : mute proba à voir
+        enfants[i].mutation(0.2); //TODO : mute proba à voir
         pop.push_back(enfants[i]);
     }
 

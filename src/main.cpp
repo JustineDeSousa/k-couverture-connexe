@@ -8,10 +8,10 @@
 using namespace std;
 
 const Instance* Solution::instance;
-int MAX_VIE = 70 ;//TODO : A changer
+int MAX_VIE = 50 ;
 
 
-void run(string full_name){
+bool run(string full_name, float& best, float& average, float& average_ite){
 
     // we run 5 times and we compare the best sol ever, and the average sol
     Population recorder_sol;
@@ -21,7 +21,7 @@ void run(string full_name){
     for (int i = 1; i <= 5; i++) //TODO : à changer
     {
         cout << endl << "run i : " << i;
-        int N = 100; // size of one generation 50, 100, 150
+        int N = 100; // size of one generation 
         int minitues = 3;
         float percentage_parents = 0.5;
 
@@ -58,16 +58,18 @@ void run(string full_name){
 
     if(recorder_sol.size() == 0){
         cout << "No feasible solution found :(" << endl;
-        return;
+        return false;
     }
 
     Solution best_sol_ever = recorder_sol.best_individual();
     for(int i = 0; i< recorder_sol.size(); i++) { sum_v += recorder_sol[i].nb_capteurs(); }
-    float average = sum_v / recorder_sol.size();
-    float average_ite = total_nb_ite/recorder_sol.size();
+    average = sum_v / recorder_sol.size();
+    average_ite = total_nb_ite/recorder_sol.size();
+    best = best_sol_ever.nb_capteurs();
 
     write_solution(best_sol_ever, full_name, average, average_ite);
     cout << endl;
+    return true;
 }
 
 
@@ -96,6 +98,7 @@ int main(int argc, char** argv){
 
 
     if(instance_name[0] == 'c'){ // instances aléatoires
+        return 0;
         for (int K = 1; K <= 3; K++)
         {
             for (int Rcapt = 1; Rcapt <= 2; Rcapt++)
@@ -108,7 +111,28 @@ int main(int argc, char** argv){
                     full_name << instance_name << "_K" << K << "_" << Rcapt << "_" << Rcom;
 
                     cout << "  test with " << "K=" << K << ", Rcapt=" << Rcapt << ", Rcom=" << Rcom << endl;
-                    run(full_name.str());
+
+                    ofstream out;
+                    out.open("./instances_alea.tex", ios::app);
+
+                    stringstream ss_(instance_name);
+                    string s_;
+
+                    while(getline(ss_, s_, '_'))
+                    {
+                        out << s_ << "\\_" ;
+                    }
+
+                    float best; float average; float average_ite;
+                    bool success = run(full_name.str(), best, average, average_ite);
+
+                    out << " & " << K << " & " << Rcapt << " & " << Rcom;
+
+                    if(success){
+                        out << " & " << best << " & " << average << " & " << average_ite << " \\\\ " << endl;
+                    }else{
+                        out << " & - & - & - \\\\ " << endl;
+                    }
                 }  
             }
         }
@@ -124,7 +148,27 @@ int main(int argc, char** argv){
                 full_name << instance_name << "_K1"<< "_" << Rcapt << "_" << Rcom;
                 cout << "  test with " << "K=1"<< ", Rcapt=" << Rcapt << ", Rcom=" << Rcom << endl;
 
-                run(full_name.str());
+                ofstream out;
+                out.open("./instances_grilles.tex", ios::app);
+
+                stringstream ss_(instance_name);
+                string s_;
+
+                while(getline(ss_, s_, '_'))
+                {
+                    out << s_ << "\\_" ;
+                }
+
+                float best; float average; float average_ite;
+                bool success = run(full_name.str(), best, average, average_ite);
+
+                out << " & " << Rcapt << " & " << Rcom;
+
+                if(success){
+                    out << " & " << best << " & " << average << " & " << average_ite << " \\\\ " << endl;
+                }else{
+                    out << " & - & - & - \\\\ " << endl;
+                }
             }  
         }
     }
