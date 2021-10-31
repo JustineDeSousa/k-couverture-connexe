@@ -15,7 +15,8 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
         cout << "parents[" << i << "] fit = " << parents[i].fitness() << " ";
     }
     cout << endl;
-    */
+*/
+    
 
     //cout << "*****CROSS_OVER\n";
     Population enfants;
@@ -29,7 +30,9 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
         cross_over(P1, P2, E1, E2);
         E1.reset_vie(); E2.reset_vie(); // new babies born and reset vie=0
         enfants.push_back(E1);
-        enfants.push_back(E2);        
+        enfants.push_back(E2);   
+
+        if(enfants.size() == (N-parents.size())) { break;}     
     }
 
     // When parents are homo, enfants is empty
