@@ -1,18 +1,24 @@
 #include "../include/algo_genetic.hpp"
 
 void new_generation(Population& pop, Solution& best_sol, Selection selection, float rep_rate){
-    // VIE += 1
     pop.generation_older();
 
     int N = pop.size();     //Population initiale de taille N
-    int nb_indiv_parents = rep_rate*N;
-    nb_indiv_parents = nb_indiv_parents - (nb_indiv_parents % 2); //nbre de parents pair
+    int nb_indiv_parents= rep_rate*N;
+    nb_indiv_parents = nb_indiv_parents - (nb_indiv_parents % 2);
 
-    //SELECTION REPRODUCTEURS
     Population parents;
     pop.selection(parents, nb_indiv_parents, selection);
+    //cout << "APRES SELECT parents.size() = " << parents.size() << endl;
+/*
+    for(int i=0; i<parents.size(); i++){
+        cout << "parents[" << i << "] fit = " << parents[i].fitness() << " ";
+    }
+    cout << endl;
+*/
+    
 
-    //CROSS OVER : on appaire la 1ère moitié avec la 2ème moitié des parents
+    //cout << "*****CROSS_OVER\n";
     Population enfants;
     int middle = parents.size()/2;
     for (uint i = 0; i < middle; i++){
@@ -24,11 +30,16 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
         cross_over(P1, P2, E1, E2);
         E1.reset_vie(); E2.reset_vie(); // new babies born and reset vie=0
         enfants.push_back(E1);
-        enfants.push_back(E2);        
+        enfants.push_back(E2);   
+
+        if(enfants.size() == (N-parents.size())) { break;}     
     }
 
-    // Si parents identiques --> pas de reproduction --> Voisinage
+    // When parents are homo, enfants is empty
+    // we search neighbour solutions
     if(enfants.size() == 0){ 
+        //cout << "PARENT IDENTIQUES" << endl; 
+
         set<vector<bool>> neighbours_sol; 
         neighbour_solution(parents[0], ( N - parents.size()), neighbours_sol); //TODO : potential PB if N is too big
         
@@ -48,9 +59,9 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
 
     // delete solutions too old
     pop.delete_old_sols();
+    //cout << "APRES  pop delete_old_sols size = " << pop.size() << endl;
 
-    // RECOMPOSITION POPULATION TAILLE N
-    if( pop.size() < N ){
+    if(pop.size() < N){
         int nb_new = N - pop.size();
         set<vector<bool>> neighbours_sol;
         neighbour_solution(best_sol, nb_new , neighbours_sol);
@@ -69,19 +80,30 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
         best_sol = sol;
     }
     best_sol.reset_vie();
+    //cout << "Fin itération pop size = " << pop.size() << endl;
+    //cout << "*******************************************\n";
 }
 
 
 int genetic_algo(Population& pop, Solution& best_sol, float maximum_duration, Selection selection, float rep_rate){
+    //cout << "\n******************** Genetic algorithm ********************\n";
+    //cout<<"pop best_individual fit = "<<pop.best_individual().fitness() << endl;
+    //cout << "best_sol fit= " << best_sol.fitness() << endl;
+
     clock_t time_begin = clock();
     int nb_iter = 0;
-    while( double(clock() - time_begin)/CLOCKS_PER_SEC < 60*maximum_duration ){ // while( durée < max_duration min)
+    while( double(clock() - time_begin)/CLOCKS_PER_SEC < 60*maximum_duration ){ // while( durée < min_max min)
+        //cout << "*************************** Iteration " << nb_iter << endl;
         new_generation(pop, best_sol, selection, rep_rate);
         nb_iter++;
     }
     double total_time = double(clock()-time_begin)/CLOCKS_PER_SEC;
     cout << "ite=" << nb_iter;
     return nb_iter;
+    //cout <<  total_time << " (s) -- BEST INDIVIDUAL : " << best_sol << endl;
+    //cout << "best_sol.is_realisable : " << best_sol.is_realisable() << endl;
+    //cout << "with fit = " << best_sol.fitness() << endl;
+
 }
 
 
