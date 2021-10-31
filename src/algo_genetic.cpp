@@ -11,20 +11,8 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     //SELECTION REPRODUCTEURS
     Population parents;
     pop.selection(parents, nb_indiv_parents, selection);
-<<<<<<< Updated upstream
-    //cout << "APRES SELECT parents.size() = " << parents.size() << endl;
-/*
-    for(int i=0; i<parents.size(); i++){
-        cout << "parents[" << i << "] fit = " << parents[i].fitness() << " ";
-    }
-    cout << endl;
-    */
-
-    //cout << "*****CROSS_OVER\n";
-=======
 
     //CROSS OVER : on appaire la 1ère moitié avec la 2ème moitié des parents
->>>>>>> Stashed changes
     Population enfants;
     int middle = parents.size()/2;
     for (uint i = 0; i < middle; i++){
