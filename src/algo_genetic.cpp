@@ -5,7 +5,7 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
 
     int N = pop.size();     //Population initiale de taille N
     int nb_indiv_parents= rep_rate*N;
-    //cout << "new_generation nb_indiv_parents: " <<nb_indiv_parents<<endl;
+    nb_indiv_parents = nb_indiv_parents - (nb_indiv_parents % 2);
 
     Population parents;
     pop.selection(parents, nb_indiv_parents, selection);
@@ -19,18 +19,18 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     //Population enfant de taille (rep_rate*N)!
     //cout << "*****CROSS_OVER\n";
     Population enfants;
+    int middle = parents.size()/2;
+    for (uint i = 0; i < middle; i++){
+        Solution P1(parents[i ]); Solution P2(parents[middle + i]);
+        if( vector<bool>(P1) == vector<bool>(P2)) continue; 
+        Solution E1(P1); Solution E2(P2);
+        cross_over(P1, P2, E1, E2);
+        E1.reset_vie(); E2.reset_vie(); // new babies born and reset vie=0
+        enfants.push_back(E1);
+        enfants.push_back(E2);
 
-    for(Solution P1 : parents){
-        for(Solution P2 : parents){ 
-            if( vector<bool>(P1) == vector<bool>(P2)) continue; 
-            Solution E1(P1); Solution E2(P2);
-            cross_over(P1, P2, E1, E2);
-            E1.reset_vie(); E2.reset_vie(); // new babies born and reset vie=0
-            enfants.push_back(E1);
-            enfants.push_back(E2);
-
-            if(enfants.size() >= N) {break;}
-        }
+        if(enfants.size() >= N) {break;}
+        
     }
 
     // When parents are homo, enfants is empty
