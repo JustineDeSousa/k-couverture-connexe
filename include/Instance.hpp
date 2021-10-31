@@ -14,6 +14,7 @@
 #include <queue>
 #include <cstdlib>
 #include <ctime>
+#include <map>
 
 typedef unsigned int uint;
 using namespace std;

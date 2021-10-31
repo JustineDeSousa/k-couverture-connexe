@@ -5,10 +5,6 @@
 #include "../include/Solution.hpp"
 #include "../include/algo_genetic.hpp"
 #include "../include/file_manager.hpp"
-#include <algorithm> 
-#include <cstdlib>
-#include <ctime>
-#include <map>
 using namespace std;
 
 const Instance* Solution::instance;

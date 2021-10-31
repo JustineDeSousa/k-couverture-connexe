@@ -3,22 +3,15 @@
 void new_generation(Population& pop, Solution& best_sol, Selection selection, float rep_rate){
     pop.generation_older();
 
-    int N = pop.size();     //Population initiale de taille N
-    int nb_indiv_parents= rep_rate*N;
-    nb_indiv_parents = nb_indiv_parents - (nb_indiv_parents % 2);
+    // Population initiale de taille N
+    int N = pop.size();     
+    int nb_indiv_parents = rep_rate*N;
+    nb_indiv_parents = nb_indiv_parents - (nb_indiv_parents % 2); //nbre de parents pair
 
     Population parents;
     pop.selection(parents, nb_indiv_parents, selection);
-    //cout << "APRES SELECT parents.size() = " << parents.size() << endl;
-/*
-    for(int i=0; i<parents.size(); i++){
-        cout << "parents[" << i << "] fit = " << parents[i].fitness() << " ";
-    }
-    cout << endl;
-*/
-    
 
-    //cout << "*****CROSS_OVER\n";
+    //CROSS OVER : on appaire la 1ère moitié avec la 2ème moitié des parents
     Population enfants;
     int middle = parents.size()/2;
     for (uint i = 0; i < middle; i++){
@@ -50,14 +43,14 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
     }
     pop = parents;
 
-    //cout << "*****MUTATION\n";
+    // MUTATION
     for (int i = 0; i < enfants.size(); i++)
     {
         enfants[i].mutation(0.05); //TODO : mute proba à voir
         pop.push_back(enfants[i]);
     }
 
-    // delete solutions too old
+    // MORT DES SOLUTIONS VIEILLES
     pop.delete_old_sols();
     //cout << "APRES  pop delete_old_sols size = " << pop.size() << endl;
 
@@ -66,17 +59,14 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
         set<vector<bool>> neighbours_sol;
         neighbour_solution(best_sol, nb_new , neighbours_sol);
 
-        //Solution neighbour;
         for (set<vector<bool>>::const_iterator it = neighbours_sol.begin(); it!=neighbours_sol.end(); it++)
         {
-            //neighbour = Solution( (*it));
-            //if(neighbour < best_sol) {best_sol = neighbour;}    
             pop.push_back(Solution( (*it)));
         }
     }
-
+    // UPDATE BEST_SOL
     Solution sol = pop.best_individual();
-    if( sol < best_sol ){ // Soit enfants évoluent 
+    if( sol < best_sol ){ 
         best_sol = sol;
     }
     best_sol.reset_vie();
