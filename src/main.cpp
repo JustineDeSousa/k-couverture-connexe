@@ -98,7 +98,6 @@ int main(int argc, char** argv){
 
 
     if(instance_name[0] == 'c'){ // instances aléatoires
-        return 0;
         for (int K = 1; K <= 3; K++)
         {
             for (int Rcapt = 1; Rcapt <= 2; Rcapt++)
@@ -138,6 +137,7 @@ int main(int argc, char** argv){
         }
 
     }else if(instance_name[0] == 'g'){ // grilles tronquées
+        return 0;
         for (int Rcapt = 1; Rcapt <= 2; Rcapt++)
         {
             for (int Rcom = Rcapt; Rcom <= Rcapt+1; Rcom++)
