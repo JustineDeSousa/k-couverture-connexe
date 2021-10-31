@@ -12,7 +12,7 @@
 using namespace std;
 
 const Instance* Solution::instance;
-int MAX_VIE = 30 ;//TODO : A changer
+int MAX_VIE = 70 ;//TODO : A changer
 
 
 void run(string full_name){
