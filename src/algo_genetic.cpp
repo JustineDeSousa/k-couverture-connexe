@@ -56,18 +56,12 @@ void new_generation(Population& pop, Solution& best_sol, Selection selection, fl
 
     pop = parents;
 
-    if( enfants.best_individual() < best_sol ){ // Soit enfants évoluent 
-        best_sol = enfants.best_individual();
-        pop.push_back(best_sol); 
+    int nb_indiv_enfants = N - pop.size(); // (1-rep_rate)*N;
+    enfants.selection(pop,nb_indiv_enfants, selection); //Les meilleurs enfants vont dans pop (après les parents)
 
+    if( enfants[0] < best_sol ){ // Soit enfants évoluent 
+        best_sol = enfants[0];
     }
-
-    //cout << "\n*****SELECTION DES ENFANTS\n";
-    int nb_indiv_enfants = N - pop.size(); 
-    //cout << "nb_indiv_enfants="<<nb_indiv_enfants<<endl;
-
-    enfants.selection(pop, nb_indiv_enfants, selection);
-    //cout <<"new population size=" << pop.size()<<endl;
 
 
     // delete solutions too old
