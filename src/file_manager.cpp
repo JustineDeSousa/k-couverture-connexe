@@ -1,6 +1,6 @@
 #include "../include/file_manager.hpp"
 
-void write_solution(Solution& solution, const string nom_instance, float average){
+void write_solution(Solution& solution, const string nom_instance, float average, float average_ite){
     string filename = "./solutions/" + nom_instance + ".sol";
     ofstream stream(filename.c_str());
     stream << "R_capt = " << Solution::instance->capt() << endl;
@@ -11,7 +11,8 @@ void write_solution(Solution& solution, const string nom_instance, float average
             stream << solution[i] << endl;
         }
     }
-    stream << "best solution = " << solution.fitness() << endl;
+    stream << "average iterations = " << average_ite << endl;
+    stream << "best solution = " << solution.nb_capteurs() << endl;
     stream << "average solution = " << average << endl;
 
 }
