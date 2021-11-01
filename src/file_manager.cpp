@@ -16,3 +16,5 @@ void write_solution(Solution& solution, const string nom_instance, float average
     stream << "average solution = " << average << endl;
 
 }
+
+
