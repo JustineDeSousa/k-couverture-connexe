@@ -1,6 +1,7 @@
 # k couverture connexe
  k couverture connexe
 
+Attention, sur windows il faut changer le caractère '\' par '\\' dans la ligne 95 du fichier main.cpp
 
 
 open execution acces :
