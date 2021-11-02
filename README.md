@@ -1,7 +1,7 @@
 # k couverture connexe
  k couverture connexe
 
-## Sous linux ou shell 
+## Sous linux ou Windows shell 
 
 
 
@@ -34,5 +34,8 @@ test all files :
 
 
 
+## Sous terminal Windows
 
+
+Attention, il faut changer le caractère '\' par '\\' dans la ligne 95 du fichier main.cpp
 
