@@ -141,7 +141,6 @@ int main(int argc, char** argv){
         }
 
     }else if(instance_name[0] == 'g'){ // grilles tronquées
-        return 0;
         for (int Rcapt = 1; Rcapt <= 2; Rcapt++)
         {
             for (int Rcom = Rcapt; Rcom <= Rcapt+1; Rcom++)
