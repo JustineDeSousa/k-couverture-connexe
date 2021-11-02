@@ -37,5 +37,5 @@ test all files :
 ## Sous terminal Windows
 
 
-Attention, il faut changer le caractère '\\' par '\\\\' dans la ligne 95 du fichier main.cpp
+Attention, il faut changer le caractère '/' par '\\\\' dans la ligne 95 du fichier main.cpp
 
