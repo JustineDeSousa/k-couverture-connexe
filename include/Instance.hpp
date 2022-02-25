@@ -44,6 +44,7 @@ public:
     void init_dist(const vector< pair<number,number> >& targets );
     /**********************************************************************************************/
     /**************************************** GETTERS *********************************************/
+    virtual  pair<float, float> getPosition(uint i) const = 0;
     int capt() const{ return R_capt; };
     int com() const { return R_com; };
     int k() const{ return K; };

@@ -22,6 +22,7 @@ public:
 
     //getters
     int size() const{ return cibles.size(); };
+    virtual pair<float, float> getPosition(uint i) const { return cibles[i]; };
 
     /******************* OPERATIONS POUR CROSSOVER MUTATION *******************/
     //Renvoie l'ensemble des cibles contenues dans le carré de taille width avec

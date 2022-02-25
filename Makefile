@@ -2,7 +2,6 @@
 # 'make'        build executable file 'main'
 # 'make clean'  removes all .o and executable files
 #
-
 # define the Cpp compiler to use
 CXX = g++
 
@@ -12,7 +11,7 @@ CXXFLAGS	:= -std=c++17 -Wall -Wextra -g
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
 #   their path using -Lpath, something like:
-LFLAGS = 
+LFLAGS = -IC:\SFML-2.5.1\include
 
 # define output directory
 BIN	:= bin

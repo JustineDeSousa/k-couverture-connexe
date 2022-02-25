@@ -1,15 +1,27 @@
 
+#include <SFML/Graphics.hpp>
 #include "../include/Instance.hpp"
 #include "../include/Instance_tronc.hpp"
 #include "../include/Instance_alea.hpp"
 #include "../include/Solution.hpp"
 #include "../include/algo_genetic.hpp"
 #include "../include/file_manager.hpp"
+#include "../include/MainLoop.hpp"
+
+
 using namespace std;
 
-const Instance* Solution::instance;
-int MAX_VIE = 50 ;
 
+
+const Instance* Solution::instance;
+int MAX_VIE = 50;
+
+
+int plot(Solution* solution)
+{
+    Main mainloop1(solution);    
+    return(mainloop1.loop());
+}
 
 bool run(string full_name, float& best, float& average, float& average_ite, float& average_heuristic){
 
@@ -77,106 +89,119 @@ bool run(string full_name, float& best, float& average, float& average_ite, floa
 }
 
 
+// int main(){
+//     Instance_tronc inst("grille1010_1", 1, 1);
+//     Solution::instance = &inst;
 
-int main(int argc, char** argv){
-    srand (static_cast <unsigned> (time(0)));
-
-
-    // Check the number of parameters
-    if (argc < 2) {
-        cerr<< "No input file" << endl;
-        exit(-1);
-    }
-    string fname = argv[1];
-    vector<string> seglist;
-    stringstream ss(fname);
-    string s;
-
-    while(getline(ss, s, '/'))
-    {
-        seglist.push_back(s);
-    }
-
-    string instance_name = seglist[2].substr(0, seglist[2].size()-4);
-    cout << endl << "Input file name : " <<instance_name;
+//     Population pop;
+//     while (pop.size() < 10) {
+//         Solution solution;
+//         heuristic(solution);
+//         pop.push_back(solution);
+//     }
+//     Solution best(pop.best_individual());
+//     cout << best << endl;
+//     genetic_algo(pop, best, 0.3, Selection::ELITE, 0.5);
+//     cout << best << endl;
+// }
+// int main(int argc, char** argv){
+//     srand (static_cast <unsigned> (time(0)));
 
 
-    if(instance_name[0] == 'c'){ // instances aléatoires
-        for (int K = 1; K <= 3; K++)
-        {
-            for (int Rcapt = 1; Rcapt <= 2; Rcapt++)
-            {
-                for (int Rcom = Rcapt; Rcom <= Rcapt+1; Rcom++)
-                {   
-                    Instance_alea inst_alea(instance_name, Rcapt, Rcom, K);
-                    Solution::instance = &inst_alea;
-                    stringstream full_name;
-                    full_name << instance_name << "_K" << K << "_" << Rcapt << "_" << Rcom;
+//     // Check the number of parameters
+//     if (argc < 2) {
+//         cerr<< "No input file" << endl;
+//         exit(-1);
+//     }
+//     string fname = argv[1];
+//     vector<string> seglist;
+//     stringstream ss(fname);
+//     string s;
 
-                    cout << "  test with " << "K=" << K << ", Rcapt=" << Rcapt << ", Rcom=" << Rcom << endl;
+//     while(getline(ss, s, '\\'))
+//     {
+//         seglist.push_back(s);
+//     }
+//     string instance_name = seglist[2].substr(0, seglist[2].size()-4);
+//     cout << endl << "Input file name : " <<instance_name;
 
-                    ofstream out;
-                    out.open("./instances_alea.tex", ios::app);
 
-                    stringstream ss_(instance_name);
-                    string s_;
+//     if(instance_name[0] == 'c'){ // instances aléatoires
+//         for (int K = 1; K <= 3; K++)
+//         {
+//             for (int Rcapt = 1; Rcapt <= 2; Rcapt++)
+//             {
+//                 for (int Rcom = Rcapt; Rcom <= Rcapt+1; Rcom++)
+//                 {   
+//                     Instance_alea inst_alea(instance_name, Rcapt, Rcom, K);
+//                     Solution::instance = &inst_alea;
+//                     stringstream full_name;
+//                     full_name << instance_name << "_K" << K << "_" << Rcapt << "_" << Rcom;
 
-                    while(getline(ss_, s_, '_'))
-                    {
-                        out << s_ << "\\_" ;
-                    }
+//                     cout << "  test with " << "K=" << K << ", Rcapt=" << Rcapt << ", Rcom=" << Rcom << endl;
 
-                    float best; float average; float average_ite; float average_heuristic;
-                    bool success = run(full_name.str(), best, average, average_ite, average_heuristic);
+//                     ofstream out;
+//                     out.open("./instances_alea.tex", ios::app);
 
-                    out << " & " << K << " & " << Rcapt << " & " << Rcom << " & " << average_heuristic;
+//                     stringstream ss_(instance_name);
+//                     string s_;
 
-                    if(success){
-                        out << " & " << best << " & " << average << " & " << average_ite << " \\\\ " << endl;
-                    }else{
-                        out << " & - & - & - \\\\ " << endl;
-                    }
-                }  
-            }
-        }
+//                     while(getline(ss_, s_, '_'))
+//                     {
+//                         out << s_ << "\\_" ;
+//                     }
 
-    }else if(instance_name[0] == 'g'){ // grilles tronquées
-        for (int Rcapt = 1; Rcapt <= 2; Rcapt++)
-        {
-            for (int Rcom = Rcapt; Rcom <= Rcapt+1; Rcom++)
-            {
-                Instance_tronc inst_tronc(instance_name, Rcapt, Rcom);
-                Solution::instance = &inst_tronc;
-                stringstream full_name;
-                full_name << instance_name << "_K1"<< "_" << Rcapt << "_" << Rcom;
-                cout << "  test with " << "K=1"<< ", Rcapt=" << Rcapt << ", Rcom=" << Rcom << endl;
+//                     float best; float average; float average_ite; float average_heuristic;
+//                     bool success = run(full_name.str(), best, average, average_ite, average_heuristic);
 
-                ofstream out;
-                out.open("./instances_grilles.tex", ios::app);
+//                     out << " & " << K << " & " << Rcapt << " & " << Rcom << " & " << average_heuristic;
 
-                stringstream ss_(instance_name);
-                string s_;
+//                     if(success){
+//                         out << " & " << best << " & " << average << " & " << average_ite << " \\\\ " << endl;
+//                     }else{
+//                         out << " & - & - & - \\\\ " << endl;
+//                     }
+//                 }  
+//             }
+//         }
 
-                while(getline(ss_, s_, '_'))
-                {
-                    out << s_ << "\\_" ;
-                }
+//     }else if(instance_name[0] == 'g'){ // grilles tronquées
+//         for (int Rcapt = 1; Rcapt <= 2; Rcapt++)
+//         {
+//             for (int Rcom = Rcapt; Rcom <= Rcapt+1; Rcom++)
+//             {
+//                 Instance_tronc inst_tronc(instance_name, Rcapt, Rcom);
+//                 Solution::instance = &inst_tronc;
+//                 stringstream full_name;
+//                 full_name << instance_name << "_K1"<< "_" << Rcapt << "_" << Rcom;
+//                 cout << "  test with " << "K=1"<< ", Rcapt=" << Rcapt << ", Rcom=" << Rcom << endl;
 
-                float best; float average; float average_ite; float average_heuristic;
-                bool success = run(full_name.str(), best, average, average_ite, average_heuristic);
+//                 ofstream out;
+//                 out.open("./instances_grilles.tex", ios::app);
 
-                out << " & " << Rcapt << " & " << Rcom << " & " << average_heuristic;
+//                 stringstream ss_(instance_name);
+//                 string s_;
 
-                if(success){
-                    out << " & " << best << " & " << average << " & " << average_ite << " \\\\ " << endl;
-                }else{
-                    out << " & - & - & - \\\\ " << endl;
-                }
-            }  
-        }
-    }
+//                 while(getline(ss_, s_, '_'))
+//                 {
+//                     out << s_ << "\\_" ;
+//                 }
 
-}
+//                 float best; float average; float average_ite; float average_heuristic;
+//                 bool success = run(full_name.str(), best, average, average_ite, average_heuristic);
+
+//                 out << " & " << Rcapt << " & " << Rcom << " & " << average_heuristic;
+
+//                 if(success){
+//                     out << " & " << best << " & " << average << " & " << average_ite << " \\\\ " << endl;
+//                 }else{
+//                     out << " & - & - & - \\\\ " << endl;
+//                 }
+//             }  
+//         }
+//     }
+
+// }
 
 
 
